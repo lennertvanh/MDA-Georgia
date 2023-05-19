@@ -7,7 +7,7 @@ import pandas as pd
 dash.register_page(__name__)
 
 # Loading noise data
-data_noise = pd.read_csv('combined_noisedata_2022.csv', header=0, sep=',', parse_dates=["result_date"])
+data_noise = pd.read_csv('../Data/combined_noisedata_2022.csv', header=0, sep=',', parse_dates=["result_date"])
 data_noise.head()
 
 # Line chart visualization 
