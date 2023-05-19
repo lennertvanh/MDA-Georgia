@@ -5,9 +5,9 @@ import plotly.graph_objects as go
 
 dash.register_page(__name__)
 
-weather_data = pd.read_csv("Data/combined_weatherdata_2022.csv", header = 0, sep=',')
+weather_data = pd.read_csv("Data/daily_weatherdata_2022.csv", header = 0, sep=',')
 
-cutoff_rain_day = 0.0002
+cutoff_rain_day = 0.0000
 
 weather_data["bool_rainday"] = weather_data["LC_DAILYRAIN"] > cutoff_rain_day
 
