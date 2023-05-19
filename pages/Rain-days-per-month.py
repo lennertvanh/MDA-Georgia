@@ -30,6 +30,6 @@ fig.update_layout(
 layout = html.Div(children=[
     html.H1(children='Number of rainy days per month'),
 
-    dcc.Graph(id="noise-graph", figure=fig),
+    dcc.Graph(id="rain-graph", figure=fig),
 
 ])
