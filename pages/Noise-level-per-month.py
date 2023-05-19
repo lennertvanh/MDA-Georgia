@@ -6,7 +6,7 @@ from dash.dependencies import Input, Output
 
 dash.register_page(__name__)
 
-weather_data = pd.read_csv("combined_weatherdata_2022.csv", header = 0, sep=',')
+weather_data = pd.read_csv("Data/combined_weatherdata_2022.csv", header = 0, sep=',')
 weather_data.head()
 
 cutoff_rain_day = 0.0002
@@ -15,7 +15,7 @@ weather_data["bool_rainday"] = weather_data["LC_DAILYRAIN"] > cutoff_rain_day
 
 
 
-data_noise = pd.read_csv('combined_noisedata_2022.csv', header=0, sep=',', parse_dates=["result_date"])
+data_noise = pd.read_csv('Data/combined_noisedata_2022.csv', header=0, sep=',', parse_dates=["result_date"])
 data_noise.head()
 
 
