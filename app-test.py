@@ -8,7 +8,13 @@ app = dash.Dash(__name__, use_pages=True)
 
 # Home Page
 app.layout = html.Div([
-    html.H1('Overview of the pages of the app'),
+    html.Div(
+        className="app-header",
+        children=[
+            html.Div('Noise Pollution in The City of Leuven ', className="app-header--title")
+        ]
+    ),
+    html.P('Overview of the pages of the app'),
 
     html.Div(
         [
