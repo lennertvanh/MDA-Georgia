@@ -81,7 +81,7 @@ layout = html.Div([
             html.Br(),
             f"{mean_total_data:.2f} dB(A)",
         ],
-          id="total-noise", n_clicks=0, style={'width': '250px','height':"130px","margin-bottom":"10px","margin-top":"20px","border-radius":"10px","font-size":"40px","color":"white","background":"darkmagenta"}),
+          id="total-noise", n_clicks=0, style={'width': '250px','height':"130px","margin-bottom":"10px","margin-top":"80px","border-radius":"10px","font-size":"40px","color":"white","background":"darkmagenta"}),
 
         html.Br(),
 
