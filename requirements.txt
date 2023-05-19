@@ -33,6 +33,7 @@ jupyter-dash==0.4.2
 MarkupSafe==2.1.1
 matplotlib==3.7.1
 matplotlib-inline==0.1.6
+nbformat==5.8.0
 nest-asyncio==1.5.6
 numpy==1.24.3
 packaging==23.0
