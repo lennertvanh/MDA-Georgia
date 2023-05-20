@@ -122,23 +122,21 @@ fig2.update_layout(
 
 layout = html.Div([
     html.H1("Heatmap of noise"),
-    dcc.Dropdown(
-        id="heatmap-dropdown",
-        options=[
-            {"label": "Noise throughout the day", "value": "figure1"},
-            {"label": "Noise throughout the night", "value": "figure2"}
-        ],
-        value="figure1"
-    ),
+    html.Button("Entire day", id="entire-day-button", n_clicks=0),
+    html.Button("At night", id="at-night-button", n_clicks=0),
     html.Div(id="heatmap-container")
 ])
 
-@callback(
+@app.callback(
     Output("heatmap-container", "children"),
-    [Input("heatmap-dropdown", "value")]
+    [Input("entire-day-button", "n_clicks"),
+     Input("at-night-button", "n_clicks")]
 )
-def update_figure(selected_figure):
-    if selected_figure == "figure1":
+
+def update_figure(entire_day_clicks, at_night_clicks):
+    if entire_day_clicks > 0:
         return dcc.Graph(figure=fig1)
-    elif selected_figure == "figure2":
+    elif at_night_clicks > 0:
         return dcc.Graph(figure=fig2)
+    else:
+        return dcc.Graph(figure=fig1)
