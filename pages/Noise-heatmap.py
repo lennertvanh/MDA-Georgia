@@ -10,7 +10,7 @@ dash.register_page(__name__)
 
 ## DATA ##
 
-noise_data = pd.read_csv("Data/hourly_noisedata_2022.csv", header = 0, sep=',')
+noise_data = pd.read_csv("Data/hourly_noisedata_2022.csv")
 
 # Should we take the mean over all locations first? Or make it such that you can select the locations?
 # take the mean value across all locations
@@ -123,19 +123,19 @@ fig2.update_layout(
 layout = html.Div([
     html.H1("Heatmap of noise"),
     dcc.Dropdown(
-        id="figure-dropdown",
+        id="heatmap-dropdown",
         options=[
             {"label": "Noise throughout the day", "value": "figure1"},
             {"label": "Noise throughout the night", "value": "figure2"}
         ],
         value="figure1"
     ),
-    html.Div(id="figure-container")
+    html.Div(id="heatmap-container")
 ])
 
 @callback(
-    Output("figure-container", "children"),
-    [Input("figure-dropdown", "value")]
+    Output("heatmap-container", "children"),
+    [Input("heatmap-dropdown", "value")]
 )
 def update_figure(selected_figure):
     if selected_figure == "figure1":
