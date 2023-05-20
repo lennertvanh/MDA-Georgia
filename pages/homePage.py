@@ -212,6 +212,79 @@ for i in range(12):
 
 #layout.children[1].children += sub_divs
 
+# Create a Plotly figure with the desired width and height
+figure_width = 250
+figure_height = 250
+#fig = go.Figure(layout=dict(width=figure_width, height=figure_height))
+
+
+# Create a compass figure
+fig_windDir = go.Figure(layout=dict(width=250, height=250)) #layout=dict(width=250, height=250)
+
+# Add thin black lines for main wind directions
+directions = ['N', 'NW', 'W', 'SW', 'S', 'SE', 'E', 'NE']
+for angle in range(0, 360, 45):
+    fig_windDir.add_trace(go.Scatterpolar(
+        r=[0, 1],
+        theta=[angle, angle],
+        mode='lines',
+        line=dict(color='black', width=1, shape='linear'),
+        hoverinfo='skip',
+        showlegend=False
+    ))
+
+# Add compass needle marker
+fig_windDir.add_trace(go.Scatterpolar(
+    r=[0, 1],
+    theta=[135, 135],
+    mode='lines',
+    line=dict(color='red', width=3, shape='linear'),
+    hoverinfo='skip'
+))
+
+# Add compass needle marker at the tip
+fig_windDir.add_trace(go.Scatterpolar(
+    r=[1],
+    theta=[135],
+    mode='markers',
+    marker=dict(color = "red",symbol='triangle-sw', size=15),
+    hoverinfo='skip'
+))
+
+
+
+
+# Customize the layout
+fig_windDir.update_layout(
+    #title = dict(text="Wind direction", x = 0.5, font=dict(size=14)),
+    polar=dict(
+        radialaxis=dict(visible=False),
+        angularaxis=dict(
+            visible=True,
+            tickmode='array',
+            rotation=90,
+            tickvals=[0, 45, 90, 135, 180, 225, 270, 315],
+            ticktext=directions,
+            tickfont=dict(size=20, family='Arial Bold',color="white"),
+            showline=False,
+            showgrid=False
+        )
+    ),
+    showlegend=False,
+    margin=dict(t=25,b=25,l=0, r=0)  # Set margin to remove padding on the left and right sides
+    ,
+    plot_bgcolor='rgba(0, 0, 0, 0)',  # Set the plot background color to transparent
+    paper_bgcolor='rgba(0, 0, 0, 0)'  # Set the paper background color to transparent
+
+)
+
+# Add the Plotly figure to the right-hand side of the central div
+windDir_div = html.Div(
+    style={'width': f'{figure_width}px', 'height': f'{figure_height}px','margin-left':"10px"},
+    children=[
+        dcc.Graph(figure=fig_windDir)
+    ]
+)
 
 layout = html.Div(
     style={
@@ -258,6 +331,7 @@ layout = html.Div(
                 ),
             ],
         ),
+        windDir_div,
         html.Div(
             style={'flex': '1'},
             children=[
