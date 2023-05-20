@@ -135,9 +135,16 @@ layout = html.Div([
 )
 
 def update_figure(entire_day_clicks, at_night_clicks):
-    if entire_day_clicks > 0:
+    ctx = dash.callback_context
+
+    #when it is not triggered yet (at the beginning)
+    if not ctx.triggered:
         return dcc.Graph(figure=fig1)
-    elif at_night_clicks > 0:
+    
+    #find which button has been triggered
+    clicked_button_id = ctx.triggered[0]['prop_id'].split('.')[0]
+
+    if clicked_button_id == "entire-day-button":
+        return dcc.Graph(figure=fig1)
+    elif clicked_button_id == "at-night-button":
         return dcc.Graph(figure=fig2)
-    else:
-        return dcc.Graph(figure=fig1)
