@@ -5,7 +5,9 @@ import datetime
 import plotly.graph_objects as go
 from dash.dependencies import Input, Output  #if I want a slider, button, ...
 
-dash.register_page(__name__)
+# this is so my buttons work properly
+app = dash.Dash(__name__)
+app.register_page(__name__)
 
 
 ## DATA ##
@@ -127,7 +129,7 @@ layout = html.Div([
     html.Div(id="heatmap-container")
 ])
 
-@callback(
+@app.callback(
     Output("heatmap-container", "children"),
     [Input("entire-day-button", "n_clicks"),
      Input("at-night-button", "n_clicks")]
