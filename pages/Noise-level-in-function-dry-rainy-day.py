@@ -6,62 +6,87 @@ from dash.dependencies import Input, Output
 
 dash.register_page(__name__)
 
+#define global variable to keep track of the previous clicked value of the button
 global prev_clicked_button_id
 prev_clicked_button_id = ""
 
+#load the data
 weather_data = pd.read_csv("Data/daily_weatherdata_2022.csv", header = 0, sep=',')
 
-
+#define the cutoff value of the rain, i.e. 0.2mm
 cutoff_rain_day = 0.0002
 
+#create the column boolean variable that indicates if it is a rainy day or not
 weather_data["bool_rainday"] = weather_data["LC_DAILYRAIN"] > cutoff_rain_day
+
+#load noise data
 data_noise = pd.read_csv('Data/combined_noisedata_2022.csv', header=0, sep=',', parse_dates=["result_date"])
+
+#compute average noise for every month
 average_noise = data_noise.groupby('result_month')['laeq'].mean()
 
+#array with the abbreviation of the months
 months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
 
+#merge the noise and weather data to know in the noise data for every day it is a rainy or dry day
 data_noise_merged = pd.merge(data_noise, weather_data[["Month", "Day", "bool_rainday"]], left_on=["result_month", "result_day"], right_on=["Month", "Day"], how="left")
+#remove duplicate rows
 data_noise_merged = data_noise_merged.drop_duplicates()
 
-
+#split the merged data into the dry and rainy days
 rainy_data = data_noise_merged[data_noise_merged["bool_rainday"]]
 dry_data = data_noise_merged[~data_noise_merged["bool_rainday"]]
 
+#compute the total means for total, rainy and dry data
 mean_rainy = rainy_data["laeq"].mean()
 mean_total_data = data_noise["laeq"].mean()
 mean_dry = dry_data["laeq"].mean()
+
+#average noise for rainy data per month
 average_noise_rainy = rainy_data.groupby('result_month')['laeq'].mean()
 
+#average noise for dry data per month
 average_noise_dry = dry_data.groupby('result_month')['laeq'].mean()
 
+#standardize the "total" data
 mean_average_noise = average_noise.mean()
 std_average_noise = average_noise.std()
 average_noise_std = (average_noise-mean_average_noise)/std_average_noise
 
+#compute per month and standardize the rainy data
 average_noise_rainy = rainy_data.groupby('result_month')['laeq'].mean()
 mean_average_noise_rainy = average_noise_rainy.mean()
 std_average_noise_rainy = average_noise_rainy.std()
 average_noise_rainy_std = (average_noise_rainy-mean_average_noise_rainy)/std_average_noise_rainy
 
+#compute per month and standardize the dry data
 average_noise_dry= dry_data.groupby('result_month')['laeq'].mean()
 mean_average_noise_dry = average_noise_dry.mean()
 std_average_noise_dry = average_noise_dry.std()
 average_noise_dry_std = (average_noise_dry-mean_average_noise_dry)/std_average_noise_dry
 
+#define the html file: all the text, the place of the plot, buttons and radioItem
 layout = html.Div([
+    #title
     html.Div([
+        #title
         html.H2("Average noise level per month",style={"font-family": 'Lato', "font-size": "54px", "font-weight": "250","padding":"0", "margin": "0 0 0 100px"}),
-        html.Br(),
+        
+        #break line
+        html.Br(), 
+        
+        #radioItem: chose raw or standardize data
         dcc.RadioItems(
         id="data-type",
         options=[
+            #options for the input
             {"label": "Raw Data", "value": "raw"},
             {"label": "Standardized Values", "value": "standardized"},
         ],
-        value="raw",
+        value="raw", #initial value of the input
         labelStyle={"display": "inline-block"},
-        style = {"margin-left":"100px","font-size":"30px"},
-        inputStyle={
+        style = {"margin-left":"100px","font-size":"30px"},#styling of the input
+        inputStyle={ #styling of the blue circles of the input
         "width": "20px",
         "height": "20px",
         "margin-right": "10px",
@@ -69,13 +94,17 @@ layout = html.Div([
     },
     ),
 
-        
+        #plot taking 80% of the width
         dcc.Graph(id="plot", figure=go.Figure(data=go.Bar(x=months, y=average_noise)),style={"margin-top":"0"}),
     ], style={'width': '80%', 'display': 'inline-block', 'vertical-align': 'top'}),
     
+    #place for the buttons
     html.Div([
         
+        
         html.Div([
+
+        #button total
         html.Button(children=[
             'Total data',
             html.Br(),
@@ -83,8 +112,9 @@ layout = html.Div([
         ],
           id="total-noise", n_clicks=0, style={'width': '250px','height':"130px","margin-bottom":"10px","margin-top":"80px","border-radius":"10px","font-size":"40px","color":"white","background":"darkmagenta"}),
 
-        html.Br(),
+        html.Br(), #break line
 
+        #button rainy
         html.Button(children=[
             'Rainy days',
             html.Br(),
@@ -92,8 +122,9 @@ layout = html.Div([
         ]
         , id="rainy-noise", n_clicks=0, style={'width': '250px','height':"130px","margin-bottom":"10px","border-radius":"10px","font-size":"40px","color":"white","background":"darkmagenta"}),
 
-        html.Br(),
+        html.Br(), #break line
 
+        #button dry
         html.Button(children=[
             'Dry days',
             html.Br(),
@@ -106,7 +137,7 @@ layout = html.Div([
     
 ])
 
-
+#outputs and inputs that have to change dynamically over time
 @callback(
     Output("plot", "figure"),
     [Input("data-type","value"),
@@ -115,10 +146,13 @@ layout = html.Div([
       Input("dry-noise", "n_clicks")]
 )
 
+#what should be done when the inputs change
 def update_plot(data_type,total_clicks, rainy_clicks, dry_clicks):
-    global prev_clicked_button_id
+    global prev_clicked_button_id #define this variable globally in the function
 
     ctx = dash.callback_context
+
+    #when it is not triggered yet (at the beginning)
     if not ctx.triggered:
         fig = go.Figure(data=go.Bar(x=months, y=average_noise))
         fig.update_layout(title=dict(text="Total",x=0.5),xaxis_title="Month", yaxis_title="Average Noise Level",
@@ -130,8 +164,11 @@ def update_plot(data_type,total_clicks, rainy_clicks, dry_clicks):
         fig.update_traces(marker_color='blue')
         return fig
 
+    #find which button has been triggered
     clicked_button_id = ctx.triggered[0]['prop_id'].split('.')[0]
 
+    #special case when the RadioItem is triggered instead of the button
+    #give the button value the value of the button that was previously clicked on
     if str(clicked_button_id)=="data-type":
         if prev_clicked_button_id == "":
             clicked_button_id="total-noise"
@@ -140,9 +177,13 @@ def update_plot(data_type,total_clicks, rainy_clicks, dry_clicks):
     else:
         prev_clicked_button_id=clicked_button_id
 
+    #chose which plot to show now that an input has been triggered
     if data_type == "raw":
         if clicked_button_id == "total-noise":
+            #initialize the plot with the data
             fig = go.Figure(data=go.Bar(x=months, y=average_noise))
+
+            #define titles and labels
             fig.update_layout(title=dict(text="Total",x=0.5),xaxis_title="Month", yaxis_title="Average Noise Level",
                             plot_bgcolor='rgba(0,0,0,0)',
                             title_font_family="Times New Roman",title_font=dict(size=40),
@@ -152,7 +193,10 @@ def update_plot(data_type,total_clicks, rainy_clicks, dry_clicks):
             fig.update_traces(marker_color='blue')
             return fig
         elif clicked_button_id == "rainy-noise":
+            #initialize the plot with the data
             fig = go.Figure(data=go.Bar(x=months, y=average_noise_rainy))
+
+            #define titles and labels
             fig.update_layout(title=dict(text="Rainy",x=0.5),xaxis_title="Month", yaxis_title="Average Noise Level (Rainy)",
                             plot_bgcolor='rgba(0,0,0,0)',
                             title_font_family="Times New Roman",title_font=dict(size=40),
@@ -162,7 +206,10 @@ def update_plot(data_type,total_clicks, rainy_clicks, dry_clicks):
             fig.update_traces(marker_color='blue')
             return fig
         elif clicked_button_id == "dry-noise":
+            #initialize the plot with the data
             fig = go.Figure(data=go.Bar(x=months, y=average_noise_dry))
+            
+            #define titles and labels
             fig.update_layout(title = dict(text="Dry",x=0.5),xaxis_title="Month", yaxis_title="Average Noise Level (Dry)",
                             title_font_family="Times New Roman",title_font=dict(size=40),
                             plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
@@ -173,8 +220,13 @@ def update_plot(data_type,total_clicks, rainy_clicks, dry_clicks):
             return fig
     elif data_type=="standardized":
         if clicked_button_id == "total-noise":
+            #initialize the plot with the data
             fig = go.Figure(data=go.Bar(x=months, y=average_noise_std))
+
+            #chose if the bar is red or green depending if the value is positive or negative
             fig.update_traces(marker=dict(color=['red' if val < 0 else 'green' for val in average_noise_std]))
+            
+            #add titles and labels and define background color
             fig.update_layout(title=dict(text="Total",x=0.5),xaxis_title="Month", yaxis_title="Average Noise Level",
                             plot_bgcolor='rgba(0,0,0,0)',
                             title_font_family="Times New Roman",title_font=dict(size=40),
@@ -183,8 +235,13 @@ def update_plot(data_type,total_clicks, rainy_clicks, dry_clicks):
             fig.update_xaxes(color="black",gridwidth=5)
             return fig
         elif clicked_button_id == "rainy-noise":
+            #initialize the plot with the data
             fig = go.Figure(data=go.Bar(x=months, y=average_noise_rainy_std))
+
+            #chose if the bar is red or green depending if the value is positive or negative
             fig.update_traces(marker=dict(color=['red' if val < 0 else 'green' for val in average_noise_rainy_std]))
+            
+            #add titles and labels and define background color
             fig.update_layout(title=dict(text="Rainy",x=0.5),xaxis_title="Month", yaxis_title="Average Noise Level",
                             plot_bgcolor='rgba(0,0,0,0)',
                             title_font_family="Times New Roman",title_font=dict(size=40),
@@ -193,8 +250,13 @@ def update_plot(data_type,total_clicks, rainy_clicks, dry_clicks):
             fig.update_xaxes(color="black",gridwidth=5)
             return fig
         elif clicked_button_id == "dry-noise":
+            #initialize the plot with the data
             fig = go.Figure(data=go.Bar(x=months, y=average_noise_dry_std))
+
+            #chose if the bar is red or green depending if the value is positive or negative
             fig.update_traces(marker=dict(color=['red' if val < 0 else 'green' for val in average_noise_dry_std]))
+            
+            #add titles and labels and define background color
             fig.update_layout(title=dict(text="Dry",x=0.5),xaxis_title="Month", yaxis_title="Average Noise Level",
                             plot_bgcolor='rgba(0,0,0,0)',
                             title_font_family="Times New Roman",title_font=dict(size=40),
