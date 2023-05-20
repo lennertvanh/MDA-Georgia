@@ -50,7 +50,7 @@ average_noise_dry_std = (average_noise_dry-mean_average_noise_dry)/std_average_n
 
 layout = html.Div([
     html.Div([
-        html.H2("Average noise level per month",style={"font-family": 'Lato', "font-size": "54px", "font-weight": "250","padding":"0", "margin": "0 0 0 100px"}),
+        html.H2("Average noise level per month"),
         html.Br(),
         dcc.RadioItems(
         id="data-type",
@@ -60,7 +60,7 @@ layout = html.Div([
         ],
         value="raw",
         labelStyle={"display": "inline-block"},
-        style = {"margin-left":"100px","font-size":"30px"},
+        style = {"margin-left":"100px","font-size":"20px"},
         inputStyle={
         "width": "20px",
         "height": "20px",
@@ -81,7 +81,7 @@ layout = html.Div([
             html.Br(),
             f"{mean_total_data:.2f} dB(A)",
         ],
-          id="total-noise", n_clicks=0, style={'width': '250px','height':"130px","margin-bottom":"10px","margin-top":"20px","border-radius":"10px","font-size":"40px","color":"white","background":"darkmagenta"}),
+          id="total-noise", n_clicks=0),
 
         html.Br(),
 
@@ -90,7 +90,7 @@ layout = html.Div([
             html.Br(),
             f"{mean_rainy:.2f} dB(A)",
         ]
-        , id="rainy-noise", n_clicks=0, style={'width': '250px','height':"130px","margin-bottom":"10px","border-radius":"10px","font-size":"40px","color":"white","background":"darkmagenta"}),
+        , id="rainy-noise", n_clicks=0),
 
         html.Br(),
 
@@ -98,7 +98,7 @@ layout = html.Div([
             'Dry days',
             html.Br(),
             f"{mean_dry:.2f} dB(A)",
-        ], id="dry-noise", n_clicks=0, style={'width': '250px','height':"130px","border-radius":"10px","font-size":"40px","color":"white","background":"darkmagenta"}),
+        ], id="dry-noise", n_clicks=0),
     ], className="button-container", style={'display': 'inline-block', 'vertical-align': 'top', 'margin-left': '20px'}),
     
     ], className="dashboard-tiles", style={'display': 'inline-block', 'vertical-align': 'top', 'margin-left': '20px'}),
@@ -121,13 +121,15 @@ def update_plot(data_type,total_clicks, rainy_clicks, dry_clicks):
     ctx = dash.callback_context
     if not ctx.triggered:
         fig = go.Figure(data=go.Bar(x=months, y=average_noise))
-        fig.update_layout(title=dict(text="Total",x=0.5),xaxis_title="Month", yaxis_title="Average Noise Level",
-                          plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
-                          title_font_family="Times New Roman",title_font=dict(size=40),
+        fig.update_layout(title=dict(text="Total",x=0.5, font=dict(
+            color="white")),xaxis_title="Month", yaxis_title="Average Noise Level",
+                          plot_bgcolor='#2E2E3A', paper_bgcolor='#2E2E3A',
+                          title_font_family="Times New Roman",title_font=dict(size=30), 
                           xaxis=dict(showgrid=True, zeroline=True),
                           yaxis=dict(showgrid=True, zeroline=True))
-        fig.update_xaxes(color="black",gridwidth=5)
-        fig.update_traces(marker_color='blue')
+        fig.update_xaxes(color="white",gridwidth=5)
+        fig.update_yaxes(color="white")
+        fig.update_traces(marker_color='#FEFE62')
         return fig
 
     clicked_button_id = ctx.triggered[0]['prop_id'].split('.')[0]
@@ -143,62 +145,74 @@ def update_plot(data_type,total_clicks, rainy_clicks, dry_clicks):
     if data_type == "raw":
         if clicked_button_id == "total-noise":
             fig = go.Figure(data=go.Bar(x=months, y=average_noise))
-            fig.update_layout(title=dict(text="Total",x=0.5),xaxis_title="Month", yaxis_title="Average Noise Level",
-                            plot_bgcolor='rgba(0,0,0,0)',
-                            title_font_family="Times New Roman",title_font=dict(size=40),
+            fig.update_layout(title=dict(text="Total",x=0.5, font=dict(
+            color="white")),xaxis_title="Month", yaxis_title="Average Noise Level",
+                            plot_bgcolor='#2E2E3A', paper_bgcolor='#2E2E3A',
+                            title_font_family="Times New Roman",title_font=dict(size=30),
                             xaxis=dict(showgrid=True, zeroline=True),
                             yaxis=dict(showgrid=True, zeroline=True))
-            fig.update_xaxes(color="black",gridwidth=5)
-            fig.update_traces(marker_color='blue')
+            fig.update_xaxes(color="white",gridwidth=5)
+            fig.update_yaxes(color="white")
+            fig.update_traces(marker_color='#FEFE62')
             return fig
         elif clicked_button_id == "rainy-noise":
             fig = go.Figure(data=go.Bar(x=months, y=average_noise_rainy))
-            fig.update_layout(title=dict(text="Rainy",x=0.5),xaxis_title="Month", yaxis_title="Average Noise Level (Rainy)",
-                            plot_bgcolor='rgba(0,0,0,0)',
-                            title_font_family="Times New Roman",title_font=dict(size=40),
+            fig.update_layout(title=dict(text="Rainy",x=0.5, font=dict(
+            color="white")),xaxis_title="Month", yaxis_title="Average Noise Level (Rainy)",
+                            plot_bgcolor='#2E2E3A', paper_bgcolor='#2E2E3A',
+                            title_font_family="Times New Roman",title_font=dict(size=30),
                             xaxis=dict(showgrid=True, zeroline=True),
                             yaxis=dict(showgrid=True, zeroline=True))
-            fig.update_xaxes(color="black",gridwidth=5)
-            fig.update_traces(marker_color='blue')
+            fig.update_xaxes(color="white",gridwidth=5)
+            fig.update_yaxes(color="white")
+            fig.update_traces(marker_color='#FEFE62')
             return fig
         elif clicked_button_id == "dry-noise":
             fig = go.Figure(data=go.Bar(x=months, y=average_noise_dry))
-            fig.update_layout(title = dict(text="Dry",x=0.5),xaxis_title="Month", yaxis_title="Average Noise Level (Dry)",
-                            title_font_family="Times New Roman",title_font=dict(size=40),
-                            plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
-                            xaxis=dict(showgrid=True, zeroline=True),
+            fig.update_layout(title = dict(text="Dry",x=0.5, font=dict(
+            color="white")),xaxis_title="Month", yaxis_title="Average Noise Level (Dry)",
+                            title_font_family="Times New Roman",title_font=dict(size=30),
+                            plot_bgcolor='#2E2E3A', paper_bgcolor='#2E2E3A',
+                            xaxis=dict(showgrid=True, zeroline=True), 
                             yaxis=dict(showgrid=True, zeroline=True))
-            fig.update_xaxes(color="black",gridwidth=5)
-            fig.update_traces(marker_color='blue')
+            fig.update_xaxes(color="white",gridwidth=5)
+            fig.update_yaxes(color="white")
+            fig.update_traces(marker_color='#FEFE62')
             return fig
     elif data_type=="standardized":
         if clicked_button_id == "total-noise":
             fig = go.Figure(data=go.Bar(x=months, y=average_noise_std))
-            fig.update_traces(marker=dict(color=['red' if val < 0 else 'green' for val in average_noise_std]))
-            fig.update_layout(title=dict(text="Total",x=0.5),xaxis_title="Month", yaxis_title="Average Noise Level",
-                            plot_bgcolor='rgba(0,0,0,0)',
-                            title_font_family="Times New Roman",title_font=dict(size=40),
+            fig.update_traces(marker=dict(color=['#FEFE62' if val < 0 else '#D35FB7' for val in average_noise_std]))
+            fig.update_layout(title=dict(text="Total",x=0.5, font=dict(
+            color="white")),xaxis_title="Month", yaxis_title="Average Noise Level",
+                            plot_bgcolor='#2E2E3A', paper_bgcolor='#2E2E3A',
+                            title_font_family="Times New Roman",title_font=dict(size=30),
                             xaxis=dict(showgrid=True, zeroline=True),
                             yaxis=dict(showgrid=True, zeroline=True))
-            fig.update_xaxes(color="black",gridwidth=5)
+            fig.update_xaxes(color="white",gridwidth=5)
+            fig.update_yaxes(color="white")
             return fig
         elif clicked_button_id == "rainy-noise":
             fig = go.Figure(data=go.Bar(x=months, y=average_noise_rainy_std))
-            fig.update_traces(marker=dict(color=['red' if val < 0 else 'green' for val in average_noise_rainy_std]))
-            fig.update_layout(title=dict(text="Rainy",x=0.5),xaxis_title="Month", yaxis_title="Average Noise Level",
-                            plot_bgcolor='rgba(0,0,0,0)',
-                            title_font_family="Times New Roman",title_font=dict(size=40),
+            fig.update_traces(marker=dict(color=['#FEFE62' if val < 0 else '#D35FB7' for val in average_noise_rainy_std]))
+            fig.update_layout(title=dict(text="Rainy",x=0.5, font=dict(
+            color="white")),xaxis_title="Month", yaxis_title="Average Noise Level",
+                            plot_bgcolor='#2E2E3A', paper_bgcolor='#2E2E3A',
+                            title_font_family="Times New Roman",title_font=dict(size=30),
                             xaxis=dict(showgrid=True, zeroline=True),
                             yaxis=dict(showgrid=True, zeroline=True))
-            fig.update_xaxes(color="black",gridwidth=5)
+            fig.update_xaxes(color="white",gridwidth=5)
+            fig.update_yaxes(color="white")
             return fig
         elif clicked_button_id == "dry-noise":
             fig = go.Figure(data=go.Bar(x=months, y=average_noise_dry_std))
-            fig.update_traces(marker=dict(color=['red' if val < 0 else 'green' for val in average_noise_dry_std]))
-            fig.update_layout(title=dict(text="Dry",x=0.5),xaxis_title="Month", yaxis_title="Average Noise Level",
-                            plot_bgcolor='rgba(0,0,0,0)',
-                            title_font_family="Times New Roman",title_font=dict(size=40),
+            fig.update_traces(marker=dict(color=['#FEFE62' if val < 0 else '#D35FB7' for val in average_noise_dry_std]))
+            fig.update_layout(title=dict(text="Dry",x=0.5, font=dict(
+            color="white")),xaxis_title="Month", yaxis_title="Average Noise Level",
+                            plot_bgcolor='#2E2E3A', paper_bgcolor='#2E2E3A',
+                            title_font_family="Times New Roman",title_font=dict(size=30),
                             xaxis=dict(showgrid=True, zeroline=True),
                             yaxis=dict(showgrid=True, zeroline=True))
-            fig.update_xaxes(color="black",gridwidth=5)
+            fig.update_xaxes(color="white",gridwidth=5)
+            fig.update_yaxes(color="white")
             return fig

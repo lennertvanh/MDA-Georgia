@@ -20,11 +20,17 @@ fig = go.Figure(data=go.Bar(x=months, y=rainy_counts))
 
 # Customize the chart layout
 fig.update_layout(
-    title="Number of rainy days per month",
+    title=dict(text="Number of rainy days per month",x=0.5, font=dict(color="white")),
     xaxis_title="Month",
-    yaxis_title="Number of rainy days"
+    yaxis_title="Number of rainy days", 
+    plot_bgcolor='#2E2E3A',
+    paper_bgcolor='#2E2E3A',
+    title_font=dict(size=30),
+    yaxis=dict(showgrid=True, zeroline=True),
+    xaxis=dict(showgrid=True, zeroline=True)
 )
-
+fig.update_xaxes(color="white",gridwidth=5)
+fig.update_yaxes(color="white")
 
 
 layout = html.Div(children=[
