@@ -56,14 +56,36 @@ fig2.update_layout(
 )
 
 
+#figure 3
+#measured by kmi for leuven from 1991 to 2020
+avg_temp_Uccle = [3.9, 4.4, 7.2, 10.4, 14.1, 17.1, 19.2, 18.8, 15.5, 11.6, 7.4, 4.5]
+
+avg_temp_per_month = weather_data.groupby("Month")["LC_TEMP_QCL3"].mean()
+# Create the scatter plots
+fig3 = go.Figure()
+
+# Add the scatter plot for average rainfall over the last 20 years
+fig3.add_trace(go.Scatter(x=months, y=avg_temp_Uccle, name="Average temperature (Last 20 Years)", mode="markers+lines"))
+
+# Add the scatter plot for rainfall in 2022
+fig3.add_trace(go.Scatter(x=months, y=avg_temp_per_month, name="Temperature in 2022", mode="markers+lines"))
+
+# Update the layout
+fig3.update_layout(
+    title="Temperature comparison between year 2022 and the average over the past 20 years",
+    xaxis_title="Month",
+    yaxis_title="Temperature (°C)"
+)
+
 
 layout = html.Div([
     html.H1("Rainfall Analysis"),
     dcc.Dropdown(
         id="figure-dropdown",
         options=[
-            {"label": "Rainfall Comparison", "value": "figure1"},
-            {"label": "Number of Rainy Days", "value": "figure2"}
+            {"label": "Rainfall comparison", "value": "figure1"},
+            {"label": "Number of rainy days", "value": "figure2"},
+            {"label": "Temperature comparison", "value": "figure3"}
         ],
         value="figure1"
     ),
@@ -79,3 +101,5 @@ def update_figure(selected_figure):
         return dcc.Graph(figure=fig1)
     elif selected_figure == "figure2":
         return dcc.Graph(figure=fig2)
+    elif selected_figure == "figure3":
+        return dcc.Graph(figure=fig3)
