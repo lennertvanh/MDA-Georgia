@@ -127,7 +127,7 @@ layout = html.Div([
     html.Div(id="heatmap-container")
 ])
 
-@app.callback(
+@callback(
     Output("heatmap-container", "children"),
     [Input("entire-day-button", "n_clicks"),
      Input("at-night-button", "n_clicks")]
