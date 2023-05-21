@@ -9,6 +9,9 @@ This app has been developed with the Dash interactive Python framework developed
 
 Explain the used technologies
 
+## Table of contents
+Add the table of contents of the Readme file
+
 ## Screenshots
 Show screenshots of the app?
 
@@ -63,8 +66,8 @@ Explain what the user can do in the app
 * add other resources
 
 ## Authors
-* Grégoire Corluy
-* Ying Tian
-* Yasemin Uslu
-* Lennert Vanhaeren
+* Grégoire Corluy - GregoireCorluy
+* Ying Tian - yingtian1
+* Yasemin Uslu - yasemin98
+* Lennert Vanhaeren - lennertvanh
 * Axl Wynants
