@@ -1,5 +1,6 @@
 import dash
 from dash import html, dcc
+import pandas as pd
 
 dash.register_page(__name__, path='/')
 
@@ -19,7 +20,24 @@ dash.register_page(__name__, path='/')
 
 ]) """
 
-import pandas as pd
+
+data_noise = pd.read_csv("Data/daily_noisedata_2022.csv")
+
+##########################
+#noisiest location
+
+average_lamax_per_location = data_noise.groupby('description')['lamax'].mean()
+
+
+location_with_highest_average = average_lamax_per_location.idxmax()
+highest_average_value = average_lamax_per_location.max()
+
+location_with_highest_average = location_with_highest_average.split(":")[-1].strip()
+
+
+########################################
+
+
 
 weather_data = pd.read_csv("Data/daily_weatherdata_2022.csv", header = 0, sep=',')
 cutoff_rain_day = 0.0002
@@ -281,6 +299,7 @@ fig_windDir.update_layout(
 # Add the Plotly figure to the right-hand side of the central div
 windDir_div = html.Div(
     style={'width': f'{figure_width}px', 'height': f'{figure_height}px','margin-left':"10px"},
+    title = "Dominant wind direction",
     children=[
         dcc.Graph(figure=fig_windDir)
     ]
@@ -294,13 +313,24 @@ layout = html.Div(
     },
     children=[
         html.Div(
-            style={'flex': '1'},
+            style={'flex': '1', 'height': '500px', 'border': '1px solid #000'},  #
             children=[
                 # Left div content here
+                html.Div(
+                    style={'height': '150px', 'border': '1px solid #000', 'margin': '5px', 'display': 'flex', 'flex-direction': 'column', 'align-items': 'center', 'justify-content': 'center'},
+                    title="Location with the highest average of maximal noise",
+                    children=[html.P(f"{location_with_highest_average}", style={'fontSize': '50px', 'margin': '0', 'lineHeight': '1'}),
+                              html.Br(style={'margin': '0'}),
+                              html.P(f"{round(highest_average_value)} dB(A)", style={'fontSize': '50px', 'margin': '0', 'lineHeight': '1'})
+    
+                              ],
+
+                )
             ]
         ),
         html.Div(  # Central div
             style={'width': '500px', 'height': '250px', 'border': '1px solid #000', 'padding': '0px'},
+            title = "Average temperature, rainy days and average windspeed per month",
             children=[
                 html.Div(
                     style={"position": "sticky", 'width': '500px', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
