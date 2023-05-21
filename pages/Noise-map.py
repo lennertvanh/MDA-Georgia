@@ -48,12 +48,19 @@ fig = px.scatter_mapbox(merged,
                         size = 'standardized_lamax',
                         size_max = 30,
                         animation_frame="month",
-                        zoom = 4, mapbox_style = 'open-street-map')
+                        zoom = 4, mapbox_style = 'open-street-map'
+                        )
+
+
 # Set the initial center and zoom level of the map
 fig.update_layout(mapbox={
-    'center': {'lat': 50.874520, 'lon': 4.699850},
+    'center': {'lat': 50.876, 'lon': 4.699850},
     'zoom': 15
-})
+},
+height=800,
+width=800, 
+margin=dict(l=20, r=400, t=0, b=100)
+)
 
 def marker_click(trace, points, state):
     # Get the clicked marker information
@@ -99,6 +106,6 @@ fig.update_layout(
 layout = html.Div(children=[
     html.H1(children='Noise map with sound monitor locations'),
 
-    dcc.Graph(id="noise-map", figure=fig),
+    dcc.Graph(id="noise-map", figure=fig, style={'width': '80%', 'height': '80vh','margin': 'auto'})  # Adjust the width as needed,
 
 ])
