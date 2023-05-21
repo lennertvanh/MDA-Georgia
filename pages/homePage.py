@@ -412,7 +412,7 @@ layout = html.Div(
                     children=[
                         html.P(f"{location_with_highest_average}", style={'fontSize': '50px', 'margin': '0', 'lineHeight': '1'}),
                         html.Br(style={'margin': '0'}),
-                        html.P(f"{round(highest_average_value)} dB(A)", style={'fontSize': '50px', 'margin': '0', 'lineHeight': '1'})
+                        html.P(f"{round(highest_average_value,1)} dB(A)", style={'fontSize': '50px', 'margin': '0', 'lineHeight': '1'})
                     ],
                 )
             ]
