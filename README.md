@@ -4,8 +4,8 @@ first version of the readme file that has to be modified
 
 ## Introduction
 `MDA-Georgia` is an app giving insights about the noise and weather datasets concerning the city of Leuven. 
-This had to be done as project for the course of Modern Data Analytics (KULeuven) during the 2022-2023 academic year.
-This app has been developped with the Dash interactive Python framework developed by [Plotly](https//plot.ly/).
+This had to be done as project for the course 'Modern Data Analytics' at KU Leuven during the 2022-2023 academic year.
+This app has been developed with the Dash interactive Python framework developed by [Plotly](https//plot.ly/).
 
 Explain the used technologies
 
@@ -51,7 +51,7 @@ Run this app locally by:
 ```
 python app.py
 ```
-Open http://0.0.0.0:8050/ in your browser, you will see the homepage of the app and you can explore all the insightfull plots.
+Open http://0.0.0.0:8050/ in your browser, you will see the homepage of the app and you can explore all the insightful plots.
 
 
 ## What does this app show
