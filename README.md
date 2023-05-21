@@ -72,4 +72,4 @@ Explain what the user can do in the app
 * Ying Tian - yingtian1
 * Yasemin Uslu - yasemin98
 * Lennert Vanhaeren - lennertvanh
-* Axl Wynants
+* Axl Wynants - awynants
