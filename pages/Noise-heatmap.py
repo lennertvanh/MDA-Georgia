@@ -62,6 +62,25 @@ fig1.update_layout(
         categoryorder='array',
         categoryarray=weekday_order,
     ),
+    plot_bgcolor='rgba(0,0,0,0)'
+)
+
+fig1.add_annotation(
+    xref='x',
+    yref='y',
+    x=21,
+    y=weekday_order.index('Fri'),
+    text='<b> students returning<br>home for the<br>weekend</b>',
+    showarrow=True,
+    arrowhead=1,
+    arrowcolor='black',
+    ax=95,
+    ay=-180,
+    font=dict(color='black', size=10),  # Set font weight to 'bold'
+    bordercolor='black',  # Set border color
+    borderwidth=1,  # Set border width
+    bgcolor='white',  # Set background color
+    opacity=0.8  # Set opacity of the frame
 )
 
 # FIGURE 2
