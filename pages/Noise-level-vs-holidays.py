@@ -126,7 +126,7 @@ trace2 = go.Violin(
 layout_fig1 = go.Layout(
     title='Comparison of Noise Levels during Holidays and Normal Days (universities)',
     xaxis={'title': 'Holiday vs normal day', 'range': [-0.5, 0.5], 'tickvals': [1,0], 'ticktext': ["false",'Holiday - Normal day']},
-    yaxis={'title': 'Noise Level (dB)'},
+    yaxis={'title': 'Noise Level (dB(A))'},
     violingap=0,  # Set the gap between violins to 0 for overlapping
 )
 
