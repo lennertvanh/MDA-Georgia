@@ -1,6 +1,9 @@
 import dash
 from dash import html, dcc
 import pandas as pd
+import plotly.graph_objects as go
+import plotly.subplots as sp
+import numpy as np
 
 dash.register_page(__name__, path='/')
 
@@ -36,8 +39,32 @@ location_with_highest_average = location_with_highest_average.split(":")[-1].str
 
 
 ########################################
+#noise time series
+
+data_noise_hour = pd.read_csv("Data/hourly_noisedata_2022.csv")
+
+chose_location_timeseries = "MP 03: Naamsestraat 62 Taste"
+
+data_Namen = data_noise_hour[data_noise_hour["description"]==chose_location_timeseries]
 
 
+time = np.array(range(len(data_Namen)))
+
+# Create a line plot using Plotly
+fig_timeseries = go.Figure(data=go.Scatter(x=time, y=data_Namen["laeq"], mode='lines'))
+
+# Customize the plot layout
+fig_timeseries.update_layout(
+    #title="Noise Levels Over Time - MP 03: Naamsestraat 62 Taste",
+    #xaxis_title="Time",
+    #yaxis_title="Laeq",
+    margin=dict(l=0, r=0, t=0, b=0),
+    plot_bgcolor='rgba(0, 0, 0, 0)',
+    width = 1200,
+    height = 150
+)
+
+##############################################
 
 weather_data = pd.read_csv("Data/daily_weatherdata_2022.csv", header = 0, sep=',')
 cutoff_rain_day = 0.0002
@@ -45,9 +72,6 @@ weather_data["bool_rainday"] = weather_data["LC_DAILYRAIN"] > cutoff_rain_day
 data_month = pd.read_csv('Data/monthly_weatherdata_2022.csv')
 
 
-import plotly.graph_objects as go
-import plotly.subplots as sp
-import numpy as np
 
 # Define the months and maximum days
 months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -305,7 +329,7 @@ windDir_div = html.Div(
     ]
 )
 
-layout = html.Div(
+""" layout = html.Div(
     style={
         'display': 'flex',
         'justify-content': 'center',
@@ -369,4 +393,80 @@ layout = html.Div(
             ]
         ),
     ]
+) """
+
+layout = html.Div(
+    style={
+        'display': 'flex',
+        'justify-content': 'center',
+        'height': '100vh',
+    },
+    children=[
+        html.Div(
+            style={'height': '500px','width':'300px', 'border': '1px solid #000'},
+            children=[
+                # Left div content here
+                html.Div(
+                    style={'height': '150px', 'border': '1px solid #000', 'margin': '5px', 'display': 'flex', 'flex-direction': 'column', 'align-items': 'center', 'justify-content': 'center'},
+                    title="Location with the highest average of maximal noise",
+                    children=[
+                        html.P(f"{location_with_highest_average}", style={'fontSize': '50px', 'margin': '0', 'lineHeight': '1'}),
+                        html.Br(style={'margin': '0'}),
+                        html.P(f"{round(highest_average_value)} dB(A)", style={'fontSize': '50px', 'margin': '0', 'lineHeight': '1'})
+                    ],
+                )
+            ]
+        ),
+        html.Div(
+            style={'flex': '1', 'display': 'flex', 'flex-direction': 'column'},
+            children=[
+                # Central div content here
+                html.Div(
+                    style={'width': '500px', 'height': '250px', 'border': '1px solid #000', 'padding': '0px'},
+                    title="Average temperature, rainy days and average windspeed per month",
+                    children=[
+                        html.Div(
+                            style={"position": "sticky", 'width': '500px', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
+                            children=[
+                                html.Div(
+                                    style={'width': '100px', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
+                                    children=[html.P("Month")],
+                                ),
+                                html.Div(
+                                    style={'width': '50px', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
+                                    children=[html.P("Temp")],
+                                ),
+                                html.Div(
+                                    style={'width': '300px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
+                                    children=[
+                                        html.P("Rainy days")
+                                    ],
+                                ),
+                                html.Div(
+                                    style={'width': '50px', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
+                                    children=[html.P("Wind")],
+                                ),
+                            ],
+                        ),
+                        # Sub divs
+                        html.Div(
+                            style={'width': '510px', 'height': '215px', 'overflow': 'auto', 'overflow-x': 'hidden'},
+                            children=sub_divs
+                        ),
+                    ],
+                ),
+                html.Div(
+                    style={'width': '1200px', 'height': '150px', 'border': '1px solid #000'},
+                    title = f"Time series in hours of the laeq (in dB) for {chose_location_timeseries}",
+                    children=[
+                        dcc.Graph(
+                            id='plot-timeseries',
+                            figure=fig_timeseries,
+                            style={'width': '100%', 'height': '100%'}
+                        )
+                    ]
+                ),
+            ],
+        ),
+    ],
 )

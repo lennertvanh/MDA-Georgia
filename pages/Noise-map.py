@@ -1,6 +1,5 @@
 import dash
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import html, dcc
 import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
@@ -36,7 +35,7 @@ merged['standardized_laeq'] = scaler.fit_transform(merged[['laeq']])
 merged.head()
 
 # Check for missing values in each column
-print(merged.isnull().sum())
+#print(merged.isnull().sum())
 
 
 ## Noise map ##
