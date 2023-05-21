@@ -104,22 +104,28 @@ fig2.update_layout(
         categoryorder='array',
         categoryarray=weekday_order,
     ),
+    plot_bgcolor='rgba(0,0,0,0)'
 )
 
 # Annotate the box for Thursday at hour 4
-fig2.update_layout(
-    annotations=[
-        dict(
-            x=4,
-            y=weekday_order.index('Thu'),
-            text='<b>drunk students returning<br>to their dorm</b>',
-            showarrow=False,
-            font=dict(color='black', size=8),  
-            bgcolor='rgba(255, 255, 0, 0)',  # transparent background
-            bordercolor='rgba(255, 255, 0, 0)',  # transparent border
-        )
-    ]
+fig2.add_annotation(
+    xref='x',
+    yref='y',
+    x=4,
+    y=weekday_order.index('Thu'),
+    text='<b>drunk students returning<br>to their dorm</b>',
+    showarrow=True,
+    arrowhead=1,
+    arrowcolor='black',
+    ax=100,
+    ay=-140,
+    font=dict(color='black', size=10),  # Set font weight to 'bold'
+    bordercolor='black',  # Set border color
+    borderwidth=1,  # Set border width
+    bgcolor='white',  # Set background color
+    opacity=0.8  # Set opacity of the frame
 )
+
 
 layout = html.Div([
     html.H1("Heatmap of noise"),
