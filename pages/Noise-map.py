@@ -10,6 +10,7 @@ dash.register_page(__name__)
 
 ## Data ##
 monthly_noise = pd.read_csv("Data/monthly_noisedata_2022.csv")
+daily_noise = pd.read_csv("Data/daily_noisedata_2022.csv")
 
 # Create dataframe with GPS coordinates 
 gps_data = {
@@ -21,7 +22,13 @@ gps_data = {
 gps_df = pd.DataFrame(gps_data)
 
 # Merging noise data with GPS coordinates
-merged = pd.merge(monthly_noise, gps_df, on='description', how='left')
+merged = pd.merge(daily_noise, gps_df, on='description', how='left')
+
+# Add a new column 'year' with value 2022 for all observations
+merged['year'] = 2022
+
+# Create a new 'date' column by combining 'year', 'month', and 'day'
+merged['date'] = pd.to_datetime(merged[['year', 'month', 'day']])
 
 # Create a StandardScaler object
 scaler = MinMaxScaler()
@@ -46,7 +53,7 @@ fig = px.scatter_mapbox(merged,
                         lon = 'lon', 
                         size = 'standardized_lamax',
                         size_max = 30,
-                        animation_frame="month",
+                        animation_frame="date",
                         zoom = 4, mapbox_style = 'open-street-map'
                         )
 
