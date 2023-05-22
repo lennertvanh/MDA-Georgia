@@ -144,10 +144,10 @@ def update_hover_text(selected_map, selected_period):
     if selected_period == "Daily":
         if selected_map == "Lamax":
             selected_column = "standardized_lamax"
-            fig = fig_lamax
+            fig = fig_lamax_daily
         else:
             selected_column = "standardized_laeq"
-            fig = fig_laeq
+            fig = fig_laeq_daily
     else:
         if selected_map == "Lamax":
             selected_column = "standardized_lamax"
