@@ -65,6 +65,95 @@ fig_timeseries.update_layout(
 )
 
 ##############################################
+#polar plot
+
+#different locations
+
+# Extract the unique locations from the "description" column
+locations = sorted(data_noise_hour["description"].unique())
+#sorted to get in alphabetical order
+
+number_locations = len(locations)
+angle = 360/number_locations
+# Create an array from 0 to 360 with steps of 45
+angles = np.arange(0, 360, angle) #360 not included
+
+# Compute the average "laeq" for each location
+average_laeq = data_noise_hour.groupby("description")["laeq"].mean()
+average_lamax = data_noise_hour.groupby("description")["lamax"].mean()
+
+
+# Create a new dataframe by combining the average values
+average_noise_per_location = pd.DataFrame({'Average laeq': average_laeq, 'Average lamax': average_lamax})
+
+# Add the "description" as a column
+average_noise_per_location['description'] = average_noise_per_location.index
+
+# Remove the portion before ":" or "-" symbol, including any preceding numbers
+average_noise_per_location['description'] = average_noise_per_location['description'].str.replace('.*?(?!(\d|$))[:|-]', '', regex=True)
+#using a negative lookhead to keep the string if "\d" removes the complete string
+
+average_noise_per_location['description'] = average_noise_per_location['description'].str.replace('.*?(?!\d{2,}$)(\d{1,2})', '', regex=True)
+
+# Remove the portion before the digit or two digits, including the digit(s), except if it removes the complete string
+#average_noise_per_location['description'] = average_noise_per_location['description'].apply(lambda x: np.nan if x == x.replace(x, '') else x.replace('.*?(?!\d{2,}$)(\d{1,2})', '', regex=True))
+
+# Reset the index
+average_noise_per_location.reset_index(drop=True, inplace=True)
+
+# Remove the text "KU Leuven" if it is present
+average_noise_per_location['description'] = average_noise_per_location['description'].str.replace('KU Leuven', '', regex=False)
+#exception that I cannot fix with code
+average_noise_per_location.loc[6, 'description'] = "Naamsestraat 81"
+
+radius = 4.5
+
+max_leaq_avg = average_laeq.max()
+max_lamax_avg = average_lamax.max()
+
+average_noise_per_location["radius"] = np.power(10,average_noise_per_location["Average laeq"]/10)/np.power(10,max_leaq_avg/10)*radius
+average_noise_per_location["angle"] = np.power(10,average_noise_per_location["Average lamax"]/10)/np.power(10,max_lamax_avg/10)*angle
+
+
+fig_polar_noise = go.Figure(go.Barpolar(
+    r=average_noise_per_location["radius"],
+    theta=angles,
+    width=average_noise_per_location["angle"],
+    marker_color=["#E4FF87", '#709BFF',  '#FFDF70', '#FFAA70', '#96D5B3', '#FFC2A0', '#B6FFB4', '#FFDEA6'],
+    marker_line_color="black",
+    marker_line_width=2,
+    opacity=0.8
+))
+
+fig_polar_noise.update_layout(
+    template=None,
+    #margin=dict(l=50, r=50, t=20, b=20),  # Set margins to 0
+    margin=dict(l=5, r=5, t=5, b=5),
+    polar = dict(
+        radialaxis = dict(range=[0, 5], showticklabels=False, ticks=''),
+        angularaxis=dict(
+            tickmode='array',
+            tickvals=angles,
+            ticktext=average_noise_per_location["description"],
+            showticklabels=False, #True to see the labels of the locations
+            ticks=''
+        )
+    )
+)
+
+#########################################################################################################""
+
+
+
+
+
+
+
+
+
+
+
+
 
 weather_data = pd.read_csv("Data/daily_weatherdata_2022.csv", header = 0, sep=',')
 cutoff_rain_day = 0.0002
@@ -413,6 +502,17 @@ layout = html.Div(
                         html.P(f"{location_with_highest_average}", style={'fontSize': '50px', 'margin': '0', 'lineHeight': '1'}),
                         html.Br(style={'margin': '0'}),
                         html.P(f"{round(highest_average_value,1)} dB(A)", style={'fontSize': '50px', 'margin': '0', 'lineHeight': '1'})
+                    ],
+                ),
+                html.Div(
+                    style={'height': '300px', 'border': '1px solid #000', 'margin': '5px', 'display': 'flex', 'flex-direction': 'column', 'align-items': 'center', 'justify-content': 'center'},
+                    title="Average noise (radius) and maximal noise (width) per location in linear scale",
+                    children=[
+                        dcc.Graph(
+                            id='plot-polar-noise-location',
+                            figure=fig_polar_noise,
+                            style={'width': '100%', 'height': '100%'}
+                        )
                     ],
                 )
             ]
