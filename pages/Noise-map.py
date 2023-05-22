@@ -164,7 +164,7 @@ def update_hover_text(selected_map, selected_period):
         selected_longitudes = merged_daily['lon']
     else:
         selected_column_values = merged_monthly[selected_column]
-        selected_dates = merged_monthly['date']
+        selected_dates = merged_monthly['month']
         selected_latitudes = merged_monthly['lat']
         selected_longitudes = merged_monthly['lon']
 
