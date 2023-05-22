@@ -18,7 +18,6 @@ gps_data = {
     'lat': [50.877121, 50.87650, 50.87590, 50.875237, 50.87452, 50.874078, 50.873808, 50.87873],
     'lon': [4.700708, 4.700632, 4.700262, 4.700071, 4.69985, 4.70005, 4.700007, 4.70115]
 }
-
 gps_df = pd.DataFrame(gps_data)
 
 # Merging noise data with GPS coordinates
@@ -31,7 +30,6 @@ merged['date'] = pd.to_datetime(merged[['year', 'month', 'day']]).dt.strftime('%
 
 # Create a StandardScaler object
 scaler = MinMaxScaler()
-
 # Fit the StandardScaler to the column and transform the Lamax and laeq values
 merged['standardized_lamax'] = scaler.fit_transform(merged[['lamax']])
 merged['standardized_laeq'] = scaler.fit_transform(merged[['laeq']])
@@ -48,7 +46,7 @@ fig_lamax = px.scatter_mapbox(merged,
 
 # Set the initial center and zoom level of the map
 fig_lamax.update_layout(mapbox={
-    'center': {'lat': 50.876, 'lon': 4.699850},
+    'center': {'lat': 50.876, 'lon': 4.699860},
     'zoom': 15
 },
 height=800,
