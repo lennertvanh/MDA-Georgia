@@ -24,9 +24,10 @@ gps_df = pd.DataFrame(gps_data)
 # Merging noise data with GPS coordinates
 merged = pd.merge(daily_noise, gps_df, on='description', how='left')
 
-# Create a new 'date' column by combining 'year'=2022, 'month', and 'day'
-merged['date'] = pd.to_datetime(merged[['year', 'month', 'day']].assign(year=2022))
-merged['date'] = merged['date'].dt.strftime('%d %b %Y')
+# Add a new column 'year' with value 2022 for all observations
+merged['year'] = 2022
+# Create a new 'date' column by combining 'year', 'month', and 'day' but put the date in the European way
+merged['date'] = pd.to_datetime(merged[['year', 'month', 'day']]).dt.strftime('%d %b %Y')
 
 # Create a StandardScaler object
 scaler = MinMaxScaler()
