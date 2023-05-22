@@ -4,11 +4,13 @@ import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
 from sklearn.preprocessing import MinMaxScaler
+import datetime
 
 dash.register_page(__name__)
 
 ## Data ##
 daily_noise = pd.read_csv("Data/daily_noisedata_2022.csv")
+monthly_noise = pd.read_csv("Data/monthly_noisedata_2022.csv")
 
 # Create dataframe with GPS coordinates
 gps_data = {
@@ -22,19 +24,15 @@ gps_df = pd.DataFrame(gps_data)
 # Merging noise data with GPS coordinates
 merged = pd.merge(daily_noise, gps_df, on='description', how='left')
 
-# Add a new column 'year' with value 2022 for all observations
-merged['year'] = 2022
-
-# Create a new 'date' column by combining 'year', 'month', and 'day'
-merged['date'] = pd.to_datetime(merged[['year', 'month', 'day']])
+# Create a new 'date' column by combining 'year'=2022, 'month', and 'day'
+merged['date'] = pd.to_datetime(merged[['year', 'month', 'day']].assign(year=2022))
+merged['date'] = merged['date'].dt.strftime('%d %b %Y')
 
 # Create a StandardScaler object
 scaler = MinMaxScaler()
 
-# Fit the StandardScaler to the column and transform the Lamax values
+# Fit the StandardScaler to the column and transform the Lamax and laeq values
 merged['standardized_lamax'] = scaler.fit_transform(merged[['lamax']])
-
-# Fit the StandardScaler to the column and transform the Lamax values
 merged['standardized_laeq'] = scaler.fit_transform(merged[['laeq']])
 
 ## Lamax map ##
