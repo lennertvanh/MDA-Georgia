@@ -40,24 +40,6 @@ merged_daily['standardized_laeq'] = scaler.fit_transform(merged_daily[['laeq']])
 merged_monthly['standardized_lamax'] = scaler.fit_transform(merged_monthly[['lamax']])
 merged_monthly['standardized_laeq'] = scaler.fit_transform(merged_monthly[['laeq']])
 
-## Lamax map daily ##
-fig_lamax_daily = px.scatter_mapbox(merged_daily, 
-                                    lat='lat', 
-                                    lon='lon', 
-                                    size='standardized_lamax',
-                                    size_max=30,
-                                    animation_frame="date",
-                                    zoom=4,
-                                    mapbox_style='open-street-map')
-# Set the initial center and zoom level of the map
-fig_lamax_daily.update_layout(mapbox={
-    'center': {'lat': 50.876, 'lon': 4.70020},
-    'zoom': 15
-},
-height=800,
-width=800, 
-margin=dict(l=20, r=400, t=0, b=100)
-)
 
 ## Laeq map daily ##
 fig_laeq_daily = px.scatter_mapbox(merged_daily, 
@@ -70,6 +52,25 @@ fig_laeq_daily = px.scatter_mapbox(merged_daily,
                                    mapbox_style='open-street-map')
 # Set the initial center and zoom level of the map
 fig_laeq_daily.update_layout(mapbox={
+    'center': {'lat': 50.876, 'lon': 4.70020},
+    'zoom': 15
+},
+height=800,
+width=800, 
+margin=dict(l=20, r=400, t=0, b=100)
+)
+
+## Lamax map daily ##
+fig_lamax_daily = px.scatter_mapbox(merged_daily, 
+                                    lat='lat', 
+                                    lon='lon', 
+                                    size='standardized_lamax',
+                                    size_max=30,
+                                    animation_frame="date",
+                                    zoom=4,
+                                    mapbox_style='open-street-map')
+# Set the initial center and zoom level of the map
+fig_lamax_daily.update_layout(mapbox={
     'center': {'lat': 50.876, 'lon': 4.70020},
     'zoom': 15
 },
@@ -116,7 +117,6 @@ width=800,
 margin=dict(l=20, r=400, t=0, b=100)
 )
 
-
 def marker_click_lamax(trace, points, state):
     # Get the clicked marker information
     lat = trace.lat[points.point_inds[0]]
@@ -139,40 +139,55 @@ def marker_click_laeq(trace, points, state):
 #fig_lamax.data[0].on_click(marker_click_lamax)
 #fig_laeq.data[0].on_click(marker_click_laeq)
 
-# Update the 'text' parameter in px.scatter_mapbox
+
 def update_hover_text(selected_map, selected_period):
     if selected_period == "Daily":
         if selected_map == "Lamax":
-            selected_column = "standardized_lamax"
-            fig = fig_lamax_daily
+            selected_column = "lamax"
+            selected_level = "Lamax"
+            selected_standardized_column = "standardized_lamax"
+            selected_dates = merged_daily['date']
         else:
-            selected_column = "standardized_laeq"
-            fig = fig_laeq_daily
+            selected_column = "laeq"
+            selected_level = "Laeq"
+            selected_standardized_column = "standardized_laeq"
+            selected_dates = merged_daily['date']
     else:
         if selected_map == "Lamax":
-            selected_column = "standardized_lamax"
-            fig = fig_lamax_monthly
+            selected_column = "lamax"
+            selected_level = "Lamax"
+            selected_standardized_column = "standardized_lamax"
+            selected_dates = merged_monthly['month']
         else:
-            selected_column = "standardized_laeq"
-            fig = fig_laeq_monthly
+            selected_column = "laeq"
+            selected_level = "Laeq"
+            selected_standardized_column = "standardized_laeq"
+            selected_dates = merged_monthly['month']
 
-    # Retrieve the values from the selected column
-    if selected_period == "Daily":
-        selected_column_values = merged_daily[selected_column]
-        selected_dates = merged_daily['date']
-        selected_latitudes = merged_daily['lat']
-        selected_longitudes = merged_daily['lon']
-    else:
-        selected_column_values = merged_monthly[selected_column]
-        selected_dates = merged_monthly['month']
-        selected_latitudes = merged_monthly['lat']
-        selected_longitudes = merged_monthly['lon']
+    # Retrieve the values from the selected columns
+    selected_column_values = merged_daily[selected_column] if selected_period == "Daily" else merged_monthly[selected_column]
+    selected_standardized_column_values = merged_daily[selected_standardized_column] if selected_period == "Daily" else merged_monthly[selected_standardized_column]
+    selected_locations = merged_daily['description'] if selected_period == "Daily" else merged_monthly['description']
 
     # Update the 'text' parameter in the selected map
-    fig.update_traces(text=[
-        f"Date: {date}<br>Latitude: {lat}<br>Longitude: {lon}<br>{selected_map}: {value}"
-        for date, lat, lon, value in zip(selected_dates, selected_latitudes, selected_longitudes, selected_column_values)
-    ])
+    if selected_period == "Daily":
+        fig_lamax_daily.update_traces(text=[
+            f"Date: {date}<br>Location: {location}<br>Noise Level: {selected_level}: {level} dB(A)<br>Standardized Noise Level: {standardized_level} dB(A)"
+            for date, location, level, standardized_level in zip(selected_dates, selected_locations, selected_column_values, selected_standardized_column_values)
+        ])
+        fig_laeq_daily.update_traces(text=[
+            f"Date: {date}<br>Location: {location}<br>Noise Level: {selected_level}: {level} dB(A)<br>Standardized Noise Level: {standardized_level} dB(A)"
+            for date, location, level, standardized_level in zip(selected_dates, selected_locations, selected_column_values, selected_standardized_column_values)
+        ])
+    else:
+        fig_lamax_monthly.update_traces(text=[
+            f"Month: {date}<br>Location: {location}<br>Noise Level: {selected_level}: {level} dB(A)<br>Standardized Noise Level: {standardized_level} dB(A)"
+            for date, location, level, standardized_level in zip(selected_dates, selected_locations, selected_column_values, selected_standardized_column_values)
+        ])
+        fig_laeq_monthly.update_traces(text=[
+            f"Month: {date}<br>Location: {location}<br>Noise Level: {selected_level}: {level} dB(A)<br>Standardized Noise Level: {standardized_level} dB(A)"
+            for date, location, level, standardized_level in zip(selected_dates, selected_locations, selected_column_values, selected_standardized_column_values)
+        ])
 
 
 # Update the initial hover text based on the selected map
@@ -190,17 +205,19 @@ layout = html.Div([
         style={'width': '200px'}
     ),
     dcc.RadioItems(
-        id="selected-period",
-        options=[
-            {'label': 'Daily', 'value': 'Daily'},
-            {'label': 'Monthly', 'value': 'Monthly'}
-        ],
-        value='Daily',
-        labelStyle={'display': 'inline-block', 'margin-right': '10px'}
+    id="selected-period",
+    options=[
+        {'label': 'Daily', 'value': 'Daily'},
+        {'label': 'Monthly', 'value': 'Monthly'}
+    ],
+    value='Daily',
+    labelStyle={'display': 'inline-block', 'margin-right': '10px'},
+    style={'font-size': '20px'}    
     ),
-    dcc.Graph(id="noise-map", style={'width': '80%', 'height': '80vh', 'margin': 'auto'})  # Adjust the width as needed,
+    dcc.Graph(id="noise-map", style={'width': '50%', 'height': '80vh', 'margin': 'auto'})  
 ], 
 style={'display': 'flex', 'flex-direction': 'column', 'align-items': 'center'})
+
 
 @callback(
     Output("noise-map", "figure"),
@@ -218,3 +235,5 @@ def update_map(selected_map, selected_period):
             return fig_lamax_monthly
         else:
             return fig_laeq_monthly
+    # Call update_hover_text to update the hover text
+    update_hover_text(selected_map, selected_period)
