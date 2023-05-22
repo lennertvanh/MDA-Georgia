@@ -46,7 +46,7 @@ fig_lamax = px.scatter_mapbox(merged,
 
 # Set the initial center and zoom level of the map
 fig_lamax.update_layout(mapbox={
-    'center': {'lat': 50.876, 'lon': 4.699880},
+    'center': {'lat': 50.876, 'lon': 4.70020},
     'zoom': 15
 },
 height=800,
@@ -66,7 +66,7 @@ fig_laeq = px.scatter_mapbox(merged,
 
 # Set the initial center and zoom level of the map
 fig_laeq.update_layout(mapbox={
-    'center': {'lat': 50.876, 'lon': 4.699850},
+    'center': {'lat': 50.876, 'lon': 4.70020},
     'zoom': 15
 },
 height=800,
