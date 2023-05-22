@@ -135,7 +135,7 @@ fig_polar_noise.update_layout(
             tickmode='array',
             tickvals=angles,
             ticktext=average_noise_per_location["description"],
-            showticklabels=False, #True to see the labels of the locations
+            showticklabels=True, #True to see the labels of the locations
             ticks=''
         )
     )
