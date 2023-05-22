@@ -114,6 +114,8 @@ max_lamax_avg = average_lamax.max()
 average_noise_per_location["radius"] = np.power(10,average_noise_per_location["Average laeq"]/10)/np.power(10,max_leaq_avg/10)*radius
 average_noise_per_location["angle"] = np.power(10,average_noise_per_location["Average lamax"]/10)/np.power(10,max_lamax_avg/10)*angle
 
+# Modify the ticktext for the fifth label
+average_noise_per_location.loc[4,"description"] = "Kapel"
 
 fig_polar_noise = go.Figure(go.Barpolar(
     r=average_noise_per_location["radius"],
@@ -128,7 +130,7 @@ fig_polar_noise = go.Figure(go.Barpolar(
 fig_polar_noise.update_layout(
     template=None,
     #margin=dict(l=50, r=50, t=20, b=20),  # Set margins to 0
-    margin=dict(l=5, r=5, t=5, b=5),
+    margin=dict(l=50, r=50, t=5, b=5),
     polar = dict(
         radialaxis = dict(range=[0, 5], showticklabels=False, ticks=''),
         angularaxis=dict(
@@ -136,6 +138,7 @@ fig_polar_noise.update_layout(
             tickvals=angles,
             ticktext=average_noise_per_location["description"],
             showticklabels=True, #True to see the labels of the locations
+            #tickfont = dict(size=10),
             ticks=''
         )
     )
