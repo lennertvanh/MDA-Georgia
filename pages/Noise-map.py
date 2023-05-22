@@ -84,7 +84,7 @@ fig_lamax_monthly = px.scatter_mapbox(merged_monthly,
                                       lon='lon', 
                                       size='standardized_lamax',
                                       size_max=30,
-                                      animation_frame="date",
+                                      animation_frame="month",
                                       zoom=4,
                                       mapbox_style='open-street-map')
 # Set the initial center and zoom level of the map
@@ -103,7 +103,7 @@ fig_laeq_monthly = px.scatter_mapbox(merged_monthly,
                                      lon='lon', 
                                      size='standardized_laeq',
                                      size_max=30,
-                                     animation_frame="date",
+                                     animation_frame="month",
                                      zoom=4,
                                      mapbox_style='open-street-map')
 # Set the initial center and zoom level of the map
