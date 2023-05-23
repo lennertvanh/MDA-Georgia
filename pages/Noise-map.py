@@ -49,7 +49,9 @@ fig_laeq_daily = px.scatter_mapbox(merged_daily,
                                    size_max=30,
                                    animation_frame="date",
                                    zoom=4,
-                                   mapbox_style='open-street-map')
+                                   mapbox_style='open-street-map',
+                                   hover_data={'lat': False, 'lon': False, 'date': True, 'description': True, 
+                                               'laeq': True, 'standardized_laeq': True})
 # Set the initial center and zoom level of the map
 fig_laeq_daily.update_layout(mapbox={
     'center': {'lat': 50.876, 'lon': 4.70020},
@@ -68,7 +70,9 @@ fig_lamax_daily = px.scatter_mapbox(merged_daily,
                                     size_max=30,
                                     animation_frame="date",
                                     zoom=4,
-                                    mapbox_style='open-street-map')
+                                    mapbox_style='open-street-map',
+                                    hover_data={'lat': False, 'lon': False, 'date': True, 'description': True, 
+                                               'lamax': True, 'standardized_lamax': True})
 # Set the initial center and zoom level of the map
 fig_lamax_daily.update_layout(mapbox={
     'center': {'lat': 50.876, 'lon': 4.70020},
@@ -87,7 +91,9 @@ fig_lamax_monthly = px.scatter_mapbox(merged_monthly,
                                       size_max=30,
                                       animation_frame="month",
                                       zoom=4,
-                                      mapbox_style='open-street-map')
+                                      mapbox_style='open-street-map',
+                                      hover_data={'lat': False, 'lon': False, 'month': True, 'description': True, 
+                                                  'lamax': True, 'standardized_lamax': True})
 # Set the initial center and zoom level of the map
 fig_lamax_monthly.update_layout(mapbox={
     'center': {'lat': 50.876, 'lon': 4.70020},
@@ -106,7 +112,9 @@ fig_laeq_monthly = px.scatter_mapbox(merged_monthly,
                                      size_max=30,
                                      animation_frame="month",
                                      zoom=4,
-                                     mapbox_style='open-street-map')
+                                     mapbox_style='open-street-map',
+                                     hover_data={'lat': False, 'lon': False, 'month': True, 'description': True, 
+                                                  'laeq': True, 'standardized_laeq': True})
 # Set the initial center and zoom level of the map
 fig_laeq_monthly.update_layout(mapbox={
     'center': {'lat': 50.876, 'lon': 4.70020},
@@ -191,7 +199,7 @@ def update_hover_text(selected_map, selected_period):
 
 
 # Update the initial hover text based on the selected map
-update_hover_text("Lamax", "Daily")
+#update_hover_text("Lamax", "Daily")
 
 layout = html.Div([
     html.H1(children='Noise map with sound monitor locations'),
