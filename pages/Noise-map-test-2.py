@@ -56,6 +56,19 @@ def myMapping(x):
 
 merged_daily['laeq_std'] = merged_daily.groupby('day_cum')['laeq'].transform(myMapping)
 
+######################################################################################
+# Group the data by 'day_cum' and apply the scaler separately for each group
+#same for lamax
+max_lamax = merged_daily["lamax"].max()
+min_lamax = merged_daily["lamax"].min()
+
+start_size = 0.3 #minimum size
+step_size = 0.7 #maximum size of 1 (0.3+0.7)
+
+def myMapping(x):
+    return start_size + step_size*(x-min_lamax)/(max_lamax-min_lamax)
+
+merged_daily['lamax_std'] = merged_daily.groupby('day_cum')['lamax'].transform(myMapping)
 
 ######################################################################################
 
@@ -74,6 +87,10 @@ data_trace = go.Scattermapbox(
         sizeref=0.03,
         color='blue'
     ),
+    customdata=filtered_data[['description', 'laeq']],
+    hoverlabel=dict(namelength=0),
+    hovertemplate='Location: %{customdata[0]}<br>'
+                  'Noise level: %{customdata[1]:.2f} dB(A)<br>'
 )
 # Create the layout #this is the same for all 4 figures
 layout_fig_map = go.Layout(
@@ -140,7 +157,17 @@ layout = html.Div(
                         id='selected-day-text',
                         children=convert_day_to_date(1),
                         style={'margin': '10px'}
-),
+                    ),
+                    html.Label('Select between laeq and lamax:'),
+                    dcc.RadioItems(
+                        id='radio-item-laeq-lamax',
+                        options=[
+                            {'label': 'laeq', 'value': 'option-laeq'},
+                            {'label': 'lamax', 'value': 'option-lamax'},
+                        ],
+                        value='option-laeq',
+                        labelStyle={'display': 'block'}  # Optional styling for the labels
+        ),
 
         ], style={'flex': '35%','margin':'10px'}),
         html.Div(style={'flex': '15%'})
@@ -152,11 +179,11 @@ layout = html.Div(
 ######################################################################################
 @callback(
     [Output('map-figure-id', 'figure'), Output('selected-day-text', 'children')],
-    [Input('day-slider', 'value')]
+    [Input('day-slider', 'value'),Input('radio-item-laeq-lamax', 'value')]
 )
 
 ######################################################################################
-def update_marker_size(selected_day):
+def update_marker_size(selected_day,selected_data):
     # Create a copy of the original figure
     #fig = fig_laeq_daily.copy()
 
@@ -178,15 +205,35 @@ def update_marker_size(selected_day):
     #        color='blue'
     #    ),
     #)
-    fig_laeq_daily.data[0].lat = filtered_data['lat']
-    fig_laeq_daily.data[0].lon = filtered_data['lon']
-    fig_laeq_daily.data[0].marker.size = filtered_data['laeq_std']
+    if(selected_data=="option-laeq"):
+        fig_laeq_daily.data[0].lat = filtered_data['lat']
+        fig_laeq_daily.data[0].lon = filtered_data['lon']
+        fig_laeq_daily.data[0].marker.size = filtered_data['laeq_std']
+
+        # Convert the selected day to a formatted date string
+        formatted_date = convert_day_to_date(selected_day)
+
+        # Update the hovertemplate and customdata
+        fig_laeq_daily.data[0].customdata = filtered_data[['description', 'laeq']]
+        fig_laeq_daily.data[0].hovertemplate = 'Location: %{customdata[0]}<br>'\
+                                            'Noise level: %{customdata[1]:.2f} dB(A)<br>'
+    elif(selected_data=="option-lamax"):
+        fig_laeq_daily.data[0].lat = filtered_data['lat']
+        fig_laeq_daily.data[0].lon = filtered_data['lon']
+        fig_laeq_daily.data[0].marker.size = filtered_data['lamax_std']
+
+        # Convert the selected day to a formatted date string
+        formatted_date = convert_day_to_date(selected_day)
+
+        # Update the hovertemplate and customdata
+        fig_laeq_daily.data[0].customdata = filtered_data[['description', 'lamax']]
+        fig_laeq_daily.data[0].hovertemplate = 'Location: %{customdata[0]}<br>'\
+                                            'Noise level: %{customdata[1]:.2f} dB(A)<br>'
     
     # Update the figure by replacing the existing trace with the updated trace
     #fig_laeq_daily.data = [updated_trace]
     
-    # Convert the selected day to a formatted date string
-    formatted_date = convert_day_to_date(selected_day)
+    
 
     # Return the updated figure
     return fig_laeq_daily, formatted_date

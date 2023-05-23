@@ -6,7 +6,7 @@ import plotly.express as px
 from sklearn.preprocessing import MinMaxScaler
 import datetime
 
-dash.register_page(__name__)
+#dash.register_page(__name__)
 
 ## Data ##
 daily_noise = pd.read_csv("Data/daily_noisedata_2022.csv")
