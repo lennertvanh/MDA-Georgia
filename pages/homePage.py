@@ -60,8 +60,8 @@ fig_timeseries.update_layout(
     #yaxis_title="Laeq",
     margin=dict(l=0, r=0, t=0, b=0),
     plot_bgcolor='rgba(0, 0, 0, 0)',
-    width = 1200,
-    height = 150
+    #width = 1200,
+    #height = 150
 )
 
 ##############################################
@@ -495,7 +495,7 @@ layout = html.Div(
     },
     children=[
         html.Div(
-            style={'height': '500px','width':'300px', 'border': '1px solid #000'},
+            style={'height': '500px',"flex":"0 0 20%", 'border': '1px solid #000'},#,'width':'300px'"width":"100%"
             children=[
                 # Left div content here
                 html.Div(
@@ -521,7 +521,7 @@ layout = html.Div(
             ]
         ),
         html.Div(
-            style={'flex': '1', 'display': 'flex', 'flex-direction': 'column'},
+            style={'flex': '80%', 'display': 'flex', 'flex-direction': 'column'}, #change
             children=[
                 # Central div content here
                 html.Div(
@@ -558,8 +558,9 @@ layout = html.Div(
                         ),
                     ],
                 ),
+                #here is the issue
                 html.Div(
-                    style={'width': '1200px', 'height': '150px', 'border': '1px solid #000'},
+                    style={"width":"100%","box-sizing": "border-box",'height': '150px', 'border': '1px solid #000'}, #border box are paddings and margins added to the div. when i put 100% width, it adds to it margins and paddings so it starts growing.#'width': '1200px',
                     title = f"Time series in hours of the laeq (in dB) for {chose_location_timeseries}",
                     children=[
                         dcc.Graph(
