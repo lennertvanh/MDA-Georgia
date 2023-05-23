@@ -321,24 +321,24 @@ for i in range(12):
     temp_avg_month = round(data_month[data_month['Month']==i+1]["LC_TEMP_QCL3"],1).values[0]
     wind_avg_month = round(data_month[data_month['Month']==i+1]["LC_WINDSPEED"],2).values[0]
     sub_div = html.Div(
-        style={'width': '500px', 'height': '50px', 'margin': '0px','display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
+        style={'width': '100%', 'height': '50px', 'margin': '0px','display': 'flex', 'align-items': 'center', 'justify-content': 'center'}, #500px
         children=[
             html.Div(
-                style={'width': '100px', 'height': '50px',  'margin': '0px','display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
+                style={'width': '20%', 'height': '50px',  'margin': '0px','display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
                 children=[html.P(f"{months[i]}"),]),
             html.Div(
-                style={'width': '50px', 'height': '50px', 'margin': '0px','display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
+                style={'width': '10%', 'height': '50px', 'margin': '0px','display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
                 children=[html.P(f"{temp_avg_month}"),]),
             
             html.Div(
-                style={'width': '300px'},
+                style={'width': '60%'},
                 children=[
                     dcc.Graph(figure=fig, style={'max-width': '100%'})
                 ]
             ),
 
             html.Div(
-                style={'width': '50px', 'height': '50px', 'margin': '0px','display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
+                style={'width': '10%', 'height': '50px', 'margin': '0px','display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
                 children=[html.P(f'{wind_avg_month}'),]),
         ]
     )
@@ -502,9 +502,9 @@ layout = html.Div(
                     style={'height': '150px', 'border': '1px solid #000', 'margin': '5px', 'display': 'flex', 'flex-direction': 'column', 'align-items': 'center', 'justify-content': 'center'},
                     title="Location with the highest average of maximal noise",
                     children=[
-                        html.P(f"{location_with_highest_average}", style={'fontSize': '50px', 'margin': '0', 'lineHeight': '1'}),
+                        html.P(f"{location_with_highest_average}", style={'fontSize': '3vw', 'margin': '0', 'lineHeight': '1'}),
                         html.Br(style={'margin': '0'}),
-                        html.P(f"{round(highest_average_value,1)} dB(A)", style={'fontSize': '50px', 'margin': '0', 'lineHeight': '1'})
+                        html.P(f"{round(highest_average_value,1)} dB(A)", style={'fontSize': '3vw', 'margin': '0', 'lineHeight': '1'})
                     ],
                 ),
                 html.Div(
@@ -525,35 +525,35 @@ layout = html.Div(
             children=[
                 # Central div content here
                 html.Div(
-                    style={'width': '500px', 'height': '250px', 'border': '1px solid #000', 'padding': '0px'},
+                    style={'width': '41.67%', 'height': '250px', 'border': '1px solid #000', 'padding': '0px'},#500px
                     title="Average temperature, rainy days and average windspeed per month",
                     children=[
                         html.Div(
-                            style={"position": "sticky", 'width': '500px', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
+                            style={"position": "sticky", 'width': '100%', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
                             children=[
                                 html.Div(
-                                    style={'width': '100px', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
+                                    style={'width': '20%', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
                                     children=[html.P("Month")],
                                 ),
                                 html.Div(
-                                    style={'width': '50px', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
+                                    style={'width': '10%', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
                                     children=[html.P("Temp")],
                                 ),
                                 html.Div(
-                                    style={'width': '300px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
+                                    style={'width': '58%', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
                                     children=[
                                         html.P("Rainy days")
                                     ],
                                 ),
-                                html.Div(
-                                    style={'width': '50px', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
+                                html.Div( #58 and 12 to make wind align with the numbers
+                                    style={'width': '12%', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
                                     children=[html.P("Wind")],
                                 ),
                             ],
                         ),
                         # Sub divs
                         html.Div(
-                            style={'width': '510px', 'height': '215px', 'overflow': 'auto', 'overflow-x': 'hidden'},
+                            style={'width': '102%', 'height': '215px', 'overflow': 'auto', 'overflow-x': 'hidden'}, #510px
                             children=sub_divs
                         ),
                     ],
