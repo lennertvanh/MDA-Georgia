@@ -18,6 +18,8 @@ total_rain_per_month = weather_data.groupby("Month")["LC_DAILYRAIN_mm"].sum()
 
 months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
+
+#############################################################################################################""
 #figure 1
 # Create the scatter plots
 fig1 = go.Figure()
@@ -35,7 +37,7 @@ fig1.update_layout(
     yaxis_title="Rainfall (mm)"
 )
 
-
+######################################################################################################""
 #figure 2
 
 cutoff_rain_day = 0.0002
@@ -55,7 +57,7 @@ fig2.update_layout(
     yaxis_title="Number of rainy days"
 )
 
-
+######################################################################################################
 #figure 3
 #measured by kmi for leuven from 1991 to 2020
 avg_temp_Uccle = [3.9, 4.4, 7.2, 10.4, 14.1, 17.1, 19.2, 18.8, 15.5, 11.6, 7.4, 4.5]
@@ -77,6 +79,54 @@ fig3.update_layout(
     yaxis_title="Temperature (°C)"
 )
 
+##################################################################################""
+#figure 4
+#difference in temperature
+diff_temp = avg_temp_per_month-avg_temp_Uccle
+
+# Define colors based on diff_temp values
+colors = ['red' if temp > 0 else 'blue' for temp in diff_temp]
+
+# Create bar chart using go.Bar
+data = go.Bar(
+    x=months,
+    y=diff_temp,
+    marker=dict(color=colors),
+    showlegend=False
+)
+
+# Create layout
+layout = go.Layout(
+    title='Temperature differences beween the year 2022 and the past 20 years - positive values indicate 2022 being warmer than the average',
+    xaxis=dict(title='Months'),
+    yaxis=dict(title='Difference in temperature (°C)')
+)
+
+# Create figure
+fig4 = go.Figure(data=[data], layout=layout)
+
+# Add legend items
+fig4.add_trace(go.Scatter(
+    x=[None],
+    y=[None],
+    mode='markers',
+    marker=dict(color='red'),
+    name='2022 warmer than average',
+    showlegend=True
+))
+fig4.add_trace(go.Scatter(
+    x=[None],
+    y=[None],
+    mode='markers',
+    marker=dict(color='blue'),
+    name='2022 colder than average',
+    showlegend=True
+))
+
+
+
+##################################################################################################################
+# layout
 
 layout = html.Div([
     html.H1("Rainfall Analysis"),
@@ -85,7 +135,8 @@ layout = html.Div([
         options=[
             {"label": "Rainfall comparison", "value": "figure1"},
             {"label": "Number of rainy days", "value": "figure2"},
-            {"label": "Temperature comparison", "value": "figure3"}
+            {"label": "Temperature comparison", "value": "figure3"},
+            {"label": "Temperature comparison difference", "value": "figure4"}
         ],
         value="figure1"
     ),
@@ -103,3 +154,5 @@ def update_figure(selected_figure):
         return dcc.Graph(figure=fig2)
     elif selected_figure == "figure3":
         return dcc.Graph(figure=fig3)
+    elif selected_figure == "figure4":
+        return dcc.Graph(figure=fig4)
