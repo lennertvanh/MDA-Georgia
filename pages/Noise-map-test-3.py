@@ -123,7 +123,7 @@ data_trace = go.Scattermapbox(
 # Create the layout #this is the same for all 4 figures
 layout_fig_map = go.Layout(
     mapbox=dict(
-        center=dict(lat=50.876, lon=4.70020),
+        center=dict(lat=50.8762, lon=4.70020),
         zoom=15,
         style='open-street-map'
     ),
@@ -207,7 +207,7 @@ layout = html.Div(
                     children=[
                         html.Div(
                             id='clicked-data',
-                            style={'margin': '50px 10px',"width":"60%", 'display': 'flex'} # Add this line to include the Div element for displaying click data
+                            style={'margin': '50px 0px',"width":"60%", 'display': 'flex'} # Add this line to include the Div element for displaying click data
                         ),
                         html.Div(id="image-container",style={"width":"25%","max-height":"100%"})
                         #html.Img(src=dash.get_asset_url('sunny-day.jpg'),style={"width":"25%",'max-height': '100%', 'object-fit': 'contain'}), #does not work: ,"border-radius":"10%"
@@ -222,12 +222,22 @@ layout = html.Div(
 )
 
 
+############################################
+# add a callback to update the slider value when the radio button is changed
+
+# Store the last selected slider value
+last_slider_value = 1
+
 ######################################################################################
 @callback(
-    [Output('map-id', 'figure'), Output('text-selected-day', 'children'), Output('clicked-data', 'children'),Output("image-container", "children")],
+    [Output('map-id', 'figure'), Output('text-selected-day', 'children'), Output('clicked-data', 'children'), Output("image-container", "children")],
     [Input('daily-slider', 'value'), Input('radio-item-laeq-lamax-id', 'value'), Input('map-id', 'clickData')],
 )
 def update_marker_size(selected_day, selected_data, click_data):
+    global last_slider_value  # Declare the variable as global to modify it within the function
+    # Update the last_slider_value with the current selected_day
+    last_slider_value = selected_day
+
     filtered_data = merged_data[merged_data['day_cum'] == selected_day]
 
     selected_weather = merged_data.loc[selected_day-1]
