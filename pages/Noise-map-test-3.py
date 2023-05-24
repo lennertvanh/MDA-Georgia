@@ -151,7 +151,7 @@ layout = html.Div(
                     id='map-id',
                     figure=fig_laeq_daily,
                     style={'width': '100%', 'height': '100%'},
-                    clickData={'points': [{'customdata': ['Please select a location', 0]}]}
+                    clickData={'points': [{'customdata': ['Please select a location', 0]}]} #these are the defaults when nothing is selected
                 ), 
             ],
             style={'flex': '35%', 'display': 'inline-block'}
@@ -228,7 +228,7 @@ def update_marker_size(selected_day, selected_data, click_data):
                 html.Label('Clicked Point:', style={'font-size': '20px'}),
                 html.P(children=[
                     html.Strong('Location: '),
-                    location if isinstance(location, str) else '', #if no point (no location) is selected: empty string
+                    location if isinstance(location, str) else '', 
                 ]),
                 html.P(children=[
                     html.Strong('Noise Level: '),
