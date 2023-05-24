@@ -94,7 +94,7 @@ merged_daily['description'] = merged_daily['description'].replace(replacements)
 
 ######################################################################################
 # Merge noise and weather data together in a final dataset
-merged_data = pd.merge(merged_daily, daily_weather, on='day_cum', how='left') 
+merged_data = pd.merge(merged_daily, daily_weather, on='day_cum', how='left')
 
 
 
@@ -114,10 +114,11 @@ data_trace = go.Scattermapbox(
         sizeref=0.03,
         color='blue'
     ),
-    customdata=filtered_data[['description', 'laeq']],
+    customdata=filtered_data[['description', 'laeq', 'LC_TEMP_QCL3']],
     hoverlabel=dict(namelength=0),
     hovertemplate='Location: %{customdata[0]}<br>'
                   'Noise level: %{customdata[1]:.2f} dB(A)<br>'
+                  'Temperature: %{customdata[2]:.1f} °C<br>'
 )
 # Create the layout #this is the same for all 4 figures
 layout_fig_map = go.Layout(
@@ -178,7 +179,7 @@ layout = html.Div(
                     id='map-id',
                     figure=fig_laeq_daily,
                     style={'width': '100%', 'height': '100%'},
-                    clickData={'points': [{'customdata': ['Please select a location', 0]}]} #these are the defaults when nothing is selected
+                    clickData={'points': [{'customdata': ['Please select a location', 0, 1]}]} 
                 ), 
             ],
             style={'flex': '35%', 'display': 'inline-block'}
@@ -206,7 +207,7 @@ layout = html.Div(
                     children=[
                         html.Div(
                             id='clicked-data',
-                            style={'margin': '50px 0px',"width":"60%", 'display': 'flex'} # Add this line to include the Div element for displaying click data
+                            style={'margin': '50px 10px',"width":"60%", 'display': 'flex'} # Add this line to include the Div element for displaying click data
                         ),
                         html.Div(id="image-container",style={"width":"25%","max-height":"100%"})
                         #html.Img(src=dash.get_asset_url('sunny-day.jpg'),style={"width":"25%",'max-height': '100%', 'object-fit': 'contain'}), #does not work: ,"border-radius":"10%"
@@ -250,9 +251,10 @@ def update_marker_size(selected_day, selected_data, click_data):
         formatted_date = convert_day_to_date(selected_day)
 
         # Update the hovertemplate and customdata
-        fig_laeq_daily.data[0].customdata = filtered_data[['description', 'laeq']]
+        fig_laeq_daily.data[0].customdata = filtered_data[['description', 'laeq', 'LC_TEMP_QCL3']]
         fig_laeq_daily.data[0].hovertemplate = 'Location: %{customdata[0]}<br>' \
-                                               'Noise level: %{customdata[1]:.2f} dB(A)<br>'
+                                               'Noise level: %{customdata[1]:.2f} dB(A)<br>' \
+                                               'Temperature: %{customdata[2]:.1f} °C<br>'
     elif selected_data == "option-lamax":
         fig_laeq_daily.data[0].lat = filtered_data['lat']
         fig_laeq_daily.data[0].lon = filtered_data['lon']
@@ -262,13 +264,15 @@ def update_marker_size(selected_day, selected_data, click_data):
         formatted_date = convert_day_to_date(selected_day)
 
         # Update the hovertemplate and customdata
-        fig_laeq_daily.data[0].customdata = filtered_data[['description', 'lamax']]
+        fig_laeq_daily.data[0].customdata = filtered_data[['description', 'lamax', 'LC_TEMP_QCL3']]
         fig_laeq_daily.data[0].hovertemplate = 'Location: %{customdata[0]}<br>' \
-                                               'Noise level: %{customdata[1]:.2f} dB(A)<br>'
+                                               'Noise level: %{customdata[1]:.2f} dB(A)<br>' \
+                                               'Temperature: %{customdata[2]:.1f} °C<br>'
         
     if click_data is not None:
         location = click_data['points'][0]['customdata'][0]
         noise_level = click_data['points'][0]['customdata'][1]
+        temperature = click_data['points'][0]['customdata'][2]
 
         clicked_text = html.Div(
             children=[
@@ -280,6 +284,10 @@ def update_marker_size(selected_day, selected_data, click_data):
                 html.P(children=[
                     html.Strong('Noise Level: '),
                     f'{noise_level:.2f} dB(A)' if isinstance(noise_level, float) else '', #if no point (no sound level) is selected: empty string
+                ]),
+                html.P(children=[
+                    html.Strong('Temperature: '),
+                    f'{temperature:.1f} °C' if isinstance(temperature, float) else '', #if no point is selected: empty string
                 ]),
             ]
         )
