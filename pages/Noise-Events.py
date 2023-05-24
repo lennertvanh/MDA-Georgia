@@ -29,25 +29,25 @@ fig = go.Figure()
 
 # Define colors for each category
 category_colors = {
-    'Human voice - Shouting': 'hotpink',
-    'Music non-amplified': 'fuchsia',
-    'Human voice - Singing': 'turquoise'
+    'Human voice - Shouting': 'blue',
+    'Music non-amplified': 'purple',
+    'Human voice - Singing': 'pink',
 }
 
 categories = ['Human voice - Shouting', 'Human voice - Singing', 'Music non-amplified']
 
 for category in categories:
-    # Filter the data for the current category
-    category_data = january_data[january_data['noise_event_laeq_primary_detected_class'] == category]
-
     # Create a horizontal line for the category
     fig.add_trace(go.Scatter(
-        x=category_data['result_timestamp'],
-        y=[category] * len(category_data),
+        x=january_data['result_timestamp'],
+        y=[category] * len(january_data),
         mode='lines',
         name=category,
         marker=dict(color=category_colors[category])
     ))
+
+    # Filter the data for the current category
+    category_data = january_data[january_data['noise_event_laeq_primary_detected_class'] == category]
 
     # Add scatter points for the category
     fig.add_trace(go.Scatter(
