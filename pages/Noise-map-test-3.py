@@ -1,5 +1,5 @@
 import dash
-from dash import html, dcc, callback
+from dash import html, dcc, callback,get_asset_url
 from dash.dependencies import Input, Output, State
 import pandas as pd
 import plotly.graph_objects as go
@@ -11,6 +11,14 @@ dash.register_page(__name__)
 ####################################################################################
 ## Noise data ##
 daily_noise = pd.read_csv("Data/daily_noisedata_2022.csv")
+daily_weather = pd.read_csv("Data/daily_weatherdata_2022.csv")
+
+####################################################################################
+## path images ##
+
+image_rainy = "cloud with rain.jpg"
+image_sunny = "sunny-day.jpg"
+image_cloudly = "Cloudly.jpg"
 
 ######################################################################################"
 #gps data"
@@ -35,6 +43,7 @@ cumulative_months = np.cumsum(months_for_cum_months).tolist()
 ######################################################################################
 #cumulative day
 merged_daily["day_cum"] = merged_daily.apply(lambda row: cumulative_months[row["month"]-1] + row["day"], axis=1)
+daily_weather["day_cum"] = daily_weather.apply(lambda row: cumulative_months[np.int64(row["Month"])-1] + row["Day"], axis=1)
 
 ######################################################################################
 # Group the data by 'day_cum' and apply the scaler separately for each group
@@ -204,9 +213,17 @@ layout = html.Div(
                     labelStyle={'display': 'block'}  # Optional styling for the labels
                 ),
                 html.Div(
-                    id='clicked-data',
-                    style={'margin': '50px 0px'} # Add this line to include the Div element for displaying click data
-                ),
+                    children=[
+                        html.Div(
+                            id='clicked-data',
+                            style={'margin': '50px 0px',"width":"60%", 'display': 'flex'} # Add this line to include the Div element for displaying click data
+                        ),
+                        html.Div(id="image-container",style={"width":"25%","max-height":"100%"})
+                        #html.Img(src=dash.get_asset_url('sunny-day.jpg'),style={"width":"25%",'max-height': '100%', 'object-fit': 'contain'}), #does not work: ,"border-radius":"10%"
+                    ],
+                    style = {'display': 'flex'}
+                    ),
+
             ], style={'flex': '45%', 'margin': '30px', 'vertical-align': 'top', 'display': 'inline-block'}),
         html.Div(style={'flex': '15%'})
     ],
@@ -216,11 +233,23 @@ layout = html.Div(
 
 ######################################################################################
 @callback(
-    [Output('map-id', 'figure'), Output('text-selected-day', 'children'), Output('clicked-data', 'children')],
+    [Output('map-id', 'figure'), Output('text-selected-day', 'children'), Output('clicked-data', 'children'),Output("image-container", "children")],
     [Input('daily-slider', 'value'), Input('radio-item-laeq-lamax-id', 'value'), Input('map-id', 'clickData')],
 )
 def update_marker_size(selected_day, selected_data, click_data):
     filtered_data = merged_data[merged_data['day_cum'] == selected_day]
+
+    selected_weather = daily_weather.loc[selected_day-1]
+
+    #criterions can be changed later
+    if(selected_weather["LC_DAILYRAIN"]>0.0002):#rainy day
+        image_path = image_rainy
+    elif(selected_weather["LC_TEMP_QCL3"]>15):#average temperature above 15°C and not rainy
+        image_path = image_sunny
+    elif(selected_weather["LC_DAILYRAIN"]>0.00002):#some rain and not "warm"
+        image_path = image_cloudly
+    else: #almost no rain
+        image_path = image_sunny
 
     if selected_data == "option-laeq":
         fig_laeq_daily.data[0].lat = filtered_data['lat']
@@ -264,5 +293,6 @@ def update_marker_size(selected_day, selected_data, click_data):
                 ]),
             ]
         )
+    image_html_comp = html.Img(src=dash.get_asset_url(image_path), style={"width": "100%", "max-height": "100%", "object-fit": "contain"})
 
-    return fig_laeq_daily, formatted_date, clicked_text
+    return fig_laeq_daily, formatted_date, clicked_text, image_html_comp
