@@ -209,7 +209,7 @@ layout = html.Div(
                             id='clicked-data',
                             style={'margin': '50px 0px',"width":"60%", 'display': 'flex'} # Add this line to include the Div element for displaying click data
                         ),
-                        html.Div(id="image-container",style={"width":"25%","max-height":"100%"})
+                        html.Div(id="image-container", style={"width":"25%", "max-height":"100%", 'margin': '90px 30px'})
                         #html.Img(src=dash.get_asset_url('sunny-day.jpg'),style={"width":"25%",'max-height': '100%', 'object-fit': 'contain'}), #does not work: ,"border-radius":"10%"
                     ],
                     style = {'display': 'flex'}
