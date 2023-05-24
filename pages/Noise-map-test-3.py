@@ -151,7 +151,7 @@ layout = html.Div(
                     id='map-id',
                     figure=fig_laeq_daily,
                     style={'width': '100%', 'height': '100%'},
-                    clickData={'points': [{'customdata': ['Location', 0]}]}
+                    clickData={'points': [{'customdata': [0, 1]}]}
                 ), 
             ],
             style={'flex': '35%', 'display': 'inline-block'}
@@ -191,7 +191,6 @@ layout = html.Div(
     [Output('map-id', 'figure'), Output('text-selected-day', 'children'), Output('clicked-data', 'children')],
     [Input('daily-slider', 'value'), Input('radio-item-laeq-lamax-id', 'value'), Input('map-id', 'clickData')],
 )
-
 def update_marker_size(selected_day, selected_data, click_data):
     filtered_data = merged_daily[merged_daily['day_cum'] == selected_day]
 
@@ -219,27 +218,23 @@ def update_marker_size(selected_day, selected_data, click_data):
         fig_laeq_daily.data[0].customdata = filtered_data[['description', 'lamax']]
         fig_laeq_daily.data[0].hovertemplate = 'Location: %{customdata[0]}<br>' \
                                                'Noise level: %{customdata[1]:.2f} dB(A)<br>'
-
+        
     if click_data is not None:
         location = click_data['points'][0]['customdata'][0]
         noise_level = click_data['points'][0]['customdata'][1]
-    else:
-        location = ""
-        noise_level = ""
 
-    clicked_text = html.Div(
-        children=[
-            html.Strong(html.Label('Clicked Point:', style={'font-size': '20px', 'font-style': 'italic'})),
-            html.P(children=[
-                html.Strong('Location: '),
-                location if location else '',
-            ]),
-            html.P(children=[
-                html.Strong('Noise Level: '),
-                f'{noise_level:.2f} dB(A)' if isinstance(noise_level, float) else '',
-            ]),
-        ]
-    )
+        clicked_text = html.Div(
+            children=[
+                html.Label('Clicked Point:', style={'font-size': '20px'}),
+                html.P(children=[
+                    html.Strong('Location: '),
+                    location if isinstance(noise_level, str) else '', #if no point (no location) is selected: empty string
+                ]),
+                html.P(children=[
+                    html.Strong('Noise Level: '),
+                    f'{noise_level:.2f} dB(A)' if isinstance(noise_level, float) else '', #if no point (no sound level) is selected: empty string
+                ]),
+            ]
+        )
 
     return fig_laeq_daily, formatted_date, clicked_text
-
