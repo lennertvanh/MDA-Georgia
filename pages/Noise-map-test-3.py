@@ -152,31 +152,34 @@ layout = html.Div(
                     figure=fig_laeq_daily,
                     style={'width': '100%', 'height': '100%'},
                     clickData={'points': [{'customdata': ['Location', 0]}]}
-                ),
-                html.Div(id='clicked-data')  # Add this line to include the Div element for displaying click data
+                ), 
             ],
             style={'flex': '35%'}
         ),
-        html.Div(children = [
-                    html.Label('Select a day:'),
-                    slider,
-                    html.Div(
-                        id='text-selected-day',
-                        children=convert_day_to_date(1),
-                        style={'margin': '10px'}
+        html.Div(
+            children = [
+                html.Label('Select a day:'),
+                slider,
+                html.Div(
+                    id='text-selected-day',
+                    children=convert_day_to_date(1),
+                    style={'margin': '10px'}
                     ),
-                    html.Label('Select between laeq and lamax:'),
-                    dcc.RadioItems(
-                        id='radio-item-laeq-lamax-id',
-                        options=[
-                            {'label': 'laeq', 'value': 'option-laeq'},
-                            {'label': 'lamax', 'value': 'option-lamax'},
-                        ],
-                        value='option-laeq',
-                        labelStyle={'display': 'block'}  # Optional styling for the labels
-        ),
-
-        ], style={'flex': '35%','margin':'10px'}),
+                html.Label('Select between laeq and lamax:'),
+                dcc.RadioItems(
+                    id='radio-item-laeq-lamax-id',
+                    options=[
+                        {'label': 'laeq', 'value': 'option-laeq'},
+                        {'label': 'lamax', 'value': 'option-lamax'},
+                    ],
+                    value='option-laeq',
+                    labelStyle={'display': 'block'}  # Optional styling for the labels
+                ),
+                html.Div(
+                    id='clicked-data',
+                    style={'margin': '10px'} # Add this line to include the Div element for displaying click data
+                ),
+            ], style={'flex': '35%', 'margin':'10px', 'vertical-align': 'top'}),
         html.Div(style={'flex': '15%'})
     ],
     style={'display': 'flex', 'height': '450px', 'width': '100%'}
@@ -235,8 +238,7 @@ def update_marker_size(selected_day, selected_data, click_data):
                 html.Strong('Noise Level: '),
                 f'{noise_level:.2f} dB(A)' if isinstance(noise_level, float) else '',
             ]),
-        ],
-        style={'margin': '10px'}
+        ]
     )
 
     return fig_laeq_daily, formatted_date, clicked_text
