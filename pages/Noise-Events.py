@@ -29,7 +29,7 @@ fig = go.Figure()
 
 # Define colors for each category
 category_colors = {
-    'Human voice - Shouting': 'blue',
+    'Human voice - Shouting': 'hotpink',
     'Music non-amplified': 'purple',
     'Human voice - Singing': 'pink',
 }
