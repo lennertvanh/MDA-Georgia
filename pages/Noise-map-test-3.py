@@ -88,14 +88,22 @@ merged_daily['description'] = merged_daily['description'].replace(replacements)
 daily_weather = pd.read_csv("Data/daily_weatherdata_2022.csv") 
 
 ######################################################################################
-# 
+# cumulative day (first convert them to integers so that they work with the lambda function)
+daily_weather["day_cum"] = daily_weather.apply(lambda row: cumulative_months[int(row["Month"])-1] + int(row["Day"]), axis=1)
+daily_weather = daily_weather[["LC_RAININ", "LC_TEMP_QCL3", "day_cum"]]
+
+
+######################################################################################
+# Merge noise and weather data together in a final dataset
+merged_data = pd.merge(merged_daily, daily_weather, on='day_cum', how='left')
+
 
 
 
 ## Laeq map daily ##
 # Create the Scattermapbox trace
 
-filtered_data = merged_daily[merged_daily['day_cum'] == 90]
+filtered_data = merged_data[merged_data['day_cum'] == 90] #why does this happen?
 
 data_trace = go.Scattermapbox(
     lat=filtered_data['lat'],
@@ -212,7 +220,7 @@ layout = html.Div(
     [Input('daily-slider', 'value'), Input('radio-item-laeq-lamax-id', 'value'), Input('map-id', 'clickData')],
 )
 def update_marker_size(selected_day, selected_data, click_data):
-    filtered_data = merged_daily[merged_daily['day_cum'] == selected_day]
+    filtered_data = merged_data[merged_data['day_cum'] == selected_day]
 
     if selected_data == "option-laeq":
         fig_laeq_daily.data[0].lat = filtered_data['lat']
