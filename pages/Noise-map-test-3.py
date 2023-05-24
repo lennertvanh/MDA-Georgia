@@ -229,7 +229,7 @@ def update_marker_size(selected_day, selected_data, click_data):
 
     clicked_text = html.Div(
         children=[
-            html.Strong(html.Label('Clicked Point:', style={'font-size': '20px', 'font-family': 'cursive'})),
+            html.Strong(html.Label('Clicked Point:', style={'font-size': '20px', 'font-style': 'italic'})),
             html.P(children=[
                 html.Strong('Location: '),
                 location if location else '',
