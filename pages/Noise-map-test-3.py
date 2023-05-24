@@ -154,32 +154,32 @@ layout = html.Div(
                     clickData={'points': [{'customdata': ['Location', 0]}]}
                 ), 
             ],
-            style={'flex': '35%'}
+            style={'flex': '35%', 'display': 'inline-block'}
         ),
         html.Div(
             children = [
-                html.Label('Select a day:'),
+                html.Label('Select a day:', style={'font-size': '24px'}),
                 slider,
                 html.Div(
                     id='text-selected-day',
                     children=convert_day_to_date(1),
-                    style={'margin': '10px'}
+                    style={'margin': '3px 10px 50px'}
                     ),
-                html.Label('Select between laeq and lamax:'),
+                html.Label('Select between average and maximal noise:', style={'font-size': '24px'}),
                 dcc.RadioItems(
                     id='radio-item-laeq-lamax-id',
                     options=[
-                        {'label': 'laeq', 'value': 'option-laeq'},
-                        {'label': 'lamax', 'value': 'option-lamax'},
+                        {'label': 'Average noise', 'value': 'option-laeq'},
+                        {'label': 'Maximal noise', 'value': 'option-lamax'},
                     ],
                     value='option-laeq',
                     labelStyle={'display': 'block'}  # Optional styling for the labels
                 ),
                 html.Div(
                     id='clicked-data',
-                    style={'margin': '10px'} # Add this line to include the Div element for displaying click data
+                    style={'margin': '50px 0px'} # Add this line to include the Div element for displaying click data
                 ),
-            ], style={'flex': '35%', 'margin':'10px', 'vertical-align': 'top'}),
+            ], style={'flex': '45%', 'margin': '30px', 'vertical-align': 'top', 'display': 'inline-block'}),
         html.Div(style={'flex': '15%'})
     ],
     style={'display': 'flex', 'height': '450px', 'width': '100%'}
@@ -229,7 +229,7 @@ def update_marker_size(selected_day, selected_data, click_data):
 
     clicked_text = html.Div(
         children=[
-            html.Label('Clicked Point:', style={'font-size': '20px'}),
+            html.Strong(html.Label('Clicked Point:', style={'font-size': '20px', 'font-family': 'cursive'})),
             html.P(children=[
                 html.Strong('Location: '),
                 location if location else '',
