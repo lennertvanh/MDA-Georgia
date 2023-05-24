@@ -226,9 +226,15 @@ def update_marker_size(selected_day, selected_data, click_data):
 
     clicked_text = html.Div(
         children=[
-            html.Label('Clicked Point:'),
-            html.P(f'Location: {location}' if location else 'Location:'),
-            html.P(f'Noise Level: {noise_level:.2f} dB(A)' if isinstance(noise_level, float) else 'Noise Level:')
+            html.Label('Clicked Point:', style={'font-size': '20px'}),
+            html.P(children=[
+                html.Strong('Location: '),
+                location if location else '',
+            ]),
+            html.P(children=[
+                html.Strong('Noise Level: '),
+                f'{noise_level:.2f} dB(A)' if isinstance(noise_level, float) else '',
+            ]),
         ],
         style={'margin': '10px'}
     )
