@@ -189,7 +189,6 @@ layout = html.Div(
     [Input('daily-slider', 'value'), Input('radio-item-laeq-lamax-id', 'value'), Input('map-id', 'clickData')],
 )
 
-######################################################################################
 def update_marker_size(selected_day, selected_data, click_data):
     filtered_data = merged_daily[merged_daily['day_cum'] == selected_day]
 
@@ -221,15 +220,18 @@ def update_marker_size(selected_day, selected_data, click_data):
     if click_data is not None:
         location = click_data['points'][0]['customdata'][0]
         noise_level = click_data['points'][0]['customdata'][1]
-        clicked_text = html.Div(
-            children=[
-                html.Label('Clicked Point:'),
-                html.P(f'Location: {location}'),
-                html.P(f'Noise Level: {noise_level:.2f} dB(A)')
-            ],
-            style={'margin': '10px'}
-        )
     else:
-        clicked_text = ''
+        location = ""
+        noise_level = ""
+
+    clicked_text = html.Div(
+        children=[
+            html.Label('Clicked Point:'),
+            html.P(f'Location: {location}' if location else 'Location:'),
+            html.P(f'Noise Level: {noise_level:.2f} dB(A)' if isinstance(noise_level, float) else 'Noise Level:')
+        ],
+        style={'margin': '10px'}
+    )
 
     return fig_laeq_daily, formatted_date, clicked_text
+
