@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 dash.register_page(__name__)
 
 ####################################################################################
-## Data ##
+## Noise data ##
 daily_noise = pd.read_csv("Data/daily_noisedata_2022.csv")
 daily_weather = pd.read_csv("Data/daily_weatherdata_2022.csv")
 
@@ -39,7 +39,6 @@ merged_daily = pd.merge(daily_noise, gps_df, on='description', how='left')
 #setup arrays for months
 months_for_cum_months = [0,31,28,31,30,31,30,31,31,30,31,30,31]
 cumulative_months = np.cumsum(months_for_cum_months).tolist()
-
 
 ######################################################################################
 #cumulative day
@@ -78,6 +77,29 @@ def myMapping(x):
 merged_daily['lamax_std'] = merged_daily.groupby('day_cum')['lamax'].transform(myMapping)
 
 ######################################################################################
+#Change the locations names 
+replacements = {
+    'MP 01: Naamsestraat 35  Maxim': 'Maxim (Naamsestraat 35)',
+    'MP 02: Naamsestraat 57 Xior': 'Xior (Naamsestraat 57)',
+    'MP 03: Naamsestraat 62 Taste': 'Taste (Naamsestraat 62)',
+    'MP 04: His & Hears': 'His & Hears',
+    'MP 05: Calvariekapel KU Leuven': 'Calvariekapel KU Leuven',
+    'MP 06: Parkstraat 2 La Filosovia': 'La Filosovia (Parkstraat 2)',
+    'MP 07: Naamsestraat 81': 'Naamsestraat 81',
+    'MP08bis - Vrijthof': 'Vrijthof (stadhuis Leuven)'
+}
+# Replace the values in the "description" column
+merged_daily['description'] = merged_daily['description'].replace(replacements)
+
+
+######################################################################################
+## weather data ##
+daily_weather = pd.read_csv("Data/daily_weatherdata_2022.csv") 
+
+######################################################################################
+# 
+
+
 
 ## Laeq map daily ##
 # Create the Scattermapbox trace
@@ -158,7 +180,7 @@ layout = html.Div(
                     id='map-id',
                     figure=fig_laeq_daily,
                     style={'width': '100%', 'height': '100%'},
-                    clickData={'points': [{'customdata': ['Please select a location', 0]}]}
+                    clickData={'points': [{'customdata': ['Please select a location', 0]}]} #these are the defaults when nothing is selected
                 ), 
             ],
             style={'flex': '35%', 'display': 'inline-block'}
@@ -255,7 +277,7 @@ def update_marker_size(selected_day, selected_data, click_data):
                 html.Label('Clicked Point:', style={'font-size': '20px'}),
                 html.P(children=[
                     html.Strong('Location: '),
-                    location if isinstance(location, str) else '', #if no point (no location) is selected: empty string
+                    location if isinstance(location, str) else '', 
                 ]),
                 html.P(children=[
                     html.Strong('Noise Level: '),
