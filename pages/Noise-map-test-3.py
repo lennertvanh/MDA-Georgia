@@ -9,9 +9,8 @@ from datetime import datetime, timedelta
 dash.register_page(__name__)
 
 ####################################################################################
-## Data ##
+## Noise data ##
 daily_noise = pd.read_csv("Data/daily_noisedata_2022.csv")
-
 
 ######################################################################################"
 #gps data"
@@ -33,11 +32,9 @@ merged_daily = pd.merge(daily_noise, gps_df, on='description', how='left')
 months_for_cum_months = [0,31,28,31,30,31,30,31,31,30,31,30,31]
 cumulative_months = np.cumsum(months_for_cum_months).tolist()
 
-
 ######################################################################################
 #cumulative day
 merged_daily["day_cum"] = merged_daily.apply(lambda row: cumulative_months[row["month"]-1] + row["day"], axis=1)
-
 
 ######################################################################################
 # Group the data by 'day_cum' and apply the scaler separately for each group
@@ -71,6 +68,29 @@ def myMapping(x):
 merged_daily['lamax_std'] = merged_daily.groupby('day_cum')['lamax'].transform(myMapping)
 
 ######################################################################################
+#Change the locations names 
+replacements = {
+    'MP 01: Naamsestraat 35  Maxim': 'Maxim (Naamsestraat 35)',
+    'MP 02: Naamsestraat 57 Xior': 'Xior (Naamsestraat 57)',
+    'MP 03: Naamsestraat 62 Taste': 'Taste (Naamsestraat 62)',
+    'MP 04: His & Hears': 'His & Hears',
+    'MP 05: Calvariekapel KU Leuven': 'Calvariekapel KU Leuven',
+    'MP 06: Parkstraat 2 La Filosovia': 'La Filosovia (Parkstraat 2)',
+    'MP 07: Naamsestraat 81': 'Naamsestraat 81',
+    'MP08bis - Vrijthof': 'Vrijthof (stadhuis Leuven)'
+}
+# Replace the values in the "description" column
+merged_daily['description'] = merged_daily['description'].replace(replacements)
+
+
+######################################################################################
+## weather data ##
+daily_weather = pd.read_csv("Data/daily_weatherdata_2022.csv") 
+
+######################################################################################
+# 
+
+
 
 ## Laeq map daily ##
 # Create the Scattermapbox trace
