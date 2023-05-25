@@ -168,6 +168,7 @@ def convert_day_to_date(day):
 #formatted_date = convert_day_to_date(day)
 
 ######################################################################################
+last_selected_location = 'Please select a location'
 
 # Update the layout with the clicked information
 layout = html.Div(
@@ -179,7 +180,7 @@ layout = html.Div(
                     id='map-id',
                     figure=fig_laeq_daily,
                     style={'width': '100%', 'height': '100%'},
-                    clickData={'points': [{'customdata': ['Please select a location', 0, 1]}]} 
+                    clickData={'points': [{'customdata': [last_selected_location, 0, 1]}]} 
                 ), 
             ],
             style={'flex': '35%', 'display': 'inline-block'}
