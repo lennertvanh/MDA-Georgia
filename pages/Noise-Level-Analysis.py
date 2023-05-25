@@ -50,7 +50,7 @@ layout = html.Div(
             value=[1, 12],
             step=1,
         ),
-        dcc.Checklist(id='average-checkbox', options=[{'label': 'Show Yearly Average', 'value': 'average'}], value=[]),
+        dcc.Checklist(id='average-checkbox', options=[{'label': 'Show Yearly Average', 'value': 'average'}], value=[])
     ]
 )
 
