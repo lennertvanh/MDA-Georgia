@@ -9,7 +9,10 @@ dash.register_page(__name__)
 
 # Loading noise data
 data_noise = pd.read_csv('Data/daily_noisedata_2022.csv', header=0, sep=',')
-data_noise.head()
+#data_holidays = pd.read_csv('Data/Holiday_dummies.csv', header=0, sep=',')
+
+# Create datetime variable for holiday data
+#data_holidays['result_date'] = pd.to_datetime(data_holidays['index']).dt.date
 
 # Only keeping the observations for Naamsestraat 62 - Taste since this is the only location with observations for each month
 value_to_keep = 'MP 03: Naamsestraat 62 Taste'
@@ -25,6 +28,10 @@ data_noise['result_date'] = pd.to_datetime(data_noise[['year', 'month', 'day']])
 
 # Sort the DataFrame by 'result_date' column
 data_noise = data_noise.sort_values('result_date')
+
+# Merge the two datasets
+#data_holidays = data_holidays.drop_duplicates(subset='result_date') # dropping duplicates
+#data_noise = pd.concat([data_noise, data_holidays.set_index('result_date')], axis=1, join='inner').reset_index()
 
 # Line chart visualization
 fig = px.line(data_noise, x="result_date", y="laeq", title="Laeq Over Time")
@@ -80,20 +87,20 @@ def update_graph(date_range, show_average, figure):
         
         # Create a line trace for the average Laeq
         average_trace = go.Scatter(x=[min(x_values), max(x_values)], y=[average_laeq, average_laeq],
-                                   mode="lines", name="Average Laeq", line=dict(color="red"))
+                                   mode="lines", name="Yearly Average Laeq", line=dict(color="red"))
         
         # Check if the average trace already exists, and update or append accordingly
-        average_trace_exists = any(trace["name"] == "Average Laeq" for trace in figure["data"])
+        average_trace_exists = any(trace["name"] == "Yearly Average Laeq" for trace in figure["data"])
         
         if average_trace_exists:
             # Update the existing average trace
-            figure["data"] = [trace if trace["name"] != "Average Laeq" else average_trace for trace in figure["data"]]
+            figure["data"] = [trace if trace["name"] != "Yearly Average Laeq" else average_trace for trace in figure["data"]]
         else:
             # Append the average trace
             figure["data"].append(average_trace)
     else:
         # Remove average line if checkbox is unchecked
-        figure["data"] = [trace for trace in figure["data"] if trace["name"] != "Average Laeq"]
+        figure["data"] = [trace for trace in figure["data"] if trace["name"] != "Yearly Average Laeq"]
     
     figure["layout"]["title"] = "Noise Levels Over Time (Naamsestraat 62 Taste)"
     figure["layout"]["yaxis"]["title"] = "Noise Level (Laeq in dB(A))"
