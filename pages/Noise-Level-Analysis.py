@@ -26,10 +26,10 @@ data_noise['result_date'] = pd.to_datetime(data_noise[['year', 'month', 'day']])
 # Sort the DataFrame by 'result_date' column
 data_noise = data_noise.sort_values('result_date')
 
-# Line chart visualization 
+# Line chart visualization
 fig = px.line(data_noise, x="result_date", y="laeq", title="Laeq Over Time")
 
-# Defining the app layout 
+# Defining the app layout
 layout = html.Div(
     children=[
         html.H2("Noise Level Analysis"),
@@ -43,7 +43,7 @@ layout = html.Div(
             value=[1, 12],
             step=1,
         ),
-        dcc.Checklist(id='average-checkbox', options=[{'label': 'Show Monthly Average', 'value': 'average'}], value=[])
+        dcc.Checklist(id='average-checkbox', options=[{'label': 'Show Yearly Average', 'value': 'average'}], value=[])
     ]
 )
 
@@ -59,17 +59,41 @@ def update_graph(date_range, show_average, figure):
         (data_noise["result_date"].dt.month >= start_month) &
         (data_noise["result_date"].dt.month <= end_month)
     ]
+    
+    # Create a range of dates for each selected month
+    months = pd.date_range(start=f"2022-{start_month}-01", end=f"2022-{end_month}-01", freq="MS")
+    x_values = []
+    y_values = []
+    
+    for month in months:
+        month_data = filtered_data[filtered_data["result_date"].dt.month == month.month]
+        x_values.extend(month_data["result_date"])
+        y_values.extend(month_data["laeq"])
+    
+    # Update the scatter trace with new x and y values
+    figure["data"][0]["x"] = x_values
+    figure["data"][0]["y"] = y_values
+    
     if show_average:
-        # Calculate average Laeq for the selected month
-        average_laeq = filtered_data['laeq'].mean()
+        # Calculate average Laeq for the selected month range
+        average_laeq = filtered_data["laeq"].mean()
         
-        # Add average line for the selected month
-        average_trace = go.Scatter(x=filtered_data['result_date'], y=[average_laeq] * len(filtered_data),
-                                   mode='lines', name='Average Laeq', line=dict(color='red'))
-        figure['data'].append(average_trace)
+        # Create a line trace for the average Laeq
+        average_trace = go.Scatter(x=[min(x_values), max(x_values)], y=[average_laeq, average_laeq],
+                                   mode="lines", name="Average Laeq", line=dict(color="red"))
+        
+        # Check if the average trace already exists, and update or append accordingly
+        average_trace_exists = any(trace["name"] == "Average Laeq" for trace in figure["data"])
+        
+        if average_trace_exists:
+            # Update the existing average trace
+            figure["data"] = [trace if trace["name"] != "Average Laeq" else average_trace for trace in figure["data"]]
+        else:
+            # Append the average trace
+            figure["data"].append(average_trace)
     else:
         # Remove average line if checkbox is unchecked
-        figure['data'] = [trace for trace in figure['data'] if trace['name'] != 'Average Laeq']
+        figure["data"] = [trace for trace in figure["data"] if trace["name"] != "Average Laeq"]
     
-    figure['layout']['title'] = "Noise Levels Over Time (Naamsestraat 62 Taste)"
+    figure["layout"]["title"] = "Noise Levels Over Time (Naamsestraat 62 Taste)"
     return figure
