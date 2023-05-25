@@ -89,5 +89,42 @@ layout = html.Div([
 def update_plot(selected_timestamp):
     selected_date = datetime.datetime.fromtimestamp(selected_timestamp)
     filtered_data = data_noise[data_noise['result_timestamp'].dt.month == selected_date.month]
-    fig.update_traces(x=filtered_data['result_timestamp'])
+    
+    fig = go.Figure()  # Create a new figure
+    
+    for category in categories:
+        category_data = filtered_data[filtered_data['noise_event_laeq_primary_detected_class'] == category]
+        
+        fig.add_trace(go.Scatter(
+            x=category_data['result_timestamp'],
+            y=category_data['noise_event_laeq_primary_detected_class'],
+            mode='markers',
+            marker=dict(
+                size=category_data['noise_event_laeq_primary_detected_certainty'],
+                sizemode='area',
+                sizeref=0.1,
+                color=category_colors[category]
+            ),
+            name=category
+        ))
+    
+    fig.update_layout(
+        xaxis=dict(
+            title='Date',
+            tickformat='%d %b %Y',  # Format the x-axis tick labels as 'day month year'
+            tickmode='linear',
+            dtick='M1',  # Display one tick per month
+            rangebreaks=[
+                dict(pattern='day of week', bounds=[6, 1])  # Hide weekends on the x-axis
+            ]
+        ),
+        yaxis=dict(
+            title='Noise Source'
+        ),
+        title='Noise Source Visualization',
+        width=1600,
+        height=1000,
+        showlegend=True
+    )
+
     return fig
