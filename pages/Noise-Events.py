@@ -123,7 +123,7 @@ def update_plot(selected_timestamp):
         ),
         title='Noise Source Visualization',
         width=1600,
-        height=1000,
+        height=600,
         showlegend=True
     )
 
