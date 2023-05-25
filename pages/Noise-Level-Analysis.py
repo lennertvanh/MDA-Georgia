@@ -96,4 +96,5 @@ def update_graph(date_range, show_average, figure):
         figure["data"] = [trace for trace in figure["data"] if trace["name"] != "Average Laeq"]
     
     figure["layout"]["title"] = "Noise Levels Over Time (Naamsestraat 62 Taste)"
+    figure["layout"]["yaxis"]["title"] = "Noise Level (Laeq)"
     return figure
