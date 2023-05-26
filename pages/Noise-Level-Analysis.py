@@ -4,6 +4,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
 from dash.dependencies import Input, Output, State
+import plotly.colors
 
 dash.register_page(__name__)
 
@@ -50,7 +51,14 @@ layout = html.Div(
             value=[1, 12],
             step=1,
         ),
-        dcc.Checklist(id='average-checkbox', options=[{'label': 'Show Yearly Average', 'value': 'average'}], value=[])
+        dcc.Checklist(
+            id='average-checkbox',
+            options=[
+                {'label': 'Show Yearly Average', 'value': 'average'},
+                {'label': 'Show Monthly Average', 'value': 'monthly'}
+            ],
+            value=[]
+        )
     ]
 )
 
@@ -62,47 +70,61 @@ layout = html.Div(
 
 def update_graph(date_range, show_average, figure):
     start_month, end_month = date_range
+    
+    # Filter the data based on the selected date range
     filtered_data = data_noise[
         (data_noise["result_date"].dt.month >= start_month) &
         (data_noise["result_date"].dt.month <= end_month)
     ]
     
-    # Create a range of dates for each selected month
-    months = pd.date_range(start=f"2022-{start_month}-01", end=f"2022-{end_month}-01", freq="MS")
-    x_values = []
-    y_values = []
+    # Update x and y values for the line chart
+    x_values = filtered_data["result_date"]
+    y_values = filtered_data["laeq"]
     
-    for month in months:
-        month_data = filtered_data[filtered_data["result_date"].dt.month == month.month]
-        x_values.extend(month_data["result_date"])
-        y_values.extend(month_data["laeq"])
+    # Remove existing average traces
+    figure["data"] = [trace for trace in figure["data"] if "Average" not in trace["name"]]
     
-    # Update the scatter trace with new x and y values
-    figure["data"][0]["x"] = x_values
-    figure["data"][0]["y"] = y_values
-    
-    if show_average:
-        # Calculate average Laeq for the selected month range
-        average_laeq = filtered_data["laeq"].mean()
+    if "average" in show_average:
+        # Calculate overall yearly average Laeq
+        overall_average = data_noise["laeq"].mean()
         
-        # Create a line trace for the average Laeq
-        average_trace = go.Scatter(x=[min(x_values), max(x_values)], y=[average_laeq, average_laeq],
-                                   mode="lines", name="Yearly Average Laeq", line=dict(color="red"))
+        # Create a line trace for the overall yearly average
+        overall_trace = go.Scatter(
+            x=[min(x_values), max(x_values)],
+            y=[overall_average, overall_average],
+            mode="lines",
+            name="Yearly Average",
+            line=dict(color="red")
+        )
         
-        # Check if the average trace already exists, and update or append accordingly
-        average_trace_exists = any(trace["name"] == "Yearly Average Laeq" for trace in figure["data"])
-        
-        if average_trace_exists:
-            # Update the existing average trace
-            figure["data"] = [trace if trace["name"] != "Yearly Average Laeq" else average_trace for trace in figure["data"]]
-        else:
-            # Append the average trace
-            figure["data"].append(average_trace)
-    else:
-        # Remove average line if checkbox is unchecked
-        figure["data"] = [trace for trace in figure["data"] if trace["name"] != "Yearly Average Laeq"]
+        # Append the overall yearly average trace to the figure
+        figure["data"].append(overall_trace)
     
-    figure["layout"]["title"] = "Noise Levels Over Time (Naamsestraat 62 Taste)"
-    figure["layout"]["yaxis"]["title"] = "Noise Level (Laeq in dB(A))"
-    figure["layout"]["xaxis"]["title"] = "" #title can be added but I think it's more clear without one, the dates are shown on the axis 
+    if "monthly" in show_average:
+        # Calculate monthly average Laeq for each month
+        monthly_average = filtered_data.groupby(filtered_data["result_date"].dt.month)["laeq"].mean()
+        
+        # Create a line trace for each month's average
+        for month, average in monthly_average.items():
+            # Filter the data to include only the corresponding month
+            month_data = filtered_data[filtered_data["result_date"].dt.month == month]
+            
+            month_x_values = month_data["result_date"]
+            month_y_values = [average] * len(month_x_values)
+            
+            month_trace = go.Scatter(
+                x=month_x_values,
+                y=month_y_values,
+                mode="lines",
+                name=f"Monthly Average - {pd.Timestamp(month=month, year=2022, day=1).strftime('%B')}",
+                line=dict(color=plotly.colors.qualitative.D3[month % len(plotly.colors.qualitative.D3)])
+            )
+            
+            # Append the monthly average trace to the figure
+            figure["data"].append(month_trace)
+    
+    # Update x-axis range in the figure layout
+    figure["layout"]["xaxis"]["range"] = [pd.Timestamp(year=2022, month=start_month, day=1),
+                                          pd.Timestamp(year=2022, month=end_month, day=1)]
+    
     return figure

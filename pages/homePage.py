@@ -24,13 +24,13 @@ dash.register_page(__name__, path='/')
 ]) """
 
 
-data_noise = pd.read_csv("Data/daily_noisedata_2022.csv")
+#data_noise = pd.read_csv("Data/daily_noisedata_2022.csv")
+data_noise_hour = pd.read_csv("Data/hourly_noisedata_2022.csv")
 
 ##########################
 #noisiest location
 
-average_lamax_per_location = data_noise.groupby('description')['lamax'].mean()
-
+average_lamax_per_location = data_noise_hour.groupby('description')['lamax'].mean()
 
 location_with_highest_average = average_lamax_per_location.idxmax()
 highest_average_value = average_lamax_per_location.max()
@@ -41,7 +41,7 @@ location_with_highest_average = location_with_highest_average.split(":")[-1].str
 ########################################
 #noise time series
 
-data_noise_hour = pd.read_csv("Data/hourly_noisedata_2022.csv")
+#data_noise_hour = pd.read_csv("Data/hourly_noisedata_2022.csv")
 
 chose_location_timeseries = "MP 03: Naamsestraat 62 Taste"
 
@@ -124,7 +124,9 @@ fig_polar_noise = go.Figure(go.Barpolar(
     marker_color=["#E4FF87", '#709BFF',  '#FFDF70', '#FFAA70', '#96D5B3', '#FFC2A0', '#B6FFB4', '#FFDEA6'],
     marker_line_color="black",
     marker_line_width=2,
-    opacity=0.8
+    opacity=0.8,
+    customdata=average_noise_per_location[["Average laeq", "Average lamax"]],
+    hovertemplate="Average noise: %{customdata[0]:.2f}<br>Maximal noise: %{customdata[1]:.2f}<extra></extra>"
 ))
 
 fig_polar_noise.update_layout(
