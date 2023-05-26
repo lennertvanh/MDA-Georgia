@@ -71,12 +71,6 @@ layout = html.Div(
 def update_graph(date_range, show_average, figure):
     start_month, end_month = date_range
     
-    # Calculate yearly average Laeq
-    yearly_average = data_noise.groupby(data_noise["result_date"].dt.year)["laeq"].mean()
-    
-    # Calculate monthly average Laeq for each month
-    monthly_average = data_noise.groupby(data_noise["result_date"].dt.month)["laeq"].mean()
-    
     # Filter the data based on the selected date range
     filtered_data = data_noise[
         (data_noise["result_date"].dt.month >= start_month) &
@@ -91,19 +85,25 @@ def update_graph(date_range, show_average, figure):
     figure["data"] = [trace for trace in figure["data"] if "Average" not in trace["name"]]
     
     if "average" in show_average:
-        # Create a line trace for the yearly average
-        yearly_trace = go.Scatter(
-            x=yearly_average.index,
-            y=yearly_average,
+        # Calculate overall yearly average Laeq
+        overall_average = data_noise["laeq"].mean()
+        
+        # Create a line trace for the overall yearly average
+        overall_trace = go.Scatter(
+            x=[min(x_values), max(x_values)],
+            y=[overall_average, overall_average],
             mode="lines",
             name="Yearly Average",
             line=dict(color="red")
         )
         
-        # Append the yearly average trace to the figure
-        figure["data"].append(yearly_trace)
+        # Append the overall yearly average trace to the figure
+        figure["data"].append(overall_trace)
     
     if "monthly" in show_average:
+        # Calculate monthly average Laeq for each month
+        monthly_average = filtered_data.groupby(filtered_data["result_date"].dt.month)["laeq"].mean()
+        
         # Create a line trace for each month's average
         for month, average in monthly_average.items():
             # Filter the data to include only the corresponding month
