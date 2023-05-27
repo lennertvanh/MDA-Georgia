@@ -2,7 +2,7 @@
 body {
     font-family: 'Roboto', sans-serif;
     font-size: 15px;
-    background-color: #2e2e3a;
+    background-color: #132244f8;
     color: #ffffff; 
 }
 
@@ -25,10 +25,10 @@ p {
 }
 
 .header {
-    background-color: #222222;
+    background-color: #20213f;
     padding: 10px;
     text-align: center;
-    color: #222222;
+    color: #20213f;
 }
 
 .header h1 {
@@ -98,7 +98,7 @@ button {
 } */
 
 .plot-container {
-  background-color: #2e2e3a; /* Set the background color for the plot container */
+  background-color: #ffffff; /* Set the background color for the plot container */
   padding: 20px; /* Add padding to create space around the plot */
 }
 
