@@ -21,6 +21,11 @@ app.layout = html.Div(
             children=[
                 html.Div(
                     className="homepage-link",
+                    style={
+                        "border": "2px solid white",  # Add border
+                        "padding": "10px",  # Add padding
+                        "display": "inline-block"  # Set display to inline-block
+                        },
                     children=[
                         dcc.Link("Homepage", href="/", style={"font-size": "20px", "font-weight": "bold"})
                     ]
