@@ -76,7 +76,8 @@ slider = dcc.Slider(
 
 # Define layout
 layout = html.Div([
-    html.H1('Noise Source Visualization'),
+    html.H2("What's causing the noise in Leuven?"),
+    html.P("In order to trace the sources of noise events in the centre of Leuven, ..."),
     dcc.Graph(id='noise-plot', figure=fig),
     html.Div(slider)
 ])
