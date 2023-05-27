@@ -16,9 +16,15 @@ app.layout = html.Div(
             ]
         ),
         html.Div(
-            className="homepage-link",
+            className="homepage-link-wrapper",
+            style={"margin-top": "20px"},  # Add margin-top to the wrapper div
             children=[
-                dcc.Link("Homepage", href="/", style={"font-size": "20px", "font-weight": "bold"})
+                html.Div(
+                    className="homepage-link",
+                    children=[
+                        dcc.Link("Homepage", href="/", style={"font-size": "20px", "font-weight": "bold"})
+                    ]
+                )
             ]
         ),
         html.Div(
