@@ -32,6 +32,7 @@ data_noise_hour = pd.read_csv("Data/hourly_noisedata_2022.csv")
 
 average_lamax_per_location = data_noise_hour.groupby('description')['lamax'].mean()
 
+
 location_with_highest_average = average_lamax_per_location.idxmax()
 highest_average_value = average_lamax_per_location.max()
 
@@ -496,6 +497,8 @@ layout = html.Div(
         'height': '100vh',
     },
     children=[
+        #html.H2("Title", style={'textAlign': 'center', 'margin-top': '20px'}),  #  Wanted to put a title at the top but this doesn't work for now
+
         html.Div(
             style={'height': '500px',"flex":"0 0 20%", 'border': '1px solid #000'},#,'width':'300px'"width":"100%"
             children=[

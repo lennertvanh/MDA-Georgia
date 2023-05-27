@@ -78,21 +78,24 @@ fig2.update_layout(
 
 #])
 
-layout = html.Div(children=[
-    html.H2(children='Noise per month'),
-    
-    dcc.RadioItems(
-        id='data-type-radio',
-        options=[
-            {'label': 'Figure Absolute Values', 'value': 'absolute'},
-            {'label': 'Figure Standardized Values', 'value': 'standardized'}
-        ],
-        value='standardized',
-        labelStyle={'display': 'inline-block'}
-    ),
-    
-    dcc.Graph(id="noise-per-month-graph")
-])
+layout = html.Div(
+    children=[
+        html.H2("What are the noisiest months in Leuven?", style={'margin-bottom': '20px'}),
+        html.P("To discover which months of 2022 were on average the loudest, we can take a look at the average noise level for each month. Since the differences between the months are quite small, we added the option to look at the standardized average noise levels. This allows us to compare them more precisely. What becomes clear is that the noise in Leuven is likely determined by the students. Months where students start a new semester (February, March, October, November) are the loudest in Leuven, with many student activities happening around the centre. In the months right before and during exam season (January, May, June, August, December), on the other hand, Leuven becomes a bit more quiet. The quietest time, however, is during summer vacation (July), since many students leave the city to return home or leave on holiday."),
+        dcc.Graph(id="noise-per-month-graph"),
+        dcc.RadioItems(
+            id='data-type-radio',
+            options=[
+                {'label': 'Figure Absolute Values', 'value': 'absolute'},
+                {'label': 'Figure Standardized Values', 'value': 'standardized'}
+            ],
+            value='standardized',
+            labelStyle={'display': 'inline-block'},
+            style={'margin-left': '20px', 'margin-bottom': '20px', 'margin-top': '20px'}
+        ),
+    ]
+)
+
 
 @callback(
     Output("noise-per-month-graph", "figure"),
