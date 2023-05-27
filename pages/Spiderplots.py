@@ -45,7 +45,8 @@ common_layout = {
     "polar": dict(
         radialaxis=dict(
             visible=True,
-            range=[35, 63],
+            showline=False,  # Hide the line of the radial axis
+            range=[35, 64],
             tickmode='array',
             tickvals=[35, 40, 45, 50, 55, 60],
             ticktext=['', '40', '', '50', '', '   60 dB(A)'], #extra spaces for 60 to push it more to the right
@@ -54,7 +55,9 @@ common_layout = {
             tickfont=dict(size=10)
         ),
         angularaxis=dict(
-            tickfont=dict(size=15)
+            tickfont=dict(size=15),
+            gridcolor='lightgrey',
+            gridwidth=0.01
         ),
         bgcolor='white'
     ),
