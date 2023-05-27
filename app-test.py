@@ -48,13 +48,9 @@ app.layout = html.Div(
                         html.Div(
                             dcc.Link("Noise events", href="noise-events")
                         ),
-<<<<<<< HEAD
                         html.Div(
                             dcc.Link("Noise map test 3", href="noise-map-test-3")
                         ),
-=======
-                        
->>>>>>> 67c07e9e7e7373546c45eac0ef12d4c1b7681aca
                         html.Div(
                             dcc.Link("Noise heatmap", href="noise-heatmap")
                         ),
