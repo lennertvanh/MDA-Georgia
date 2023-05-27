@@ -60,8 +60,11 @@ fig.update_layout(
         tickfont=dict(color="white"),
         gridcolor='rgba(255, 255, 255, 0.1)'
     ),
-    margin=dict(l=100, r=100, t=50, b=50)
+    margin=dict(l=100, r=100, t=50, b=50),
+    hoverlabel=dict(font=dict(size=14))  
 )
+
+fig.data[0].hovertemplate = "Date: %{x}<br>Noise Level: %{y}"
 
 # Change the line color
 fig.update_traces(line=dict(color='#E6AF2E', width=4))
@@ -132,6 +135,8 @@ def update_graph(date_range, show_average, figure):
             showlegend=False  # Hide the legend for the yearly average trace
         )
         
+        overall_trace.hovertemplate = "Yearly Average:<br> %{y}"
+
         # Append the overall yearly average trace to the figure
         figure["data"].append(overall_trace)
     
@@ -156,6 +161,8 @@ def update_graph(date_range, show_average, figure):
                 showlegend=False  # Hide the legend for the monthly average trace
             )
             
+            month_trace.hovertemplate = f"Monthly Average - {pd.Timestamp(month=month, year=2022, day=1).strftime('%B')}:<br> %{{y:.2f}}"
+           
             # Append the monthly average trace to the figure
             figure["data"].append(month_trace)
     
