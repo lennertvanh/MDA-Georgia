@@ -83,7 +83,7 @@ Explain what the user can do in the app
 ## Resources
 * [Dash User Guide](https://dash.plot.ly/)
 * [Coloring for Colorblindness](https://davidmathlogic.com/colorblind/#%23D81B60-%231E88E5-%23FFC107-%23004D40)
-* [Coolors Color Palette](https://coolors.co/palette/264653-2a9d8f-e9c46a-f4a261-e76f51)
+* [Coolors Color Palette](https://coolors.co/223164-132244-eb862e-2a9d8f-e6af2e)
 * add other resources 
 
 ---
