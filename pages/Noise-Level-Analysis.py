@@ -63,9 +63,8 @@ layout = html.Div(
 )
 
 @callback(
-    Output("noise-graph", "figure"),
-    [Input("date-slider", "value"), Input("average-checkbox", "value")],
-    [State("noise-graph", "figure")]
+        Output("noise-graph", "figure"),
+    [Input("date-slider", "value"), Input("average-checkbox", "value"), Input("noise-graph", "figure")],
 )
 
 def update_graph(date_range, show_average, figure):
