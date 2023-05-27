@@ -48,12 +48,7 @@ app.layout = html.Div(
                         html.Div(
                             dcc.Link("Noise events", href="noise-events")
                         ),
-                        html.Div(
-                            dcc.Link("Noise map test 2", href="noise-map-test-2")
-                        ),
-                        html.Div(
-                            dcc.Link("Noise map test 3", href="noise-map-test-3")
-                        ),
+                        
                         html.Div(
                             dcc.Link("Noise heatmap", href="noise-heatmap")
                         ),
@@ -88,6 +83,9 @@ app.layout = html.Div(
                         html.H3("Analyzing noise and weather together"),  # Category 4: Analysis of Noise and Weather
                         html.Div(
                             dcc.Link("Noise level in function dry rainy day", href="noise-level-in-function-dry-rainy-day")
+                        ),
+                        html.Div(
+                            dcc.Link("Noise map test 3", href="noise-map-test-3")
                         ),
                     ],
                     style={"margin-bottom": "20px"}  # Add margin-bottom for extra space
