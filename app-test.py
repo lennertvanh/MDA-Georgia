@@ -18,7 +18,7 @@ app.layout = html.Div(
         html.Div(
             className="homepage-link",
             children=[
-                dcc.Link("Homepage", href="/", style={"font-size": "24px", "font-weight": "bold"})
+                dcc.Link("Homepage", href="/", style={"font-size": "20px", "font-weight": "bold"})
             ]
         ),
         html.Div(
@@ -27,7 +27,7 @@ app.layout = html.Div(
                 html.Div(
                     className="category-column",
                     children=[
-                        html.H3("Analysis of Noise Levels"),  # Category 2: Analysis of Noise Levels
+                        html.H3("Explore the noise level data"),  # Category 2: Analysis of Noise Levels
                         html.Div(
                             dcc.Link("Noise level analysis", href="noise-level-analysis")
                         ),
@@ -58,7 +58,7 @@ app.layout = html.Div(
                 html.Div(
                     className="category-column",
                     children=[
-                        html.H3("Analysis of Weather"),  # Category 3: Analysis of Weather
+                        html.H3("Explore the weather data"),  # Category 3: Analysis of Weather
                         html.Div(
                             dcc.Link("Rain days per month", href="rain-days-per-month")
                         ),
@@ -74,7 +74,7 @@ app.layout = html.Div(
                 html.Div(
                     className="category-column",
                     children=[
-                        html.H3("Analysis of Noise and Weather"),  # Category 4: Analysis of Noise and Weather
+                        html.H3("Analyzing noise and weather together"),  # Category 4: Analysis of Noise and Weather
                         html.Div(
                             dcc.Link("Noise level in function dry rainy day", href="noise-level-in-function-dry-rainy-day")
                         ),
