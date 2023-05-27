@@ -121,13 +121,14 @@ def update_graph(data_type):
         fig = go.Figure(data=go.Bar(x=months, y=average_noise_std))
         fig.update_traces(marker=dict(color=['#2A9D8F' if val < 0 else '#EB862E' for val in average_noise_std]))
         fig.update_layout(
-            title=dict(text="Average noise level per month (standardized data)",x=0.5, font=dict(
-            color="white")),
+            title=dict(text="Average noise level per month (standardized data)", font=dict(
+            color="white", size=24)),
             xaxis_title="Month",
-            yaxis_title="Average noise level (Laeq)", title_font=dict(size=30), xaxis=dict(showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)'),
-            yaxis=dict(showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)'),
+            yaxis_title="Average noise level<br> (Laeq in dB(A))", title_font=dict(size=24), xaxis=dict(title_font=dict(color="white", size =18),showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)'),
+            yaxis=dict(title_font=dict(color="white", size =18),showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)'),
             plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
             paper_bgcolor='rgba(0,0,0,0)',  # Set the paper background color to transparent
+            
         )
         fig.update_xaxes(color="white",gridwidth=5)
         fig.update_yaxes(color="white")
@@ -144,13 +145,13 @@ def update_graph(data_type):
         ))
         fig.update_traces(marker=dict(color=color, opacity=opacity))
         fig.update_layout(
-            title=dict(text="Average noise level per month (absolute value of the data)",x=0.5, font=dict(
+            title=dict(text="Average noise level per month (absolute values)",font=dict(
             color="white")),
             xaxis_title="Month",
-            yaxis_title="Average noise level (Laeq)", 
-            title_font=dict(size=30),
-            yaxis=dict(showgrid=True, zeroline=True, gridcolor='rgba(255, 255, 255, 0.1)',),
-            xaxis=dict(showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)',),
+            yaxis_title="Average noise level<br> (Laeq in dB(A))", 
+            title_font=dict(size=24),
+            yaxis=dict(showgrid=True, zeroline=True, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),),
+            xaxis=dict(showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),),
             plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
             paper_bgcolor='rgba(0,0,0,0)',  # Set the paper background color to transparent
             legend=dict(
@@ -159,7 +160,9 @@ def update_graph(data_type):
                 yanchor="bottom",
                 y=1.02,
                 xanchor="right",
-                x=1
+                x=1,
+                font=dict(color='white')
+                 
             )
         )
         fig.update_xaxes(color="white",gridwidth=5)
