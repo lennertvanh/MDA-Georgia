@@ -7,30 +7,88 @@ from dash import html
 app = dash.Dash(__name__, use_pages=True)
 
 # Home Page
-app.layout = html.Div([
-    html.Div(
-        className="app-header",
-        children=[
-            html.Div('Noise Pollution in The City of Leuven ', className="app-header--title")
-        ]
-    ),
-    html.P('Overview of the pages of the app'),
+app.layout = html.Div(
+    [
+        html.Div(
+            className="app-header",
+            children=[
+                html.Div('Noise Pollution in The City of Leuven', className="app-header--title")
+            ]
+        ),
+        html.Div(
+            className="homepage-link",
+            children=[
+                dcc.Link("Homepage", href="/", style={"font-size": "24px", "font-weight": "bold"})
+            ]
+        ),
+        html.Div(
+            className="category-grid",
+            children=[
+                html.Div(
+                    className="category-column",
+                    children=[
+                        html.H3("Analysis of Noise Levels"),  # Category 2: Analysis of Noise Levels
+                        html.Div(
+                            dcc.Link("Noise level analysis", href="noise-level-analysis")
+                        ),
+                        html.Div(
+                            dcc.Link("Noise level per month", href="noise-level-per-month")
+                        ),
+                        html.Div(
+                            dcc.Link("Noise events", href="noise-events")
+                        ),
+                        html.Div(
+                            dcc.Link("Noise map test 2", href="noise-map-test-2")
+                        ),
+                        html.Div(
+                            dcc.Link("Noise map test 3", href="noise-map-test-3")
+                        ),
+                        html.Div(
+                            dcc.Link("Noise heatmap", href="noise-heatmap")
+                        ),
+                        html.Div(
+                            dcc.Link("Noise level vs holidays", href="noise-level-vs-holidays")
+                        ),
+                        html.Div(
+                            dcc.Link("Fourier transformation", href="fourier-transformation")
+                        ),
+                    ],
+                    style={"margin-bottom": "20px"}  # Add margin-bottom for extra space
+                ),
+                html.Div(
+                    className="category-column",
+                    children=[
+                        html.H3("Analysis of Weather"),  # Category 3: Analysis of Weather
+                        html.Div(
+                            dcc.Link("Rain days per month", href="rain-days-per-month")
+                        ),
+                        html.Div(
+                            dcc.Link("Rain overview plots", href="rain-overview-plots")
+                        ),
+                        html.Div(
+                            dcc.Link("Wind plot", href="wind-plot")
+                        ),
+                    ],
+                    style={"margin-bottom": "20px"}  # Add margin-bottom for extra space
+                ),
+                html.Div(
+                    className="category-column",
+                    children=[
+                        html.H3("Analysis of Noise and Weather"),  # Category 4: Analysis of Noise and Weather
+                        html.Div(
+                            dcc.Link("Noise level in function dry rainy day", href="noise-level-in-function-dry-rainy-day")
+                        ),
+                    ],
+                    style={"margin-bottom": "20px"}  # Add margin-bottom for extra space
+                ),
+            ],
+        ),
+        html.Hr(style={"margin-top": "20px", "margin-bottom": "20px"}),  # Add horizontal line
+        dash.page_container
+    ],
+    className="app-container"
+)
 
-    html.Div(
-        [
-            html.Div(
-                dcc.Link(
-                    f"{page['name']}".replace('-'," "), href=page["relative_path"]  # - {page['path']}
-                )
-            )
-            for page in dash.page_registry.values()
-        ]
-    ),
-
-    html.Hr(style={'border-top': '1px solid black'}),
-
-	dash.page_container
-])
 
 
 #@app.callback(Output('page-content', 'children'),
