@@ -3,7 +3,7 @@ body {
     font-family: 'Roboto', sans-serif;
     font-size: 15px;
     background-color: #132244f8;
-    color: #ffffff; 
+    color:#ffffff; 
 }
 
 h1 {
@@ -43,7 +43,7 @@ a {
 }
 
 br {
-    background: #1f4260;
+    background: #223164e4;
     color: #ffffff;
     width: 150px;
     height: 80px;
@@ -54,7 +54,7 @@ br {
 }
 
 button {
-    background: #1f4260;
+    background: #223164e4;
     color: #ffffff;
     width: 150px;
     height: 80px;
@@ -98,7 +98,7 @@ button {
 } */
 
 .plot-container {
-  background-color: #ffffff; /* Set the background color for the plot container */
+  background-color:  #223164e4; /* Set the background color for the plot container */
   padding: 20px; /* Add padding to create space around the plot */
 }
 

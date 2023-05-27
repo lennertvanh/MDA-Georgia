@@ -35,7 +35,30 @@ data_noise = data_noise.sort_values('result_date')
 #data_noise = pd.concat([data_noise, data_holidays.set_index('result_date')], axis=1, join='inner').reset_index()
 
 # Line chart visualization
-fig = px.line(data_noise, x="result_date", y="laeq", title="Laeq Over Time")
+fig = px.line(data_noise, x="result_date", y="laeq", title="Noise levels over time")
+
+fig.update_layout(
+    plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
+    paper_bgcolor='rgba(0,0,0,0)',  # Set the paper background color to transparent
+    title=dict(
+        text="Noise levels over time",
+        font=dict(color="white")
+    ),
+    xaxis=dict(
+        title="Result Date",
+        title_font=dict(color="white"),
+        tickfont=dict(color="white")
+    ),
+    yaxis=dict(
+        title="Laeq",
+        title_font=dict(color="white"),
+        tickfont=dict(color="white")
+    ),
+    margin=dict(l=100, r=100, t=50, b=50)
+)
+
+# Change the line color
+fig.update_traces(line=dict(color='#E6AF2E', width=3))
 
 # Defining the app layout
 layout = html.Div(
@@ -44,6 +67,7 @@ layout = html.Div(
         html.P("The best way to get a first look at the monitored noise levels is to plot them over time. (add some extra text) "),  # Paragraph outside the frame
         html.Div(
             className="plot-container",  # Add the CSS class to this div element
+            style={'padding': '20px', 'max-width': '90vw', 'justify-content': 'center'},
             children=[
                 dcc.Graph(id="noise-graph", figure=fig,  className="plot-container"),
                 dcc.RangeSlider(
