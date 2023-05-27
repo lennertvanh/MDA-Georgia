@@ -23,8 +23,9 @@ Explain the used technologies
 ---
 
 ## Data  
-Information about the data and the used variables 
 
+For the project, we used noise level data, weather data and data on specific noise events. Noise levels were monitored for the entire year of 2022, for 9 different locations in the centre of Leuven. Noise events were recorded and were assigned a certainty level and a noise source class. The data on 
+ 
 ---
 
 ## Installation
