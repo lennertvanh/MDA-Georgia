@@ -40,24 +40,29 @@ fig = px.line(data_noise, x="result_date", y="laeq", title="Laeq Over Time")
 # Defining the app layout
 layout = html.Div(
     children=[
-        html.H2("Exploring the dynamic patterns of city noise in Leuven"),
-        html.P("The best way to get a first look at the monitored noise levels is to plot them over time. (add some extra text) "),
-        dcc.Graph(id="noise-graph", figure=fig),
-        dcc.RangeSlider(
-            id="date-slider",
-            marks={i: pd.Timestamp(year=2022, month=i, day=1).strftime("%B") for i in range(1, 13)},
-            min=1,
-            max=12,
-            value=[1, 12],
-            step=1,
-        ),
-        dcc.Checklist(
-            id='average-checkbox',
-            options=[
-                {'label': 'Show Yearly Average', 'value': 'average'},
-                {'label': 'Show Monthly Average', 'value': 'monthly'}
-            ],
-            value=[]
+        html.H2("Exploring the dynamic patterns of city noise in Leuven"),  # Title outside the frame
+        html.P("The best way to get a first look at the monitored noise levels is to plot them over time. (add some extra text) "),  # Paragraph outside the frame
+        html.Div(
+            className="plot-container",  # Add the CSS class to this div element
+            children=[
+                dcc.Graph(id="noise-graph", figure=fig,  className="plot-container"),
+                dcc.RangeSlider(
+                    id="date-slider",
+                    marks={i: pd.Timestamp(year=2022, month=i, day=1).strftime("%B") for i in range(1, 13)},
+                    min=1,
+                    max=12,
+                    value=[1, 12],
+                    step=1,
+                ),
+                dcc.Checklist(
+                    id='average-checkbox',
+                    options=[
+                        {'label': 'Show Yearly Average', 'value': 'average'},
+                        {'label': 'Show Monthly Average', 'value': 'monthly'}
+                    ],
+                    value=[]
+                )
+            ]
         )
     ]
 )
