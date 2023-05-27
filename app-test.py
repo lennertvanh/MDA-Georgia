@@ -49,13 +49,13 @@ app.layout = html.Div(
                             dcc.Link("Noise events", href="noise-events")
                         ),
                         html.Div(
-                            dcc.Link("Noise map test 2", href="noise-map-test-2")
-                        ),
-                        html.Div(
                             dcc.Link("Noise map test 3", href="noise-map-test-3")
                         ),
                         html.Div(
                             dcc.Link("Noise heatmap", href="noise-heatmap")
+                        ),
+                        html.Div(
+                            dcc.Link("Spiderplots nightly noise", href="spiderplots")
                         ),
                         html.Div(
                             dcc.Link("Noise level vs holidays", href="noise-level-vs-holidays")
