@@ -37,6 +37,31 @@ hourly_mean_data['description'] = hourly_mean_data['description'].str.replace('K
 hourly_mean_data.loc[hourly_mean_data['description'] == '', 'description'] = "Naamsestraat 81"
 
 
+
+##################### FIGURES #####################
+# Common layout for all figures
+common_layout = {
+    "margin": dict(l=100, r=100, t=40, b=40),
+    "polar": dict(
+        radialaxis=dict(
+            visible=True,
+            range=[35, 63],
+            tickmode='array',
+            tickvals=[35, 40, 45, 50, 55, 60],
+            ticktext=['', '40', '', '50', '', '   60 dB(A)'], #extra spaces for 60 to push it more to the right
+            gridcolor='lightgrey',
+            gridwidth=0.01,
+            tickfont=dict(size=10)
+        ),
+        angularaxis=dict(
+            tickfont=dict(size=15)
+        ),
+        bgcolor='white'
+    ),
+    "plot_bgcolor": 'white'
+}
+
+
 ################### FIGURE 1 ###################
 data_hour_23 = hourly_mean_data[hourly_mean_data['hour'] == 23]
 data_hour_23_sorted = data_hour_23.sort_values('description')
@@ -62,27 +87,8 @@ fig1.add_trace(go.Scatterpolar(
 ))
 
 # Update the layout
-fig1.update_layout(
-    margin=dict(l=0, r=0, t=40, b=40),
-    polar=dict(
-        radialaxis=dict(
-            visible=True,
-            range=[35, 61],
-            tickmode='array',
-            tickvals=[35, 40, 45, 50, 55, 60],
-            ticktext=['', '40', '', '50', '', '60'],
-            gridcolor='lightgrey',
-            gridwidth=0.01,
-            tickfont=dict(size=10)
-        ),
-        angularaxis=dict(
-            tickfont=dict(size=15)  # Increase the font size of the locations
-        ),
-        bgcolor='white'
-    ),
-    plot_bgcolor='white',
-    showlegend=True
-)
+fig1.update_layout(common_layout)
+
 
 
 ################### FIGURE 2 ###################
@@ -108,45 +114,170 @@ fig2.add_trace(go.Scatterpolar(
     hovertemplate='Maximal noise: %{r:.2f} dB(A)' 
 ))
 
-# layout stays the same
-fig2.update_layout(
-    margin=dict(l=0, r=0, t=40, b=40),
-    polar=dict(
-        radialaxis=dict(
-            visible=True,
-            range=[35, 61],
-            tickmode='array',
-            tickvals=[35, 40, 45, 50, 55, 60],
-            ticktext=['', '40', '', '50', '', '60'],
-            gridcolor='lightgrey',
-            gridwidth=0.01,
-            tickfont=dict(size=10)
-        ),
-        angularaxis=dict(
-            tickfont=dict(size=15)  # Increase the font size of the locations
-        ),
-        bgcolor='white'
-    ),
-    plot_bgcolor='white',
-    showlegend=True
-)
+# set common lay-out
+fig2.update_layout(common_layout)
+
+
+################### FIGURE 3 ###################
+data_hour_1 = hourly_mean_data[hourly_mean_data['hour'] == 1]
+data_hour_1_sorted = data_hour_1.sort_values('description')
+
+# Create a new DataFrame with the first row duplicated (so that the line connecting the last and first point isn't thinner than the other ones)
+first_row = data_hour_1_sorted.iloc[[0]]
+data_hour_1_sorted_closed = pd.concat([data_hour_1_sorted, first_row], ignore_index=True)
+
+# Initialize the figure
+fig3 = go.Figure()
+
+fig3.add_trace(go.Scatterpolar(
+    r=data_hour_1_sorted_closed['lamax'],  # Use maximal noise
+    theta=data_hour_1_sorted_closed['description'],
+    fill='toself',
+    name='01h',
+    opacity=0.8,
+    marker_line_width=2,
+    marker_size=3,
+    hoverlabel=dict(namelength=0),
+    hovertemplate='Maximal noise: %{r:.2f} dB(A)' 
+))
+
+# set common lay-out
+fig3.update_layout(common_layout)
+
+
+################### FIGURE 4 ###################
+data_hour_2 = hourly_mean_data[hourly_mean_data['hour'] == 2]
+data_hour_2_sorted = data_hour_2.sort_values('description')
+
+# Create a new DataFrame with the first row duplicated (so that the line connecting the last and first point isn't thinner than the other ones)
+first_row = data_hour_2_sorted.iloc[[0]]
+data_hour_2_sorted_closed = pd.concat([data_hour_2_sorted, first_row], ignore_index=True)
+
+# Initialize the figure
+fig4 = go.Figure()
+
+fig4.add_trace(go.Scatterpolar(
+    r=data_hour_2_sorted_closed['lamax'],  # Use maximal noise
+    theta=data_hour_2_sorted_closed['description'],
+    fill='toself',
+    name='02h',
+    opacity=0.8,
+    marker_line_width=2,
+    marker_size=3,
+    hoverlabel=dict(namelength=0),
+    hovertemplate='Maximal noise: %{r:.2f} dB(A)' 
+))
+
+# set common lay-out
+fig4.update_layout(common_layout)
+
+
+################### FIGURE 5 ###################
+data_hour_3 = hourly_mean_data[hourly_mean_data['hour'] == 3]
+data_hour_3_sorted = data_hour_3.sort_values('description')
+
+# Create a new DataFrame with the first row duplicated (so that the line connecting the last and first point isn't thinner than the other ones)
+first_row = data_hour_3_sorted.iloc[[0]]
+data_hour_3_sorted_closed = pd.concat([data_hour_3_sorted, first_row], ignore_index=True)
+
+# Initialize the figure
+fig5 = go.Figure()
+
+fig5.add_trace(go.Scatterpolar(
+    r=data_hour_3_sorted_closed['lamax'],  # Use maximal noise
+    theta=data_hour_3_sorted_closed['description'],
+    fill='toself',
+    name='03h',
+    opacity=0.8,
+    marker_line_width=2,
+    marker_size=3,
+    hoverlabel=dict(namelength=0),
+    hovertemplate='Maximal noise: %{r:.2f} dB(A)' 
+))
+
+# set common lay-out
+fig5.update_layout(common_layout)
+
+
+################### FIGURE 6 ###################
+data_hour_4 = hourly_mean_data[hourly_mean_data['hour'] == 4]
+data_hour_4_sorted = data_hour_4.sort_values('description')
+
+# Create a new DataFrame with the first row duplicated (so that the line connecting the last and first point isn't thinner than the other ones)
+first_row = data_hour_4_sorted.iloc[[0]]
+data_hour_4_sorted_closed = pd.concat([data_hour_4_sorted, first_row], ignore_index=True)
+
+# Initialize the figure
+fig6 = go.Figure()
+
+fig6.add_trace(go.Scatterpolar(
+    r=data_hour_4_sorted_closed['lamax'],  # Use maximal noise
+    theta=data_hour_4_sorted_closed['description'],
+    fill='toself',
+    name='04h',
+    opacity=0.8,
+    marker_line_width=2,
+    marker_size=3,
+    hoverlabel=dict(namelength=0),
+    hovertemplate='Maximal noise: %{r:.2f} dB(A)' 
+))
+
+# set common lay-out
+fig6.update_layout(common_layout)
+
+
+################### FIGURE 7 ###################
+data_hour_5 = hourly_mean_data[hourly_mean_data['hour'] == 5]
+data_hour_5_sorted = data_hour_5.sort_values('description')
+
+# Create a new DataFrame with the first row duplicated (so that the line connecting the last and first point isn't thinner than the other ones)
+first_row = data_hour_5_sorted.iloc[[0]]
+data_hour_5_sorted_closed = pd.concat([data_hour_5_sorted, first_row], ignore_index=True)
+
+fig7 = go.Figure()
+
+fig7.add_trace(go.Scatterpolar(
+    r=data_hour_5_sorted_closed['lamax'],  # Use maximal noise
+    theta=data_hour_5_sorted_closed['description'],
+    fill='toself',
+    name='5h',
+    opacity=0.8,
+    marker_line_width=2,
+    marker_size=3,
+    hoverlabel=dict(namelength=0),
+    hovertemplate='Maximal noise: %{r:.2f} dB(A)' 
+))
+
+# set common lay-out
+fig7.update_layout(common_layout)
 
 
 
+############################################
 layout = html.Div([
     html.H1("How do nightly noise peaks vary across different locations in Leuven?"),
-    dcc.RadioItems(
-        options=[
-            {'label': '23h', 'value': '23h'},
-            {'label': '0h', 'value': '0h'}
-        ],
-        value='23h',
-        id='hour-radioitems'
+    html.Div(
+        dcc.RadioItems(
+            options=[
+                {'label': '23h', 'value': '23h'},
+                {'label': '00h', 'value': '00h'},
+                {'label': '01h', 'value': '01h'},
+                {'label': '02h', 'value': '02h'},
+                {'label': '03h', 'value': '03h'},
+                {'label': '04h', 'value': '04h'},
+                {'label': '05h', 'value': '05h'}
+            ],
+            value='23h',
+            id='hour-radioitems',
+            labelStyle={'display': 'inline-block'},
+            style={'margin-left': 'auto', 'margin-right': 'auto', 'margin-bottom': '20px', 'margin-top': '20px', 'display': 'flex', 'justify-content': 'center'}
+        ),
     ),
     html.Div(id="spiderplot-container")
 ])
 
 
+############################################
 @callback(
     Output("spiderplot-container", "children"),
     [Input("hour-radioitems", "value")]
@@ -154,7 +285,17 @@ layout = html.Div([
 def update_figure(selected_hour):
     if selected_hour == "23h":
         return dcc.Graph(figure=fig1)
-    elif selected_hour == "0h":
+    elif selected_hour == "00h":
         return dcc.Graph(figure=fig2)
+    elif selected_hour == "01h":
+        return dcc.Graph(figure=fig3)
+    elif selected_hour == "02h":
+        return dcc.Graph(figure=fig4)
+    elif selected_hour == "03h":
+        return dcc.Graph(figure=fig5)
+    elif selected_hour == "04h":
+        return dcc.Graph(figure=fig6)
+    elif selected_hour == "05h":
+        return dcc.Graph(figure=fig7)
 
 
