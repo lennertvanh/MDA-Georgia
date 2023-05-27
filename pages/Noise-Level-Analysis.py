@@ -42,23 +42,29 @@ fig.update_layout(
     paper_bgcolor='rgba(0,0,0,0)',  # Set the paper background color to transparent
     title=dict(
         text="Noise levels over time",
-        font=dict(color="white")
+        font=dict(color="white"),
+        
     ),
+    title_font=dict(size=24),
     xaxis=dict(
-        title="Result Date",
-        title_font=dict(color="white"),
-        tickfont=dict(color="white")
+        title="Date",
+        title_font=dict(color="white", size =18),
+        tickfont=dict(color="white"),
+        gridcolor='rgba(255, 255, 255, 0.1)',
+        tickmode='linear', 
+        dtick='M1'
     ),
     yaxis=dict(
-        title="Laeq",
-        title_font=dict(color="white"),
-        tickfont=dict(color="white")
+        title="Noise level (Laeq in dB(A))",
+        title_font=dict(color="white", size = 18),
+        tickfont=dict(color="white"),
+        gridcolor='rgba(255, 255, 255, 0.1)'
     ),
     margin=dict(l=100, r=100, t=50, b=50)
 )
 
 # Change the line color
-fig.update_traces(line=dict(color='#E6AF2E', width=3))
+fig.update_traces(line=dict(color='#E6AF2E', width=4))
 
 # Defining the app layout
 layout = html.Div(
@@ -122,7 +128,8 @@ def update_graph(date_range, show_average, figure):
             y=[overall_average, overall_average],
             mode="lines",
             name="Yearly Average",
-            line=dict(color="red")
+            line=dict(color="red"),
+            showlegend=False  # Hide the legend for the yearly average trace
         )
         
         # Append the overall yearly average trace to the figure
@@ -145,7 +152,8 @@ def update_graph(date_range, show_average, figure):
                 y=month_y_values,
                 mode="lines",
                 name=f"Monthly Average - {pd.Timestamp(month=month, year=2022, day=1).strftime('%B')}",
-                line=dict(color=plotly.colors.qualitative.D3[month % len(plotly.colors.qualitative.D3)])
+                line=dict(color="#EB862E"),
+                showlegend=False  # Hide the legend for the monthly average trace
             )
             
             # Append the monthly average trace to the figure
