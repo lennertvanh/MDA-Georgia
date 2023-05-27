@@ -40,8 +40,8 @@ fig = px.line(data_noise, x="result_date", y="laeq", title="Laeq Over Time")
 # Defining the app layout
 layout = html.Div(
     children=[
-        html.H2("Noise Level Analysis"),
-        html.P("To analyze the noise levels in Leuven over time, we constructed a time series model."),
+        html.H2("Exploring the dynamic patterns of city noise in Leuven"),
+        html.P("The best way to get a first look at the monitored noise levels is to plot them over time. (add some extra text) "),
         dcc.Graph(id="noise-graph", figure=fig),
         dcc.RangeSlider(
             id="date-slider",
