@@ -147,11 +147,15 @@ fig2.add_annotation(
 
 
 layout = html.Div([
-    html.H1("Heatmap of noise"),
+    html.H2("Which time of day and night is the noisiest in Leuven?"),
+    html.Div(
+    className="plot-container",  # Add the CSS class to this div element
+    style={'padding': '20px', 'max-width': '90vw', 'justify-content': 'center'},
+    children=[
+    html.Div(id="heatmap-container"),
     html.Button("Entire day", id="entire-day-button", n_clicks=0),
     html.Button("At night", id="at-night-button", n_clicks=0),
-    html.Div(id="heatmap-container")
-])
+])])
 
 @callback(
     Output("heatmap-container", "children"),
