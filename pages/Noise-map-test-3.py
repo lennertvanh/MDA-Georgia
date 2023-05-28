@@ -208,9 +208,9 @@ layout = html.Div(
                     children=[
                         html.Div(
                             id='clicked-data',
-                            style={'margin': '50px 0px',"width":"60%", 'display': 'flex', 'justify-content': 'flex-start'}
+                            style={'margin': '50px 0px',"width":"65%", 'display': 'flex', 'justify-content': 'flex-start'}
                         ),
-                        html.Div(id="image-container", style={"width":"25%", "max-height":"100%", 'margin': '100px 30px'})
+                        html.Div(id="image-container", style={"width":"25%", "max-height":"100%", 'margin': '100px 40px'})
                         #html.Img(src=dash.get_asset_url('sunny-day.jpg'),style={"width":"25%",'max-height': '100%', 'object-fit': 'contain'}), #does not work: ,"border-radius":"10%"
                     ],
                     style = {'display': 'flex'}
@@ -292,19 +292,19 @@ def update_marker_size(selected_day, selected_data, click_data):
             html.Strong('Location: '),
             location if isinstance(location, str) else '', 
             ], 
-            style={'margin-left': '0px'} #need to add this to not have indentation
+            style={'margin-left': '5px'} #need to add this to not have a very large indentation
         ),
         html.P(children=[
             html.Strong('Noise Level: '),
             f'{noise_level:.2f} dB(A)' if isinstance(noise_level, float) else '', #if no point (no sound level) is selected: empty string
             ], 
-            style={'margin-left': '0px'}
+            style={'margin-left': '5px'}
         ),
         html.P(children=[
             html.Strong('Temperature: '),
             f'{temperature:.1f} °C' if isinstance(temperature, float) else '', #if no point is selected: empty string 
             ],
-            style={'margin-left': '0px'}
+            style={'margin-left': '5px'}
         ),
     ]
 )
