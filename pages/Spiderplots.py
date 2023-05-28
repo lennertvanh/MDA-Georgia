@@ -46,10 +46,10 @@ common_layout = {
         radialaxis=dict(
             visible=True,
             showline=False,  # Hide the line of the radial axis
-            range=[35, 65],
+            range=[35, 60],
             tickmode='array',
             tickvals=[35, 40, 45, 50, 55, 60],
-            ticktext=['', '40', '', '50', '', '   60 dB(A)'], #extra spaces for 60 to push it more to the right
+            ticktext=['35', '', '45', '', '55 dB(A)', ''], #extra spaces for 60 to push it more to the right
             gridcolor='rgba(255, 255, 255, 0.1)',
             gridwidth=0.01,
             tickfont=dict(size=10, color='white')
