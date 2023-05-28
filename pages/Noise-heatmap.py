@@ -40,7 +40,7 @@ fig1.add_trace(go.Heatmap(
     x=noise_per_hour['hour'],
     y=noise_per_hour['wk_day'],
     z=noise_per_hour['laeq'], # NOTE: standardizing the data gives the exact same heatmap so no use in doing this
-    colorscale='Reds',  
+    colorscale='Oranges',  
     hovertemplate='Hour: %{x}<br>Weekday: %{y}<br>Sound level: %{z:.2f} dB(A)',
     hoverlabel=dict(namelength=0),
     ygap=1,  
@@ -51,18 +51,26 @@ fig1.update_layout(
     title={
         'text': 'Average noise in Leuven throughout the day',
         'x': 0.5,  
-        'xanchor': 'center',  
+        'xanchor': 'center', 
+        'font': {'color': 'white'}  # Set the title color to white
     },
     xaxis=dict(
         title='Time of day',
-        tickvals=[0, 6, 12, 18, 23],  
+        tickvals=[0, 6, 12, 18, 23],
+        title_font=dict(color="white", size =18),
+        tickfont=dict(color="white"),
+        gridcolor='rgba(0, 0, 0, 0)',  
     ),
     yaxis=dict(
         title='Weekday',
         categoryorder='array',
         categoryarray=weekday_order,
+        title_font=dict(color="white", size =18),
+        tickfont=dict(color="white"),
+        gridcolor='rgba(0, 0, 0, 0)',  
     ),
-    plot_bgcolor='rgba(0,0,0,0)'
+    plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
+    paper_bgcolor='rgba(0,0,0,0)',  # Set the paper background color to transparent
 )
 
 fig1.add_annotation(
@@ -73,14 +81,14 @@ fig1.add_annotation(
     text='<b> students returning<br>home for the<br>weekend</b>',
     showarrow=True,
     arrowhead=1,
-    arrowcolor='black',
+    arrowcolor='white',
     ax=95,
     ay=-180,
     font=dict(color='black', size=10),  # Set font weight to 'bold'
     bordercolor='black',  # Set border color
     borderwidth=1,  # Set border width
     bgcolor='white',  # Set background color
-    opacity=0.8  # Set opacity of the frame
+    opacity=0.9  # Set opacity of the frame
 )
 
 # FIGURE 2
@@ -123,10 +131,11 @@ fig2.update_layout(
         categoryorder='array',
         categoryarray=weekday_order,
     ),
-    plot_bgcolor='rgba(0,0,0,0)'
+    plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
+    paper_bgcolor='rgba(0,0,0,0)',  # Set the paper background color to transparent
 )
 
-# Annotate the box for Thursday at hour 4
+# Annotate the box for Thursday at 4 AM
 fig2.add_annotation(
     xref='x',
     yref='y',
