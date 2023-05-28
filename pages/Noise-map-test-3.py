@@ -241,7 +241,7 @@ def update_marker_size(selected_day, selected_data, click_data):
 
     filtered_data = merged_data[merged_data['day_cum'] == selected_day]
 
-    selected_weather = merged_data.loc[selected_day-1]
+    selected_weather = daily_weather.loc[selected_day-1]
 
     #criterions can be changed later
     if(selected_weather["LC_DAILYRAIN"]>0.0002):#rainy day
