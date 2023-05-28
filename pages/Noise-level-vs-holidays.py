@@ -8,8 +8,8 @@ dash.register_page(__name__)
 
 # Define the radio item options
 radio_options = [
-    {'label': 'University Holidays', 'value': 'university'},
-    {'label': 'Pre-university Holidays', 'value': 'undergraduate'}
+    {'label': 'KU Leuven Holidays', 'value': 'university'},
+    {'label': 'Primary/Secondary school Holidays', 'value': 'undergraduate'}
 ]
 
 # Define the HTML layout
@@ -134,7 +134,7 @@ trace2 = go.Violin(
 # Create the layout for the plot
 layout_fig1 = go.Layout(
     title=dict(
-        text='Comparison of Noise Levels during Holidays and Normal Days <br>(university holidays)',
+        text='Noise levels during holidays and normal days <br>(KU Leuven holidays)',
         font=dict(color="white")
     ),
     title_font=dict(size=24, color="white"),  # Set the title font size and color
@@ -144,7 +144,7 @@ layout_fig1 = go.Layout(
         tickvals = [1,0], 
         ticktext = ["false",'Holiday - Normal day'],
         title_font=dict(color="white", size = 18),
-        tickfont=dict(color="white"),
+        tickfont=dict(color='rgba(0, 0, 0, 0)'),
         gridcolor='rgba(255, 255, 255, 0.2)'),
     yaxis=dict(
         {'title': 'Noise Level (Laeq in dB(A))'},
@@ -198,7 +198,7 @@ trace2 = go.Violin(
 # Create the layout for the plot
 layout_fig2 = go.Layout(
     title=dict(
-        text='Comparison of Noise Levels during Holidays and Normal Days <br>(primary and secondary school holidays)',
+        text='Noise levels during holidays and normal days <br>(primary and secondary school holidays)',
         font=dict(color="white")
     ),
     title_font=dict(size=24, color="white"),  # Set the title font size and color
@@ -208,7 +208,7 @@ layout_fig2 = go.Layout(
         tickvals = [1,0], 
         ticktext = ["false",'Holiday - Normal day'],
         title_font=dict(color="white", size = 18),
-        tickfont=dict(color="white"),
+        tickfont=dict(color='rgba(0, 0, 0, 0)'),
         gridcolor='rgba(255, 255, 255, 0.2)'),
     yaxis=dict(
         {'title': 'Noise Level (Laeq in dB(A))'},
