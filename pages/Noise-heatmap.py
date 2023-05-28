@@ -40,7 +40,7 @@ fig1.add_trace(go.Heatmap(
     x=noise_per_hour['hour'],
     y=noise_per_hour['wk_day'],
     z=noise_per_hour['laeq'], # NOTE: standardizing the data gives the exact same heatmap so no use in doing this
-    colorscale='Oranges',  
+    colorscale='Reds',  
     hovertemplate='Hour: %{x}<br>Weekday: %{y}<br>Sound level: %{z:.2f} dB(A)',
     hoverlabel=dict(namelength=0),
     ygap=1,  
@@ -60,6 +60,7 @@ fig1.update_layout(
         title_font=dict(color="white", size =18),
         tickfont=dict(color="white"),
         gridcolor='rgba(0, 0, 0, 0)',  
+        zeroline=False  # Remove the vertical grid line at 0
     ),
     yaxis=dict(
         title='Weekday',
@@ -116,6 +117,7 @@ fig2.update_layout(
         'text': 'Average noise in Leuven at night: Thursday = party day',
         'x': 0.5,  
         'xanchor': 'center',  
+        'font': {'color': 'white'}  # Set the title color to white
     },
     xaxis=dict(
         title='Time of day',
@@ -125,11 +127,18 @@ fig2.update_layout(
         tickvals=[-1, 0, 1, 2, 3, 4, 5],
         ticktext=['23', '0', '1', '2', '3', '4', '5'],
         range=[-1.5, 5.5],
+        title_font=dict(color="white", size =18),
+        tickfont=dict(color="white"),
+        gridcolor='rgba(0, 0, 0, 0)', 
+        zeroline=False  # Remove the vertical grid line at 0 
     ),
     yaxis=dict(
         title='Weekday',
         categoryorder='array',
         categoryarray=weekday_order,
+        title_font=dict(color="white", size =18),
+        tickfont=dict(color="white"),
+        gridcolor='rgba(0, 0, 0, 0)',  
     ),
     plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
     paper_bgcolor='rgba(0,0,0,0)',  # Set the paper background color to transparent
@@ -144,14 +153,14 @@ fig2.add_annotation(
     text='<b>drunk students returning<br>to their dorm</b>',
     showarrow=True,
     arrowhead=1,
-    arrowcolor='black',
+    arrowcolor='white',
     ax=100,
     ay=-140,
     font=dict(color='black', size=10),  # Set font weight to 'bold'
     bordercolor='black',  # Set border color
     borderwidth=1,  # Set border width
     bgcolor='white',  # Set background color
-    opacity=0.8  # Set opacity of the frame
+    opacity=0.9  # Set opacity of the frame
 )
 
 
