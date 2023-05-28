@@ -36,6 +36,8 @@ hourly_mean_data['description'] = hourly_mean_data['description'].str.replace('K
 #exception that I cannot fix with code: empty ones should be Naamsestraat 81
 hourly_mean_data.loc[hourly_mean_data['description'] == '', 'description'] = "Naamsestraat 81"
 
+# Remove spaces at begin and end
+hourly_mean_data['description'] = [description.strip() for description in hourly_mean_data['description']]
 
 
 ##################### FIGURES #####################
@@ -49,10 +51,11 @@ common_layout = {
             range=[35, 60],
             tickmode='array',
             tickvals=[35, 40, 45, 50, 55, 60],
-            ticktext=['35', '', '45', '', '55 dB(A)', ''], #extra spaces for 60 to push it more to the right
+            ticktext=['35', '', '45', '', '      55 dB(A)', ''], #extra spaces for 55 to push it more to the right
             gridcolor='rgba(255, 255, 255, 0.1)',
             gridwidth=0.01,
-            tickfont=dict(size=10, color='white')
+            tickfont=dict(size=10, color='white'),
+            gridshape='linear'  # Set the grid shape to linear (octagon)
         ), 
         angularaxis=dict(
             tickfont=dict(size=15, color='white'),
