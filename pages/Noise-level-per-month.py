@@ -121,7 +121,7 @@ def update_graph(data_type):
         fig = go.Figure(data=go.Bar(x=months, y=average_noise_std))
         fig.update_traces(marker=dict(color=['#2A9D8F' if val < 0 else '#EB862E' for val in average_noise_std]))
         fig.update_layout(
-            title=dict(text="Average noise level per month (standardized data)", font=dict(
+            title=dict(text="Average noise level per month (standardized values)", font=dict(
             color="white", size=24)),
             xaxis_title="Month",
             yaxis_title="Average noise level<br> (Laeq in dB(A))", title_font=dict(size=24), xaxis=dict(title_font=dict(color="white", size =18),showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)'),
