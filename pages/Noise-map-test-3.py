@@ -102,7 +102,7 @@ merged_data = pd.merge(merged_daily, daily_weather, on='day_cum', how='left')
 ## Laeq map daily ##
 # Create the Scattermapbox trace
 
-filtered_data = merged_data[merged_data['day_cum'] == 90]
+filtered_data = merged_data[merged_data['day_cum'] == 90] #why do we need this?
 
 data_trace = go.Scattermapbox(
     lat=filtered_data['lat'],
@@ -208,9 +208,9 @@ layout = html.Div(
                     children=[
                         html.Div(
                             id='clicked-data',
-                            style={'margin': '50px 0px',"width":"60%", 'display': 'flex'} # Add this line to include the Div element for displaying click data
+                            style={'margin': '50px 0px',"width":"60%", 'display': 'flex', 'justify-content': 'flex-start'}
                         ),
-                        html.Div(id="image-container", style={"width":"25%", "max-height":"100%", 'margin': '90px 30px'})
+                        html.Div(id="image-container", style={"width":"25%", "max-height":"100%", 'margin': '100px 30px'})
                         #html.Img(src=dash.get_asset_url('sunny-day.jpg'),style={"width":"25%",'max-height': '100%', 'object-fit': 'contain'}), #does not work: ,"border-radius":"10%"
                     ],
                     style = {'display': 'flex'}
@@ -224,7 +224,6 @@ layout = html.Div(
 
 
 ############################################
-# add a callback to update the slider value when the radio button is changed
 
 # Store the last selected slider value
 last_slider_value = 1
@@ -266,6 +265,7 @@ def update_marker_size(selected_day, selected_data, click_data):
         fig_laeq_daily.data[0].hovertemplate = 'Location: %{customdata[0]}<br>' \
                                                'Noise level: %{customdata[1]:.2f} dB(A)<br>' \
                                                'Temperature: %{customdata[2]:.1f} °C<br>'
+        
     elif selected_data == "option-lamax":
         fig_laeq_daily.data[0].lat = filtered_data['lat']
         fig_laeq_daily.data[0].lon = filtered_data['lon']
@@ -287,21 +287,27 @@ def update_marker_size(selected_day, selected_data, click_data):
 
         clicked_text = html.Div(
             children=[
-                html.Label('Clicked Point:', style={'font-size': '20px'}),
-                html.P(children=[
-                    html.Strong('Location: '),
-                    location if isinstance(location, str) else '', 
-                ]),
-                html.P(children=[
-                    html.Strong('Noise Level: '),
-                    f'{noise_level:.2f} dB(A)' if isinstance(noise_level, float) else '', #if no point (no sound level) is selected: empty string
-                ]),
-                html.P(children=[
-                    html.Strong('Temperature: '),
-                    f'{temperature:.1f} °C' if isinstance(temperature, float) else '', #if no point is selected: empty string
-                ]),
-            ]
-        )
+        html.Label('Clicked Point:', style={'font-size': '20px'}),
+        html.P(children=[
+            html.Strong('Location: '),
+            location if isinstance(location, str) else '', 
+            ], 
+            style={'margin-left': '0px'} #need to add this to not have indentation
+        ),
+        html.P(children=[
+            html.Strong('Noise Level: '),
+            f'{noise_level:.2f} dB(A)' if isinstance(noise_level, float) else '', #if no point (no sound level) is selected: empty string
+            ], 
+            style={'margin-left': '0px'}
+        ),
+        html.P(children=[
+            html.Strong('Temperature: '),
+            f'{temperature:.1f} °C' if isinstance(temperature, float) else '', #if no point is selected: empty string 
+            ],
+            style={'margin-left': '0px'}
+        ),
+    ]
+)
     image_html_comp = html.Img(src=dash.get_asset_url(image_path), style={"width": "100%", "max-height": "100%", "object-fit": "contain"})
 
-    return fig_laeq_daily, formatted_date, clicked_text, image_html_comp
+    return fig_laeq_daily, formatted_date, clicked_text, image_html_comp 
