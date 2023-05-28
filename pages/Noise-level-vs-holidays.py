@@ -14,38 +14,43 @@ radio_options = [
 
 # Define the HTML layout
 layout = html.Div(
-    style={'display': 'flex', 'height': '50vh'},
     children=[
+        html.H2("Is Leuven more or less noisy during holidays?"),
+        html.P("This violinplot compares the daily average noise levels in Leuven during holidays vs. regular days. Moreover, a distinction is made between primary/secundary school holidays and university holidays."),
         html.Div(
-            style={'width': '15%'},
-            children=[
-                html.Div('Left Content')
-            ]
-        ),
-        html.Div(
-            style={'width': '70%', 'position': 'relative'},
-            children=[
-                dcc.Graph(id='graph')
-            ]
-        ),
-        html.Div(
-            style={'width': '15%', 'position': 'relative'},
+            className="plot-container",  # Add the CSS class to this div element
+            style={'display': 'flex', 'justify-content': 'center'},
             children=[
                 html.Div(
-                    dcc.RadioItems(
-                        id='radio-item',
-                        options=radio_options,
-                        value='university',
-                        style={'margin-top': '200px'},
-                        labelStyle={'display': 'block', 'margin-bottom': '5px'}
-                    )
+                    style={'width': '15%'},
+                    children=[
+                        html.Div('')
+                    ]
+                ),
+                html.Div(
+                    style={'padding': '20px', 'max-width': '90vw', 'justify-content': 'center'},
+                    children=[
+                        dcc.Graph(id='graph')
+                    ]
+                ),
+                html.Div(
+                    style={'width': '15%', 'position': 'relative'},
+                    children=[
+                        html.Div(
+                            dcc.RadioItems(
+                                id='radio-item',
+                                options=radio_options,
+                                value='university',
+                                style={'margin-top': '200px'},
+                                labelStyle={'display': 'block', 'margin-bottom': '5px'}
+                            )
+                        )
+                    ]
                 )
             ]
         )
     ]
 )
-
-
 
 
 
@@ -109,6 +114,8 @@ trace1 = go.Violin(
     box_visible=True,
     meanline_visible=True,
     hovertemplate='<b>Holiday</b><br>Noise Level: %{y} dB',
+    fillcolor='rgba(255, 132, 232, 0.6)',  # Define the plot color for the holiday trace
+    line=dict(color='rgba(0, 0, 0, 0.8)', width=1)  # Define the edge color and width for the holiday trace
 )
 
 # Create a trace for the normal day distribution
@@ -120,18 +127,41 @@ trace2 = go.Violin(
     box_visible=True,
     meanline_visible=True,
     hovertemplate='<b>Normal Day</b><br>Noise Level: %{y} dB',
+    fillcolor='rgba(230, 175, 46, 0.6)',
+    line=dict(color='rgba(0, 0, 0, 0.8)', width=1)  # Define the edge color and width for the holiday trace
 )
 
 # Create the layout for the plot
 layout_fig1 = go.Layout(
-    title='Comparison of Noise Levels during Holidays and Normal Days (universities)',
-    xaxis={'title': 'Holiday vs normal day', 'range': [-0.5, 0.5], 'tickvals': [1,0], 'ticktext': ["false",'Holiday - Normal day']},
-    yaxis={'title': 'Noise Level (dB(A))'},
+    title=dict(
+        text='Comparison of Noise Levels during Holidays and Normal Days <br>(university holidays)',
+        font=dict(color="white")
+    ),
+    title_font=dict(size=24, color="white"),  # Set the title font size and color
+    xaxis=dict(
+        {'title': 'Holiday vs normal day'}, 
+        range = [-0.5, 0.5], 
+        tickvals = [1,0], 
+        ticktext = ["false",'Holiday - Normal day'],
+        title_font=dict(color="white", size = 18),
+        tickfont=dict(color="white"),
+        gridcolor='rgba(255, 255, 255, 0.2)'),
+    yaxis=dict(
+        {'title': 'Noise Level (Laeq in dB(A))'},
+        title_font=dict(color="white", size = 18),
+        tickfont=dict(color="white"),
+        gridcolor='rgba(255, 255, 255, 0.2)'),
     violingap=0,  # Set the gap between violins to 0 for overlapping
+    plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
+    paper_bgcolor='rgba(0,0,0,0)',  # Set the paper background color to transparent
+    legend = dict(font=dict(color='white'))
 )
 
 # Create the figure and add the traces
 fig1 = go.Figure(data=[trace1, trace2], layout=layout_fig1)
+
+# Set autosize to False and specify a larger width for the plot
+fig1.update_layout(autosize=False, width=800)
 
 #for pre-university school
 
@@ -148,6 +178,8 @@ trace1 = go.Violin(
     box_visible=True,
     meanline_visible=True,
     hovertemplate='<b>Holiday</b><br>Noise Level: %{y} dB',
+    fillcolor='rgba(255, 132, 232, 0.6)',  # Define the plot color for the holiday trace
+    line=dict(color='rgba(0, 0, 0, 0.8)', width=1)  # Define the edge color and width for the holiday trace
 )
 
 # Create a trace for the normal day distribution
@@ -159,19 +191,41 @@ trace2 = go.Violin(
     box_visible=True,
     meanline_visible=True,
     hovertemplate='<b>Normal Day</b><br>Noise Level: %{y} dB',
+    fillcolor='rgba(230, 175, 46, 0.6)',
+    line=dict(color='rgba(0, 0, 0, 0.8)', width=1)  # Define the edge color and width for the holiday trace
 )
 
 # Create the layout for the plot
 layout_fig2 = go.Layout(
-    title='Comparison of Noise Levels during Holidays and Normal Days (primary and secundary school)',
-    xaxis={'title': 'Holiday vs normal day', 'range': [-0.5, 0.5], 'tickvals': [1,0], 'ticktext': ["false",'Holiday - Normal day']},
-    yaxis={'title': 'Noise Level (dB)'},
+    title=dict(
+        text='Comparison of Noise Levels during Holidays and Normal Days <br>(primary and secondary school holidays)',
+        font=dict(color="white")
+    ),
+    title_font=dict(size=24, color="white"),  # Set the title font size and color
+    xaxis=dict(
+        {'title': 'Holiday vs normal day'}, 
+        range = [-0.5, 0.5], 
+        tickvals = [1,0], 
+        ticktext = ["false",'Holiday - Normal day'],
+        title_font=dict(color="white", size = 18),
+        tickfont=dict(color="white"),
+        gridcolor='rgba(255, 255, 255, 0.2)'),
+    yaxis=dict(
+        {'title': 'Noise Level (Laeq in dB(A))'},
+        title_font=dict(color="white", size = 18),
+        tickfont=dict(color="white"),
+        gridcolor='rgba(255, 255, 255, 0.2)'),
     violingap=0,  # Set the gap between violins to 0 for overlapping
+    plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
+    paper_bgcolor='rgba(0,0,0,0)',  # Set the paper background color to transparent
+    legend = dict(font=dict(color='white'))
 )
 
 # Create the figure and add the traces
 fig2 = go.Figure(data=[trace1, trace2], layout=layout_fig2)
 
+# Set autosize to False and specify a larger width for the plot
+fig2.update_layout(autosize=False, width=800)
 
 #############################################################################################""
 
