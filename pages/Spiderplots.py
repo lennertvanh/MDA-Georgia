@@ -50,18 +50,19 @@ common_layout = {
             tickmode='array',
             tickvals=[35, 40, 45, 50, 55, 60],
             ticktext=['', '40', '', '50', '', '   60 dB(A)'], #extra spaces for 60 to push it more to the right
-            gridcolor='lightgrey',
+            gridcolor='rgba(255, 255, 255, 0.1)',
             gridwidth=0.01,
-            tickfont=dict(size=10)
-        ),
+            tickfont=dict(size=10, color='white')
+        ), 
         angularaxis=dict(
-            tickfont=dict(size=15),
-            gridcolor='lightgrey',
+            tickfont=dict(size=15, color='white'),
+            gridcolor='rgba(255, 255, 255, 0.1)',
             gridwidth=0.01
         ),
-        bgcolor='white'
+        bgcolor='rgba(0,0,0,0)',
     ),
-    "plot_bgcolor": 'white'
+    "plot_bgcolor": "rgba(34, 49, 100, 0.89)",    # Set the plot area background color with transparency
+    "paper_bgcolor": "rgba(34, 49, 100, 0.89)"
 }
 
 
@@ -83,6 +84,9 @@ fig1.add_trace(go.Scatterpolar(
     fill='toself',
     name='23h',
     opacity=0.8,
+    marker=dict(
+        color='#e6af2e'  # Set the marker color to #eb862e
+    ),
     marker_line_width=2,
     marker_size=3,
     hoverlabel=dict(namelength=0),
@@ -110,6 +114,9 @@ fig2.add_trace(go.Scatterpolar(
     theta=data_hour_0_sorted_closed['description'],
     fill='toself',
     name='00h',
+    marker=dict(
+        color='#e6af2e'  # Set the marker color to #eb862e
+    ),
     opacity=0.8,
     marker_line_width=2,
     marker_size=3,
@@ -137,6 +144,9 @@ fig3.add_trace(go.Scatterpolar(
     theta=data_hour_1_sorted_closed['description'],
     fill='toself',
     name='01h',
+    marker=dict(
+        color='#e6af2e'  # Set the marker color to #eb862e
+    ),
     opacity=0.8,
     marker_line_width=2,
     marker_size=3,
@@ -164,6 +174,9 @@ fig4.add_trace(go.Scatterpolar(
     theta=data_hour_2_sorted_closed['description'],
     fill='toself',
     name='02h',
+    marker=dict(
+        color='#e6af2e'  # Set the marker color to #eb862e
+    ),
     opacity=0.8,
     marker_line_width=2,
     marker_size=3,
@@ -191,6 +204,9 @@ fig5.add_trace(go.Scatterpolar(
     theta=data_hour_3_sorted_closed['description'],
     fill='toself',
     name='03h',
+    marker=dict(
+        color='#e6af2e'  # Set the marker color to #eb862e
+    ),
     opacity=0.8,
     marker_line_width=2,
     marker_size=3,
@@ -218,6 +234,9 @@ fig6.add_trace(go.Scatterpolar(
     theta=data_hour_4_sorted_closed['description'],
     fill='toself',
     name='04h',
+    marker=dict(
+        color='#e6af2e'  # Set the marker color to #eb862e
+    ),
     opacity=0.8,
     marker_line_width=2,
     marker_size=3,
@@ -244,6 +263,9 @@ fig7.add_trace(go.Scatterpolar(
     theta=data_hour_5_sorted_closed['description'],
     fill='toself',
     name='5h',
+    marker=dict(
+        color='#e6af2e'  # Set the marker color to #eb862e
+    ),
     opacity=0.8,
     marker_line_width=2,
     marker_size=3,
@@ -258,7 +280,7 @@ fig7.update_layout(common_layout)
 
 ############################################
 layout = html.Div([
-    html.H1("How do nightly noise peaks vary across different locations in Leuven?"),
+    html.H2("How do nightly noise peaks vary across different locations in Leuven?"),
     html.Div(
         dcc.RadioItems(
             options=[
@@ -276,7 +298,8 @@ layout = html.Div([
             style={'margin-left': 'auto', 'margin-right': 'auto', 'margin-bottom': '20px', 'margin-top': '20px', 'display': 'flex', 'justify-content': 'center'}
         ),
     ),
-    html.Div(id="spiderplot-container")
+    html.Div(
+        id="spiderplot-container")
 ])
 
 
