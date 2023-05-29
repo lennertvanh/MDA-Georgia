@@ -264,7 +264,7 @@ def update_plot(data_type,total_clicks, rainy_clicks, dry_clicks):
         if clicked_button_id == "total-noise":
             #initialize the plot with the data
             fig = go.Figure(data=go.Bar(x=months, y=average_noise_std))
-            fig.update_traces(marker=dict(color=['#FEFE62' if val < 0 else '#D35FB7' for val in average_noise_std]))
+            fig.update_traces(marker=dict(color=['#2A9D8F' if val < 0 else '#EB862E' for val in average_noise_std]))
             fig.update_layout(title=dict(text="Total",x=0.5, font=dict(
             color="white")),xaxis_title="Month", yaxis_title="Average Noise Level",
                             plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
@@ -288,7 +288,7 @@ def update_plot(data_type,total_clicks, rainy_clicks, dry_clicks):
         elif clicked_button_id == "rainy-noise":
             #initialize the plot with the data
             fig = go.Figure(data=go.Bar(x=months, y=average_noise_rainy_std))
-            fig.update_traces(marker=dict(color=['#FEFE62' if val < 0 else '#D35FB7' for val in average_noise_rainy_std]))
+            fig.update_traces(marker=dict(color=['#2A9D8F' if val < 0 else '#EB862E' for val in average_noise_rainy_std]))
             fig.update_layout(title=dict(text="Rainy",x=0.5, font=dict(
             color="white")),xaxis_title="Month", yaxis_title="Average Noise Level",
                             plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
@@ -312,7 +312,7 @@ def update_plot(data_type,total_clicks, rainy_clicks, dry_clicks):
         elif clicked_button_id == "dry-noise":
             #initialize the plot with the data
             fig = go.Figure(data=go.Bar(x=months, y=average_noise_dry_std))
-            fig.update_traces(marker=dict(color=['#FEFE62' if val < 0 else '#D35FB7' for val in average_noise_dry_std]))
+            fig.update_traces(marker=dict(color=['#2A9D8F' if val < 0 else '#EB862E' for val in average_noise_dry_std]))
             fig.update_layout(title=dict(text="Dry",x=0.5, font=dict(
             color="white")),xaxis_title="Month", yaxis_title="Average Noise Level",
                             plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
