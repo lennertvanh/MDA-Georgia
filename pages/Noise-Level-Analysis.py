@@ -4,12 +4,13 @@ import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
 from dash.dependencies import Input, Output, State
+import dash_core_components as dcc
 import plotly.colors
 
 dash.register_page(__name__)
 
 # Loading noise data
-data_noise = pd.read_csv('Data/daily_noisedata_2022.csv', header=0, sep=',')
+data_noise = pd.read_csv('Data for visualization/daily_noisedata_2022.csv', header=0, sep=',')
 #data_holidays = pd.read_csv('Data/Holiday_dummies.csv', header=0, sep=',')
 
 # Create datetime variable for holiday data
@@ -22,26 +23,27 @@ value_to_keep = 'MP 03: Naamsestraat 62 Taste'
 data_noise = data_noise[data_noise['description'] == value_to_keep]
 
 # Create new column 'year'
-data_noise['year'] = 2022
+#data_noise['year'] = 2022
 
 # Combine 'hour', 'day', 'month', and 'year' columns to create a new 'result_date' column
-data_noise['result_date'] = pd.to_datetime(data_noise[['year', 'month', 'day']])
+#data_noise['result_date'] = pd.to_datetime(data_noise[['year', 'month', 'day']])
 
-# Sort the DataFrame by 'result_date' column
-data_noise = data_noise.sort_values('result_date')
+data_noise['date'] = pd.to_datetime(data_noise['date'], format='%d-%m-%Y')
+# Sort the DataFrame by 'date' column
+data_noise = data_noise.sort_values('date')
 
 # Merge the two datasets
 #data_holidays = data_holidays.drop_duplicates(subset='result_date') # dropping duplicates
 #data_noise = pd.concat([data_noise, data_holidays.set_index('result_date')], axis=1, join='inner').reset_index()
 
 # Line chart visualization
-fig = px.line(data_noise, x="result_date", y="laeq", title="Noise levels over time")
+fig = px.line(data_noise, x="date", y="laeq", title="Noise levels over time")
 
 fig.update_layout(
     plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
     paper_bgcolor='rgba(0,0,0,0)',  # Set the paper background color to transparent
     title=dict(
-        text="Noise levels over time",
+        text="Average noise levels over time - Taste (Naamsestraat 62)",
         font=dict(color="white"),
         
     ),
@@ -55,12 +57,12 @@ fig.update_layout(
         dtick='M1'
     ),
     yaxis=dict(
-        title="Noise level (Laeq in dB(A))",
+        title="Noise level (dB(A))",
         title_font=dict(color="white", size = 18),
         tickfont=dict(color="white"),
         gridcolor='rgba(255, 255, 255, 0.1)'
     ),
-    margin=dict(l=100, r=100, t=50, b=50),
+    margin=dict(l=50, r=50, t=50, b=50),
     hoverlabel=dict(font=dict(size=14))  
 )
 
@@ -100,26 +102,27 @@ layout = html.Div(
     ]
 )
 
-@callback(
-        Output("noise-graph", "figure"),
-    [Input("date-slider", "value"), Input("average-checkbox", "value"), Input("noise-graph", "figure")],
-)
 
+@callback(
+    Output("noise-graph", "figure"),
+    [Input("date-slider", "value"), Input("average-checkbox", "value")],
+    [State("noise-graph", "figure")],  # Add this line
+)
 def update_graph(date_range, show_average, figure):
     start_month, end_month = date_range
     
     # Filter the data based on the selected date range
     filtered_data = data_noise[
-        (data_noise["result_date"].dt.month >= start_month) &
-        (data_noise["result_date"].dt.month <= end_month)
+        (data_noise["date"].dt.month >= start_month) &
+        (data_noise["date"].dt.month <= end_month)
     ]
     
     # Update x and y values for the line chart
-    x_values = filtered_data["result_date"]
+    x_values = filtered_data["date"]
     y_values = filtered_data["laeq"]
     
     # Remove existing average traces
-    figure["data"] = [trace for trace in figure["data"] if "Average" not in trace["name"]]
+    figure["data"] = [trace for trace in figure["data"] if "Average" not in trace.get("name", "")]
     
     if "average" in show_average:
         # Calculate overall yearly average Laeq
@@ -142,14 +145,14 @@ def update_graph(date_range, show_average, figure):
     
     if "monthly" in show_average:
         # Calculate monthly average Laeq for each month
-        monthly_average = filtered_data.groupby(filtered_data["result_date"].dt.month)["laeq"].mean()
+        monthly_average = filtered_data.groupby(filtered_data["date"].dt.month)["laeq"].mean()
         
         # Create a line trace for each month's average
         for month, average in monthly_average.items():
             # Filter the data to include only the corresponding month
-            month_data = filtered_data[filtered_data["result_date"].dt.month == month]
+            month_data = filtered_data[filtered_data["date"].dt.month == month]
             
-            month_x_values = month_data["result_date"]
+            month_x_values = month_data["date"]
             month_y_values = [average] * len(month_x_values)
             
             month_trace = go.Scatter(
@@ -168,6 +171,7 @@ def update_graph(date_range, show_average, figure):
     
     # Update x-axis range in the figure layout
     figure["layout"]["xaxis"]["range"] = [pd.Timestamp(year=2022, month=start_month, day=1),
-                                          pd.Timestamp(year=2022, month=end_month, day=1)]
+                                        pd.Timestamp(year=2022, month=end_month, day=31)]
+
     
     return figure

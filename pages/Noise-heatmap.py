@@ -41,10 +41,12 @@ fig1.add_trace(go.Heatmap(
     y=noise_per_hour['wk_day'],
     z=noise_per_hour['laeq'], # NOTE: standardizing the data gives the exact same heatmap so no use in doing this
     colorscale='Reds',  
-    hovertemplate='Hour: %{x}<br>Weekday: %{y}<br>Sound level: %{z:.2f} dB(A)',
+    hovertemplate='Hour: %{x}<br>Weekday: %{y}<br>Noise level: %{z:.2f} dB(A)',
     hoverlabel=dict(namelength=0),
-    ygap=1,  
-    yperiodalignment='middle',  
+    yperiodalignment='middle', 
+    colorbar=dict(
+        tickfont=dict(color='white')  # Set the color of the colorbar tick labels to white
+    )
 ))
 
 fig1.update_layout(
@@ -106,10 +108,12 @@ fig2.add_trace(go.Heatmap(
     y=nightly_noise['wk_day'],
     z=nightly_noise['laeq'], 
     colorscale='Reds',  
-    hovertemplate='Hour: %{x}<br>Weekday: %{y}<br>Sound level: %{z:.2f} dB(A)',
+    hovertemplate='Hour: %{x}<br>Weekday: %{y}<br>Noise level: %{z:.2f} dB(A)',
     hoverlabel=dict(namelength=0),
-    ygap=1,  
     yperiodalignment='middle', 
+    colorbar=dict(
+        tickfont=dict(color='white')  # Set the color of the colorbar tick labels to white
+    )
 ))
 
 fig2.update_layout(
@@ -166,7 +170,7 @@ fig2.add_annotation(
 
 layout = html.Div([
     html.H2("Which time of day and night is the noisiest in Leuven?"),
-    html.P("This heatmap highlights the noisiest hours of the day and night in Leuven. "),
+    html.P("This heatmap highlights the noisiest hours of the day and night in Leuven throughout the different days of the week."),
     html.Div(
         className="plot-container",  # Add the CSS class to this div element
         style={'padding': '20px', 'max-width': '90vw', 'justify-content': 'center'},
