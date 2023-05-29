@@ -4,7 +4,6 @@ import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
 from dash.dependencies import Input, Output, State
-import dash_core_components as dcc
 import plotly.colors
 
 dash.register_page(__name__)
