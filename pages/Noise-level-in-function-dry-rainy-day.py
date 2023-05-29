@@ -92,7 +92,8 @@ layout = html.Div([
         #plot taking 80% of the width
         dcc.Graph(id="plot", figure=go.Figure(data=go.Bar(x=months, y=average_noise)),style={"margin-top":"0"}),
     ], style={'width': '80%', 'display': 'inline-block', 'vertical-align': 'top'}),
-    
+
+
     #place for the buttons
     html.Div([
         
@@ -151,14 +152,25 @@ def update_plot(data_type,total_clicks, rainy_clicks, dry_clicks):
     if not ctx.triggered:
         fig = go.Figure(data=go.Bar(x=months, y=average_noise))
         fig.update_layout(title=dict(text="Total",x=0.5, font=dict(
-            color="white")),xaxis_title="Month", yaxis_title="Average Noise Level",
-                          plot_bgcolor='#2E2E3A', paper_bgcolor='#2E2E3A',
-                          title_font_family="Times New Roman",title_font=dict(size=30), 
-                          xaxis=dict(showgrid=True, zeroline=True),
-                          yaxis=dict(showgrid=True, zeroline=True))
+        color="white")),xaxis_title="Month", yaxis_title="Average Noise Level",
+                        plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
+                        paper_bgcolor='rgba(0,0,0,0)',  # Set the paper background color to transparent
+                        title_font=dict(size=24),
+                        yaxis=dict(
+                            showgrid=True,
+                            zeroline=True,
+                            gridcolor='rgba(255, 255, 255, 0.1)',
+                            title_font=dict(color="white", size=18)
+                        ),
+                        xaxis=dict(
+                            showgrid=True,
+                            zeroline=True,
+                            gridcolor='rgba(255, 255, 255, 0.1)',
+                            title_font=dict(color="white", size=18)
+                        ))
         fig.update_xaxes(color="white",gridwidth=5)
         fig.update_yaxes(color="white")
-        fig.update_traces(marker_color='#FEFE62')
+        fig.update_traces(marker=dict(color='#E6AF2E'))
         return fig
 
     #find which button has been triggered
@@ -181,39 +193,72 @@ def update_plot(data_type,total_clicks, rainy_clicks, dry_clicks):
             fig = go.Figure(data=go.Bar(x=months, y=average_noise))
             fig.update_layout(title=dict(text="Total",x=0.5, font=dict(
             color="white")),xaxis_title="Month", yaxis_title="Average Noise Level",
-                            plot_bgcolor='#2E2E3A', paper_bgcolor='#2E2E3A',
-                            title_font_family="Times New Roman",title_font=dict(size=30),
-                            xaxis=dict(showgrid=True, zeroline=True),
-                            yaxis=dict(showgrid=True, zeroline=True))
+                            plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
+                            paper_bgcolor='rgba(0,0,0,0)',  # Set the paper background color to transparent
+                            title_font=dict(size=24),
+                            yaxis=dict(
+                                showgrid=True,
+                                zeroline=True,
+                                gridcolor='rgba(255, 255, 255, 0.1)',
+                                title_font=dict(color="white", size=18)
+                            ),
+                            xaxis=dict(
+                                showgrid=True,
+                                zeroline=True,
+                                gridcolor='rgba(255, 255, 255, 0.1)',
+                                title_font=dict(color="white", size=18)
+                            ))
             fig.update_xaxes(color="white",gridwidth=5)
             fig.update_yaxes(color="white")
-            fig.update_traces(marker_color='#FEFE62')
+            fig.update_traces(marker=dict(color='#E6AF2E'))
             return fig
         elif clicked_button_id == "rainy-noise":
             #initialize the plot with the data
             fig = go.Figure(data=go.Bar(x=months, y=average_noise_rainy))
             fig.update_layout(title=dict(text="Rainy",x=0.5, font=dict(
             color="white")),xaxis_title="Month", yaxis_title="Average Noise Level (Rainy)",
-                            plot_bgcolor='#2E2E3A', paper_bgcolor='#2E2E3A',
-                            title_font_family="Times New Roman",title_font=dict(size=30),
-                            xaxis=dict(showgrid=True, zeroline=True),
-                            yaxis=dict(showgrid=True, zeroline=True))
+                            plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
+                            paper_bgcolor='rgba(0,0,0,0)',  # Set the paper background color to transparent
+                            title_font=dict(size=24),
+                            yaxis=dict(
+                                showgrid=True,
+                                zeroline=True,
+                                gridcolor='rgba(255, 255, 255, 0.1)',
+                                title_font=dict(color="white", size=18)
+                            ),
+                            xaxis=dict(
+                                showgrid=True,
+                                zeroline=True,
+                                gridcolor='rgba(255, 255, 255, 0.1)',
+                                title_font=dict(color="white", size=18)
+                            ))
             fig.update_xaxes(color="white",gridwidth=5)
             fig.update_yaxes(color="white")
-            fig.update_traces(marker_color='#FEFE62')
+            fig.update_traces(marker_color='#E6AF2E')
             return fig
         elif clicked_button_id == "dry-noise":
             #initialize the plot with the data
             fig = go.Figure(data=go.Bar(x=months, y=average_noise_dry))
             fig.update_layout(title = dict(text="Dry",x=0.5, font=dict(
             color="white")),xaxis_title="Month", yaxis_title="Average Noise Level (Dry)",
-                            title_font_family="Times New Roman",title_font=dict(size=30),
-                            plot_bgcolor='#2E2E3A', paper_bgcolor='#2E2E3A',
-                            xaxis=dict(showgrid=True, zeroline=True), 
-                            yaxis=dict(showgrid=True, zeroline=True))
+                            title_font=dict(size=24),
+                            plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
+                            paper_bgcolor='rgba(0,0,0,0)',  # Set the paper background color to transparent
+                            yaxis=dict(
+                                showgrid=True,
+                                zeroline=True,
+                                gridcolor='rgba(255, 255, 255, 0.1)',
+                                title_font=dict(color="white", size=18)
+                            ),
+                            xaxis=dict(
+                                showgrid=True,
+                                zeroline=True,
+                                gridcolor='rgba(255, 255, 255, 0.1)',
+                                title_font=dict(color="white", size=18)
+                            ))
             fig.update_xaxes(color="white",gridwidth=5)
             fig.update_yaxes(color="white")
-            fig.update_traces(marker_color='#FEFE62')
+            fig.update_traces(marker_color='#E6AF2E')
             return fig
     elif data_type=="standardized":
         if clicked_button_id == "total-noise":
@@ -222,10 +267,21 @@ def update_plot(data_type,total_clicks, rainy_clicks, dry_clicks):
             fig.update_traces(marker=dict(color=['#FEFE62' if val < 0 else '#D35FB7' for val in average_noise_std]))
             fig.update_layout(title=dict(text="Total",x=0.5, font=dict(
             color="white")),xaxis_title="Month", yaxis_title="Average Noise Level",
-                            plot_bgcolor='#2E2E3A', paper_bgcolor='#2E2E3A',
-                            title_font_family="Times New Roman",title_font=dict(size=30),
-                            xaxis=dict(showgrid=True, zeroline=True),
-                            yaxis=dict(showgrid=True, zeroline=True))
+                            plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
+                            paper_bgcolor='rgba(0,0,0,0)',  # Set the paper background color to transparent,
+                            title_font=dict(size=24),
+                            yaxis=dict(
+                                showgrid=True,
+                                zeroline=True,
+                                gridcolor='rgba(255, 255, 255, 0.1)',
+                                title_font=dict(color="white", size=18)
+                            ),
+                            xaxis=dict(
+                                showgrid=True,
+                                zeroline=True,
+                                gridcolor='rgba(255, 255, 255, 0.1)',
+                                title_font=dict(color="white", size=18)
+                            ))
             fig.update_xaxes(color="white",gridwidth=5)
             fig.update_yaxes(color="white")
             return fig
@@ -235,10 +291,21 @@ def update_plot(data_type,total_clicks, rainy_clicks, dry_clicks):
             fig.update_traces(marker=dict(color=['#FEFE62' if val < 0 else '#D35FB7' for val in average_noise_rainy_std]))
             fig.update_layout(title=dict(text="Rainy",x=0.5, font=dict(
             color="white")),xaxis_title="Month", yaxis_title="Average Noise Level",
-                            plot_bgcolor='#2E2E3A', paper_bgcolor='#2E2E3A',
-                            title_font_family="Times New Roman",title_font=dict(size=30),
-                            xaxis=dict(showgrid=True, zeroline=True),
-                            yaxis=dict(showgrid=True, zeroline=True))
+                            plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
+                            paper_bgcolor='rgba(0,0,0,0)',  # Set the paper background color to transparent
+                            title_font=dict(size=24),
+                            yaxis=dict(
+                                showgrid=True,
+                                zeroline=True,
+                                gridcolor='rgba(255, 255, 255, 0.1)',
+                                title_font=dict(color="white", size=18)
+                            ),
+                            xaxis=dict(
+                                showgrid=True,
+                                zeroline=True,
+                                gridcolor='rgba(255, 255, 255, 0.1)',
+                                title_font=dict(color="white", size=18)
+                            ))
             fig.update_xaxes(color="white",gridwidth=5)
             fig.update_yaxes(color="white")
             return fig
@@ -248,10 +315,21 @@ def update_plot(data_type,total_clicks, rainy_clicks, dry_clicks):
             fig.update_traces(marker=dict(color=['#FEFE62' if val < 0 else '#D35FB7' for val in average_noise_dry_std]))
             fig.update_layout(title=dict(text="Dry",x=0.5, font=dict(
             color="white")),xaxis_title="Month", yaxis_title="Average Noise Level",
-                            plot_bgcolor='#2E2E3A', paper_bgcolor='#2E2E3A',
-                            title_font_family="Times New Roman",title_font=dict(size=30),
-                            xaxis=dict(showgrid=True, zeroline=True),
-                            yaxis=dict(showgrid=True, zeroline=True))
+                            plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
+                            paper_bgcolor='rgba(0,0,0,0)',  # Set the paper background color to transparent
+                            title_font=dict(size=24),
+                            yaxis=dict(
+                                showgrid=True,
+                                zeroline=True,
+                                gridcolor='rgba(255, 255, 255, 0.1)',
+                                title_font=dict(color="white", size=18)
+                            ),
+                            xaxis=dict(
+                                showgrid=True,
+                                zeroline=True,
+                                gridcolor='rgba(255, 255, 255, 0.1)',
+                                title_font=dict(color="white", size=18)
+                            ))
             fig.update_xaxes(color="white",gridwidth=5)
             fig.update_yaxes(color="white")
             return fig
