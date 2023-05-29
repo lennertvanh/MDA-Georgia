@@ -52,7 +52,7 @@ fig1.update_layout(
         'text': 'Average noise in Leuven throughout the day',
         'x': 0.5,  
         'xanchor': 'center', 
-        'font': {'color': 'white'}  # Set the title color to white
+        'font': {'color': 'white', 'size': 24}  # Set the title color to white
     },
     xaxis=dict(
         title='Time of day',
@@ -117,7 +117,7 @@ fig2.update_layout(
         'text': 'Average noise in Leuven at night: Thursday = party day',
         'x': 0.5,  
         'xanchor': 'center',  
-        'font': {'color': 'white'}  # Set the title color to white
+        'font': {'color': 'white', 'size' : 24}  # Set the title color to white
     },
     xaxis=dict(
         title='Time of day',
