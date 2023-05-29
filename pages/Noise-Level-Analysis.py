@@ -171,6 +171,7 @@ def update_graph(date_range, show_average, figure):
     
     # Update x-axis range in the figure layout
     figure["layout"]["xaxis"]["range"] = [pd.Timestamp(year=2022, month=start_month, day=1),
-                                          pd.Timestamp(year=2022, month=end_month, day=1)]
+                                        pd.Timestamp(year=2022, month=end_month, day=31)]
+
     
     return figure
