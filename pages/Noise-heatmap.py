@@ -76,23 +76,80 @@ fig1.update_layout(
     paper_bgcolor='rgba(0,0,0,0)',  # Set the paper background color to transparent
 )
 
+# Add annotations
 fig1.add_annotation(
     xref='x',
     yref='y',
     x=21,
     y=weekday_order.index('Fri'),
-    text='<b> students returning<br>home for the<br>weekend</b>',
+    text='<b>students going home<br> for the weekend</b>',
     showarrow=True,
-    arrowhead=1,
+    arrowside='none',
     arrowcolor='white',
-    ax=95,
-    ay=-180,
+    ax=-155,
+    ay=-175,
     font=dict(color='black', size=10),  # Set font weight to 'bold'
     bordercolor='black',  # Set border color
     borderwidth=1,  # Set border width
     bgcolor='white',  # Set background color
     opacity=0.9  # Set opacity of the frame
 )
+fig1.add_annotation(
+    xref='x',
+    yref='y',
+    x=21,
+    y=weekday_order.index('Sun'),
+    text='<b>students arriving in<br>Leuven for the school week</b>',
+    showarrow=True,
+    arrowside='none',
+    arrowcolor='white',
+    ax=20,
+    ay=-240,
+    font=dict(color='black', size=10),  # Set font weight to 'bold'
+    bordercolor='black',  # Set border color
+    borderwidth=1,  # Set border width
+    bgcolor='white',  # Set background color
+    opacity=0.9  # Set opacity of the frame
+)
+fig1.add_annotation(
+    xref='x',
+    yref='y',
+    x=11.5,
+    y=weekday_order.index('Sun'),
+    text='<b>market</b>',
+    showarrow=True,
+    arrowside='none',
+    arrowcolor='white',
+    ax=-50,
+    ay=-240,
+    font=dict(color='black', size=10),  # Set font weight to 'bold'
+    bordercolor='black',  # Set border color
+    borderwidth=1,  # Set border width
+    bgcolor='white',  # Set background color
+    opacity=0.9  # Set opacity of the frame
+)
+fig1.add_annotation(
+    xref='x',
+    yref='y',
+    x=13.5,
+    y=weekday_order.index('Fri'),
+    text='<b>students going home<br> for the weekend</b>',
+    showarrow=True,
+    arrowside='none',
+    arrowcolor='white',
+    ax=0,
+    ay=-175,
+    font=dict(color='black', size=10),  # Set font weight to 'bold'
+    bordercolor='black',  # Set border color
+    borderwidth=1,  # Set border width
+    bgcolor='white',  # Set background color
+    opacity=0.9  # Set opacity of the frame
+)
+
+
+
+
+
 
 # FIGURE 2
 
@@ -158,6 +215,7 @@ fig2.add_annotation(
     showarrow=True,
     arrowhead=1,
     arrowcolor='white',
+    arrowside='none',
     ax=100,
     ay=-140,
     font=dict(color='black', size=10),  # Set font weight to 'bold'
