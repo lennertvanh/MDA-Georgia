@@ -38,7 +38,7 @@ app.layout = html.Div(
                 html.Div(
                     className="category-column",
                     children=[
-                        html.H3("Explore the noise level data"),  # Category 2: Analysis of Noise Levels
+                        html.H3("Explore the noise data"),  # Category 2: Analysis of Noise Levels
                         html.Div(
                             dcc.Link("Noise level over time", href="noise-level-analysis")
                         ),
