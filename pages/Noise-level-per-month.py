@@ -148,7 +148,7 @@ def update_graph(data_type):
             title=dict(text="Average noise level per month (absolute values)",font=dict(
             color="white")),
             xaxis_title="Month",
-            yaxis_title="Average noise level<br> (Laeq in dB(A))", 
+            yaxis_title="Average noise level (dB(A))", 
             title_font=dict(size=24),
             yaxis=dict(showgrid=True, zeroline=True, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),),
             xaxis=dict(showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),),

@@ -76,23 +76,80 @@ fig1.update_layout(
     paper_bgcolor='rgba(0,0,0,0)',  # Set the paper background color to transparent
 )
 
+# Add annotations
 fig1.add_annotation(
     xref='x',
     yref='y',
     x=21,
     y=weekday_order.index('Fri'),
-    text='<b> students returning<br>home for the<br>weekend</b>',
+    text='<b>students going home<br> for the weekend</b>',
     showarrow=True,
-    arrowhead=1,
+    arrowside='none',
     arrowcolor='white',
-    ax=95,
-    ay=-180,
+    ax=-155,
+    ay=-175,
     font=dict(color='black', size=10),  # Set font weight to 'bold'
     bordercolor='black',  # Set border color
     borderwidth=1,  # Set border width
     bgcolor='white',  # Set background color
     opacity=0.9  # Set opacity of the frame
 )
+fig1.add_annotation(
+    xref='x',
+    yref='y',
+    x=21,
+    y=weekday_order.index('Sun'),
+    text='<b>students arriving in<br>Leuven for the school week</b>',
+    showarrow=True,
+    arrowside='none',
+    arrowcolor='white',
+    ax=20,
+    ay=-240,
+    font=dict(color='black', size=10),  # Set font weight to 'bold'
+    bordercolor='black',  # Set border color
+    borderwidth=1,  # Set border width
+    bgcolor='white',  # Set background color
+    opacity=0.9  # Set opacity of the frame
+)
+fig1.add_annotation(
+    xref='x',
+    yref='y',
+    x=11.5,
+    y=weekday_order.index('Sun'),
+    text='<b>market</b>',
+    showarrow=True,
+    arrowside='none',
+    arrowcolor='white',
+    ax=-40,
+    ay=-240,
+    font=dict(color='black', size=10),  # Set font weight to 'bold'
+    bordercolor='black',  # Set border color
+    borderwidth=1,  # Set border width
+    bgcolor='white',  # Set background color
+    opacity=0.9  # Set opacity of the frame
+)
+fig1.add_annotation(
+    xref='x',
+    yref='y',
+    x=13.5,
+    y=weekday_order.index('Fri'),
+    text='<b>students going home<br> for the weekend</b>',
+    showarrow=True,
+    arrowside='none',
+    arrowcolor='white',
+    ax=0,
+    ay=-175,
+    font=dict(color='black', size=10),  # Set font weight to 'bold'
+    bordercolor='black',  # Set border color
+    borderwidth=1,  # Set border width
+    bgcolor='white',  # Set background color
+    opacity=0.9  # Set opacity of the frame
+)
+
+
+
+
+
 
 # FIGURE 2
 
@@ -118,7 +175,7 @@ fig2.add_trace(go.Heatmap(
 
 fig2.update_layout(
     title={
-        'text': 'Average noise in Leuven at night: Thursday = party day',
+        'text': 'Average noise in Leuven at night',
         'x': 0.5,  
         'xanchor': 'center',  
         'font': {'color': 'white', 'size' : 24}  # Set the title color to white
@@ -148,17 +205,18 @@ fig2.update_layout(
     paper_bgcolor='rgba(0,0,0,0)',  # Set the paper background color to transparent
 )
 
-# Annotate the box for Thursday at 4 AM
+# Annotate the box for Thursday at 3-4 AM
 fig2.add_annotation(
     xref='x',
     yref='y',
-    x=4,
+    x=3.5,
     y=weekday_order.index('Thu'),
-    text='<b>drunk students returning<br>to their dorm</b>',
+    text='<b>drunk students returning to their dorm after partying</b>',
     showarrow=True,
     arrowhead=1,
     arrowcolor='white',
-    ax=100,
+    arrowside='none',
+    ax=30,
     ay=-140,
     font=dict(color='black', size=10),  # Set font weight to 'bold'
     bordercolor='black',  # Set border color
