@@ -16,7 +16,7 @@ radio_options = [
 layout = html.Div(
     children=[
         html.H2("Is Leuven more or less noisy during holidays?"),
-        html.P("This violinplot compares the daily average noise levels in Leuven during holidays vs. regular days. Moreover, a distinction is made between primary/secundary school holidays and university holidays."),
+        html.P("This violinplot compares the daily average noise levels in Leuven during holidays vs. regular days. Moreover, a distinction is made between primary/secondary school holidays and university holidays."),
         html.Div(
             className="plot-container",  # Add the CSS class to this div element
             style={'display': 'flex', 'justify-content': 'center'},

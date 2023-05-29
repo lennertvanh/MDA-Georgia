@@ -19,40 +19,50 @@ x = [1, 2, 3, 4, 5]
 y = [10, 5, 7, 8, 3]
 fig1 = go.Figure(data=go.Scatter(x=x, y=y, mode='markers'))
 
+
 # Define the HTML layout
 layout = html.Div(
-    style={'display': 'flex', 'height': '50vh'},
-    children=[
+    [
+        html.H2("Probing the frequency spectrum for different time intervals"),
+        html.P("The graph below allows us to dive into the fascinating world of noise patterns by exploring the frequency spectrum across various time intervals. By applying Fourier transformation to the recorded noise levels, we gain insight into the periodic components and dominant frequencies present in the noise data. Through the checkboxes, you can selectively examine the signal fit for different time resolutions, ranging from short intervals of 2 hours to longer durations of up to a year."),
         html.Div(
-            style={'width': '15%'},
-            children=[
-                dcc.Checklist(
-                            id='checklist-add-complete-time-series',
-                            options=[{"label":"add complete time series","value":"full-series"},{"label":"Frequency domain","value":"freq-domain"}],
-                            value=[], 
-                            style={'margin-bottom': '5px','display':'block'},
-                            labelStyle={'display':'block'}
-                        )
-            ]
-        ),
-        html.Div(
-            style={'width': '70%', 'position': 'relative'},
-            children=[
-                dcc.Graph(id='graph-Fourier', figure=fig1)
-                   
-            ]
-        ),
-        html.Div(
-            style={'width': '15%', 'position': 'relative'},
+            className="plot-container",  # Add the CSS class to this div element
+            style={'display': 'flex', 'justify-content': 'center'},
             children=[
                 html.Div(
+                    style={'width': '15%'},
                     children=[
                         dcc.Checklist(
-                            id='checklist',
-                            options=[{'label': label, 'value': label} for label in labels],
-                            value=["year"], 
-                            style={'margin-bottom': '5px','display':'block'},
-                            labelStyle={'display':'block'}
+                            id='checklist-add-complete-time-series',
+                            options=[
+                                {"label": "add complete time series", "value": "full-series"},
+                                {"label": "Frequency domain", "value": "freq-domain"}
+                            ],
+                            value=[],
+                            style={'margin-bottom': '5px', 'display': 'block'},
+                            labelStyle={'display': 'block'}
+                        )
+                    ]
+                ),
+                html.Div(
+                    style={'width': '70%', 'position': 'relative'},
+                    children=[
+                        dcc.Graph(id='graph-Fourier', figure=fig1)
+                    ]
+                ),
+                html.Div(
+                    style={'width': '15%', 'position': 'relative'},
+                    children=[
+                        html.Div(
+                            children=[
+                                dcc.Checklist(
+                                    id='checklist',
+                                    options=[{'label': label, 'value': label} for label in labels],
+                                    value=["year"],
+                                    style={'margin-bottom': '5px', 'display': 'block'},
+                                    labelStyle={'display': 'block'}
+                                )
+                            ]
                         )
                     ]
                 )
@@ -60,6 +70,7 @@ layout = html.Div(
         )
     ]
 )
+
 
 
 ###################################################################################
