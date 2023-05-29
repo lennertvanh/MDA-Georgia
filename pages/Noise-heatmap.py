@@ -120,7 +120,7 @@ fig1.add_annotation(
     showarrow=True,
     arrowside='none',
     arrowcolor='white',
-    ax=-50,
+    ax=-40,
     ay=-240,
     font=dict(color='black', size=10),  # Set font weight to 'bold'
     bordercolor='black',  # Set border color
@@ -175,7 +175,7 @@ fig2.add_trace(go.Heatmap(
 
 fig2.update_layout(
     title={
-        'text': 'Average noise in Leuven at night: Thursday = party day',
+        'text': 'Average noise in Leuven at night',
         'x': 0.5,  
         'xanchor': 'center',  
         'font': {'color': 'white', 'size' : 24}  # Set the title color to white
@@ -205,18 +205,18 @@ fig2.update_layout(
     paper_bgcolor='rgba(0,0,0,0)',  # Set the paper background color to transparent
 )
 
-# Annotate the box for Thursday at 4 AM
+# Annotate the box for Thursday at 3-4 AM
 fig2.add_annotation(
     xref='x',
     yref='y',
-    x=4,
+    x=3.5,
     y=weekday_order.index('Thu'),
-    text='<b>drunk students returning<br>to their dorm</b>',
+    text='<b>drunk students returning to their dorm after partying</b>',
     showarrow=True,
     arrowhead=1,
     arrowcolor='white',
     arrowside='none',
-    ax=100,
+    ax=30,
     ay=-140,
     font=dict(color='black', size=10),  # Set font weight to 'bold'
     bordercolor='black',  # Set border color
