@@ -102,11 +102,12 @@ layout = html.Div(
     ]
 )
 
-@callback(
-        Output("noise-graph", "figure"),
-    [Input("date-slider", "value"), Input("average-checkbox", "value"), Input("noise-graph", "figure")],
-)
 
+@callback(
+    Output("noise-graph", "figure"),
+    [Input("date-slider", "value"), Input("average-checkbox", "value")],
+    [State("noise-graph", "figure")],  # Add this line
+)
 def update_graph(date_range, show_average, figure):
     start_month, end_month = date_range
     
@@ -121,7 +122,7 @@ def update_graph(date_range, show_average, figure):
     y_values = filtered_data["laeq"]
     
     # Remove existing average traces
-    figure["data"] = [trace for trace in figure["data"] if "Average" not in trace["name"]]
+    figure["data"] = [trace for trace in figure["data"] if "Average" not in trace.get("name", "")]
     
     if "average" in show_average:
         # Calculate overall yearly average Laeq
