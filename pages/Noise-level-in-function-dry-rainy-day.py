@@ -11,7 +11,7 @@ global prev_clicked_button_id
 prev_clicked_button_id = ""
 
 #load the data
-weather_data = pd.read_csv("Data/daily_weatherdata_2022.csv", header = 0, sep=',')
+weather_data = pd.read_csv("Data for visualization/daily_weatherdata_2022.csv", header = 0, sep=',')
 
 #define the cutoff value of the rain, i.e. 0.2mm
 cutoff_rain_day = 0.0002

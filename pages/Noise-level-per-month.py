@@ -4,7 +4,7 @@ import dash
 from dash import html, dcc, callback
 from dash.dependencies import Input, Output
 
-dash.register_page(__name__)
+#dash.register_page(__name__)
 
 weather_data = pd.read_csv("Data/daily_weatherdata_2022.csv", header = 0, sep=',')
 weather_data.head()

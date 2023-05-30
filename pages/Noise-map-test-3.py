@@ -6,7 +6,7 @@ import plotly.graph_objects as go
 import numpy as np
 from datetime import datetime, timedelta
 
-dash.register_page(__name__)
+#dash.register_page(__name__)
 
 ####################################################################################
 ## data ##
