@@ -168,6 +168,7 @@ def update_plot(data_type,total_clicks, rainy_clicks, dry_clicks):
                             gridcolor='rgba(255, 255, 255, 0.1)',
                             title_font=dict(color="white", size=18)
                         ))
+        fig.update_traces(hovertemplate='%{x}: %{y:.2f} dB(A)', hoverlabel=dict(namelength=0))
         fig.update_xaxes(color="white",gridwidth=5)
         fig.update_yaxes(color="white")
         fig.update_traces(marker=dict(color='#E6AF2E'))
@@ -208,6 +209,7 @@ def update_plot(data_type,total_clicks, rainy_clicks, dry_clicks):
                                 gridcolor='rgba(255, 255, 255, 0.1)',
                                 title_font=dict(color="white", size=18)
                             ))
+            fig.update_traces(hovertemplate='%{x}: %{y:.2f} dB(A)', hoverlabel=dict(namelength=0))
             fig.update_xaxes(color="white",gridwidth=5)
             fig.update_yaxes(color="white")
             fig.update_traces(marker=dict(color='#E6AF2E'))
@@ -232,6 +234,7 @@ def update_plot(data_type,total_clicks, rainy_clicks, dry_clicks):
                                 gridcolor='rgba(255, 255, 255, 0.1)',
                                 title_font=dict(color="white", size=18)
                             ))
+            fig.update_traces(hovertemplate='%{x}: %{y:.2f} dB(A)', hoverlabel=dict(namelength=0))
             fig.update_xaxes(color="white",gridwidth=5)
             fig.update_yaxes(color="white")
             fig.update_traces(marker_color='#E6AF2E')
@@ -256,6 +259,7 @@ def update_plot(data_type,total_clicks, rainy_clicks, dry_clicks):
                                 gridcolor='rgba(255, 255, 255, 0.1)',
                                 title_font=dict(color="white", size=18)
                             ))
+            fig.update_traces(hovertemplate='%{x}: %{y:.2f} dB(A)', hoverlabel=dict(namelength=0))
             fig.update_xaxes(color="white",gridwidth=5)
             fig.update_yaxes(color="white")
             fig.update_traces(marker_color='#E6AF2E')
@@ -282,6 +286,7 @@ def update_plot(data_type,total_clicks, rainy_clicks, dry_clicks):
                                 gridcolor='rgba(255, 255, 255, 0.1)',
                                 title_font=dict(color="white", size=18)
                             ))
+            fig.update_traces(hovertemplate='%{x}: %{y:.2f}', hoverlabel=dict(namelength=0))
             fig.update_xaxes(color="white",gridwidth=5)
             fig.update_yaxes(color="white")
             return fig
@@ -306,6 +311,7 @@ def update_plot(data_type,total_clicks, rainy_clicks, dry_clicks):
                                 gridcolor='rgba(255, 255, 255, 0.1)',
                                 title_font=dict(color="white", size=18)
                             ))
+            fig.update_traces(hovertemplate='%{x}: %{y:.2f}', hoverlabel=dict(namelength=0))
             fig.update_xaxes(color="white",gridwidth=5)
             fig.update_yaxes(color="white")
             return fig
@@ -330,6 +336,7 @@ def update_plot(data_type,total_clicks, rainy_clicks, dry_clicks):
                                 gridcolor='rgba(255, 255, 255, 0.1)',
                                 title_font=dict(color="white", size=18)
                             ))
+            fig.update_traces(hovertemplate='%{x}: %{y:.2f}', hoverlabel=dict(namelength=0))
             fig.update_xaxes(color="white",gridwidth=5)
             fig.update_yaxes(color="white")
             return fig
