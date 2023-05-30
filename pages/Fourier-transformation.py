@@ -77,7 +77,7 @@ layout = html.Div(
 
 ###################################################################################
 #data
-data_noise = pd.read_csv("Data/hourly_noisedata_2022.csv")
+data_noise = pd.read_csv("Data for visualization/hourly_noisedata_2022.csv")
 data_Namen = data_noise[data_noise["description"]=="MP 03: Naamsestraat 62 Taste"]
 
 #fourier transformation
