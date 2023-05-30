@@ -218,24 +218,30 @@ fig4.update_layout(
 
 
 
-
 ##################################################################################################################
 # layout
 layout = html.Div([
-    html.H1("Weather Analysis"),
-    dcc.Dropdown(
-        id="figure-dropdown",
-        options=[
-            {"label": "Rainfall comparison", "value": "figure1"},
-            {"label": "Number of rainy days", "value": "figure2"},
-            {"label": "Temperature comparison", "value": "figure3"},
-            {"label": "Temperature comparison difference", "value": "figure4"}
-        ],
-        value="figure1",
+    html.H2("Weather Analysis"),
+    html.P("In this page, we will inspect the weather in Leuven in 2022. Please select with the dropdown menu what you want to take a closer look at."), 
+    html.Div(
+        dcc.Dropdown(
+            className="dropdown-style",
+            id="figure-dropdown",
+            searchable=False,
+            clearable=False,
+            options=[
+                {"label": "How does the rainfall in 2022 compare to the past?", "value": "figure1"},
+                {"label": "How much rainy days were there in each month of 2022?", "value": "figure2"},
+                {"label": "How does the temperature in 2022 compare to the past?", "value": "figure3"},
+                {"label": "Which months of 2022 were warmer or colder than the past?", "value": "figure4"}
+            ],
+            value="figure1",
+            style={'background-color': '#223164'}
+        ),
+        #className="dropdown-style"
     ),
     html.Div(id="figure-container")
 ])
-
 
 @callback(
     Output("figure-container", "children"),

@@ -110,3 +110,13 @@ button {
     background-color: #f0f0f0;
   } */ 
   
+/* these aren't working */
+.dropdown-style {
+    background-color: '#223164';
+    color: 'white';
+}
+
+.dropdown-style option {
+    background-color: '#223164';
+    color: 'white';
+}
