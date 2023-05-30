@@ -79,10 +79,10 @@ layout = html.Div(
             className="plot-container",  
             style={'padding': '20px', 'max-width': '90vw', 'justify-content': 'center'},
             children=[
-                dcc.Graph(id="noise-graph", figure=fig,  className="plot-container"),
+                dcc.Graph(id="noise-graph", figure=fig, className="plot-container"),
                 dcc.RangeSlider(
                     id="date-slider",
-                    marks={i: pd.Timestamp(year=2022, month=i, day=1).strftime("%B") for i in range(1, 13)},
+                    marks={i: {'label': pd.Timestamp(year=2022, month=i, day=1).strftime("%B"), 'style': {'font-weight': 'bold', 'color': 'white'}} for i in range(1, 13)},
                     min=1,
                     max=12,
                     value=[1, 12],
