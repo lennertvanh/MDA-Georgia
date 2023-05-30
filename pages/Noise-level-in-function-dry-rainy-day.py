@@ -1,3 +1,6 @@
+#########################################################################################################
+# PACKAGES
+
 import dash
 from dash import html, dcc, callback
 import pandas as pd
@@ -6,47 +9,49 @@ from dash.dependencies import Input, Output
 
 dash.register_page(__name__)
 
-#define global variable to keep track of the previous clicked value of the button
+#########################################################################################################
+# DATA
+
+# Define global variable to keep track of the previous clicked value of the button
 global prev_clicked_button_id
 prev_clicked_button_id = ""
 
-#load the data
+# Loading the weather & noise data
 weather_data = pd.read_csv("Data for visualization/daily_weatherdata_2022.csv", header = 0, sep=',')
+data_noise = pd.read_csv("Data for visualization/daily_noisedata_2022.csv", header=0, sep=',', parse_dates=["date"])
 
-#define the cutoff value of the rain, i.e. 0.2mm
+# Define the cutoff value of the rain, i.e. 0.2mm
 cutoff_rain_day = 0.0002
 
-#create the column boolean variable that indicates if it is a rainy day or not
+# Create the column boolean variable that indicates if it is a rainy day or not
 weather_data["bool_rainday"] = weather_data["LC_DAILYRAIN"] > cutoff_rain_day
 
-#load noise data
-data_noise = pd.read_csv('Data/combined_noisedata_2022.csv', header=0, sep=',', parse_dates=["result_date"])
+# Compute average noise for every month
+average_noise = data_noise.groupby('date')['laeq'].mean()
 
-#compute average noise for every month
-average_noise = data_noise.groupby('result_month')['laeq'].mean()
-
-#array with the abbreviation of the months
+# Array with the abbreviation of the months
 months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
 
-#merge the noise and weather data to know in the noise data for every day it is a rainy or dry day
-data_noise_merged = pd.merge(data_noise, weather_data[["Month", "Day", "bool_rainday"]], left_on=["result_month", "result_day"], right_on=["Month", "Day"], how="left")
-#remove duplicate rows
+# Merge the noise and weather data to know in the noise data for every day if it is a rainy or dry day
+data_noise_merged = pd.merge(data_noise, weather_data[["Month", "Day", "bool_rainday"]], left_on=["month", "day"], right_on=["Month", "Day"], how="left")
+
+# Remove duplicate rows
 data_noise_merged = data_noise_merged.drop_duplicates()
 
-#split the merged data into the dry and rainy days
+# Split the merged data into the dry and rainy days
 rainy_data = data_noise_merged[data_noise_merged["bool_rainday"]]
 dry_data = data_noise_merged[~data_noise_merged["bool_rainday"]]
 
-#compute the total means for total, rainy and dry data
+# Compute the total means for total, rainy and dry data
 mean_rainy = rainy_data["laeq"].mean()
 mean_total_data = data_noise["laeq"].mean()
 mean_dry = dry_data["laeq"].mean()
 
-#average noise for rainy data per month
-average_noise_rainy = rainy_data.groupby('result_month')['laeq'].mean()
+# Average noise for rainy data per month
+average_noise_rainy = rainy_data.groupby('month')['laeq'].mean()
 
 #average noise for dry data per month
-average_noise_dry = dry_data.groupby('result_month')['laeq'].mean()
+average_noise_dry = dry_data.groupby('month')['laeq'].mean()
 
 #standardize the "total" data
 mean_average_noise = average_noise.mean()
@@ -54,16 +59,19 @@ std_average_noise = average_noise.std()
 average_noise_std = (average_noise-mean_average_noise)/std_average_noise
 
 #compute per month and standardize the rainy data
-average_noise_rainy = rainy_data.groupby('result_month')['laeq'].mean()
+average_noise_rainy = rainy_data.groupby('month')['laeq'].mean()
 mean_average_noise_rainy = average_noise_rainy.mean()
 std_average_noise_rainy = average_noise_rainy.std()
 average_noise_rainy_std = (average_noise_rainy-mean_average_noise_rainy)/std_average_noise_rainy
 
 #compute per month and standardize the dry data
-average_noise_dry= dry_data.groupby('result_month')['laeq'].mean()
+average_noise_dry= dry_data.groupby('month')['laeq'].mean()
 mean_average_noise_dry = average_noise_dry.mean()
 std_average_noise_dry = average_noise_dry.std()
 average_noise_dry_std = (average_noise_dry-mean_average_noise_dry)/std_average_noise_dry
+
+#########################################################################################################
+# PAGE LAYOUT
 
 #define the html file: all the text, the place of the plot, buttons and radioItem
 layout = html.Div([
@@ -132,6 +140,9 @@ layout = html.Div([
 
     
 ])
+
+#########################################################################################################
+# CALLBACK UPDATE GRAPH
 
 #outputs and inputs that have to change dynamically over time
 @callback(

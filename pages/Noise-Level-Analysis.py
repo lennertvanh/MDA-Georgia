@@ -102,7 +102,7 @@ layout = html.Div(
 )
 
 #########################################################################################################
-# CALLBACK & UPDATE GRAPH
+# CALLBACK UPDATE GRAPH
 
 # Callback
 @callback(
