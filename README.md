@@ -58,6 +58,14 @@ pip install -r requirements.txt
 
 Now, you're all set to succesfully run the app!
 
+_**IMPORTANT**_:
+
+The app was deployed on Heroku. Since the compressed app could only take up 500MB, we were obliged to create separate requirements files to run the app and to run any file in the repository. It’s important to mention that the _**requirements.txt**_ file contains the necessary packages to run the app, while the _**requirements-full.txt**_ file contains _all_ the necessary packages to run the app and all other files in the repository. So, if you also want to run any of our notebooks, run this line in the terminal instead:
+
+```
+pip install -r requirements-full.txt
+```
+
 ---
 
 ## Usage

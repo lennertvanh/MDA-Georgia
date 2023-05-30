@@ -83,13 +83,13 @@ fig1.update_layout(
 fig1.add_annotation(
     xref='x',
     yref='y',
-    x=21,
+    x=21.5,
     y=weekday_order.index('Fri'),
     text='<b>students going home<br> for the weekend</b>',
     showarrow=True,
     arrowside='none',
     arrowcolor='white',
-    ax=-155,
+    ax=-110,
     ay=-175,
     font=dict(color='black', size=10),  
     bordercolor='black',  
@@ -106,8 +106,25 @@ fig1.add_annotation(
     showarrow=True,
     arrowside='none',
     arrowcolor='white',
-    ax=20,
+    ax=-250,
     ay=-240,
+    font=dict(color='black', size=10),  
+    bordercolor='black',  
+    borderwidth=1,  
+    bgcolor='white', 
+    opacity=0.9 
+)
+fig1.add_annotation(
+    xref='x',
+    yref='y',
+    x=23,
+    y=weekday_order.index('Sat'),
+    text='<b>international students<br>on their way to parties</b>',
+    showarrow=True,
+    arrowside='none',
+    arrowcolor='white',
+    ax=-20,
+    ay=-207.5,
     font=dict(color='black', size=10),  
     bordercolor='black',  
     borderwidth=1,  
@@ -119,11 +136,11 @@ fig1.add_annotation(
     yref='y',
     x=11.5,
     y=weekday_order.index('Sun'),
-    text='<b>market</b>',
+    text='<b>Sunday market</b>',
     showarrow=True,
     arrowside='none',
     arrowcolor='white',
-    ax=-40,
+    ax=-150,
     ay=-240,
     font=dict(color='black', size=10), 
     bordercolor='black',  
@@ -140,7 +157,7 @@ fig1.add_annotation(
     showarrow=True,
     arrowside='none',
     arrowcolor='white',
-    ax=0,
+    ax=-110,
     ay=-175,
     font=dict(color='black', size=10),  
     bordercolor='black',  
@@ -152,9 +169,8 @@ fig1.add_annotation(
 # FIGURE 2
 
 # Select rows where the hour is in the desired range
-nightly_noise = noise_per_hour[noise_per_hour['hour'].isin([0, 1, 2, 3, 4, 5, 23])].copy()
+nightly_noise = noise_per_hour[noise_per_hour['hour'].isin([0, 1, 2, 3, 4, 5])].copy()
 nightly_noise.reset_index(drop=True, inplace=True)
-nightly_noise.loc[nightly_noise['hour'] == 23, 'hour'] = -1 # to be able to plot 23h on the left
 
 fig2 = go.Figure()
 
@@ -181,11 +197,11 @@ fig2.update_layout(
     xaxis=dict(
         title='Time of day',
         categoryorder='array',
-        categoryarray=[-1, 0, 1, 2, 3, 4, 5],
+        categoryarray=[1, 2, 3, 4, 5],
         tickmode='array',
-        tickvals=[-1, 0, 1, 2, 3, 4, 5],
-        ticktext=['23', '0', '1', '2', '3', '4', '5'],
-        range=[-1.5, 5.5],
+        tickvals=[0, 1, 2, 3, 4, 5],
+        ticktext=['0', '1', '2', '3', '4', '5'],
+        range=[-0.5, 5.5],
         title_font=dict(color="white", size =18),
         tickfont=dict(color="white"),
         gridcolor='rgba(0, 0, 0, 0)', 
@@ -203,19 +219,73 @@ fig2.update_layout(
     paper_bgcolor='rgba(0,0,0,0)',
 )
 
-# Annotate the box for Thursday at 3-4 AM
+# Annotatations
 fig2.add_annotation(
     xref='x',
     yref='y',
     x=3.5,
     y=weekday_order.index('Thu'),
-    text='<b>drunk students returning to their dorm after partying</b>',
+    text='<b>drunk students returning to<br> their dorm after partying</b>',
     showarrow=True,
     arrowhead=1,
     arrowcolor='white',
     arrowside='none',
     ax=30,
     ay=-140,
+    font=dict(color='black', size=10),  
+    bordercolor='black',  
+    borderwidth=1,  
+    bgcolor='white', 
+    opacity=0.9  
+)
+fig2.add_annotation(
+    xref='x',
+    yref='y',
+    x=0.5,
+    y=weekday_order.index('Sat'),
+    text='<b>internationals and high schoolers<br> on their way to parties</b>',
+    showarrow=True,
+    arrowhead=1,
+    arrowcolor='white',
+    arrowside='none',
+    ax=100,
+    ay=-205,
+    font=dict(color='black', size=10),  
+    bordercolor='black',  
+    borderwidth=1,  
+    bgcolor='white', 
+    opacity=0.9  
+)
+fig2.add_annotation(
+    xref='x',
+    yref='y',
+    x=0,
+    y=weekday_order.index('Thu'),
+    text='<b>students on their<br>way to parties</b>',
+    showarrow=True,
+    arrowhead=1,
+    arrowcolor='white',
+    arrowside='none',
+    ax=-10,
+    ay=-140,
+    font=dict(color='black', size=10),  
+    bordercolor='black',  
+    borderwidth=1,  
+    bgcolor='white', 
+    opacity=0.9  
+)
+fig2.add_annotation(
+    xref='x',
+    yref='y',
+    x=5,
+    y=weekday_order.index('Sun'),
+    text='<b>people returning<br>from parties</b>',
+    showarrow=True,
+    arrowhead=1,
+    arrowcolor='white',
+    arrowside='none',
+    ax=-40,
+    ay=-240,
     font=dict(color='black', size=10),  
     bordercolor='black',  
     borderwidth=1,  
