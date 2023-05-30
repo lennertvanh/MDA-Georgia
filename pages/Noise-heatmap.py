@@ -15,7 +15,7 @@ noise_data = pd.read_csv("Data for visualization/hourly_noisedata_2022.csv")
 
 # Should we take the mean over all locations first? Or make it such that you can select the locations?
 # take the mean value across all locations
-noise_per_hour = noise_data.drop(columns='description', axis=1)
+noise_per_hour = noise_data.drop(columns=['description', 'date'], axis=1)
 noise_per_hour = noise_per_hour.groupby(['month', 'day', 'hour']).mean()
 noise_per_hour = noise_per_hour.reset_index()
 
