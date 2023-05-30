@@ -9,8 +9,8 @@ import datetime
 #dash.register_page(__name__)
 
 ## Data ##
-daily_noise = pd.read_csv("Data/daily_noisedata_2022.csv")
-monthly_noise = pd.read_csv("Data/monthly_noisedata_2022.csv")
+daily_noise = pd.read_csv("Data for visualization/daily_noisedata_2022.csv")
+monthly_noise = pd.read_csv("Data for visualization/monthly_noisedata_2022.csv")
 
 # Create dataframe with GPS coordinates
 gps_data = {

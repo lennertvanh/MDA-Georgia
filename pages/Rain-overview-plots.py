@@ -11,7 +11,7 @@ dash.register_page(__name__)
 #https://www.meteo.be/nl/klimaat/klimaat-van-belgie/klimaat-in-uw-gemeente
 avg_rain_month = [70.4, 62.2, 54.4, 43.3, 55.5, 67.3, 72.7, 79.5, 60.5, 62.8, 68.5, 83.5 ]
 
-weather_data = pd.read_csv("Data/daily_weatherdata_2022.csv")
+weather_data = pd.read_csv("Data for visualization/daily_weatherdata_2022.csv")
 
 weather_data["LC_DAILYRAIN_mm"] = weather_data["LC_DAILYRAIN"]*1000  #have in mm instead of m
 total_rain_per_month = weather_data.groupby("Month")["LC_DAILYRAIN_mm"].sum()
@@ -25,17 +25,43 @@ months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", 
 fig1 = go.Figure()
 
 # Add the scatter plot for average rainfall over the last 20 years
-fig1.add_trace(go.Scatter(x=months, y=avg_rain_month, name="Average Rainfall (Last 20 Years)", mode="markers+lines"))
+fig1.add_trace(go.Scatter(x=months, y=avg_rain_month, name="Average Rainfall (Last 20 Years)", mode="markers+lines", marker=dict(color='#2A9D8F'), line=dict(color='#2A9D8F')))
 
 # Add the scatter plot for rainfall in 2022
-fig1.add_trace(go.Scatter(x=months, y=total_rain_per_month, name="Rainfall in 2022", mode="markers+lines"))
+fig1.add_trace(go.Scatter(x=months, y=total_rain_per_month, name="Rainfall in 2022", mode="markers+lines", marker=dict(color='#EB862E'), line=dict(color='#EB862E')))
 
 # Update the layout
 fig1.update_layout(
-    title="Rainfall comparison between year 2022 and the average over the past 20 years",
-    xaxis_title="Month",
-    yaxis_title="Rainfall (mm)"
+    title=dict(text="Rainfall comparison between year 2022 and the average over the past 20 years", 
+               x=0.5,
+               font=dict(color="white", size=24)
+               ),
+    xaxis=dict(title='Month',
+               showgrid=True,
+               zeroline=True,
+               gridcolor='rgba(255, 255, 255, 0.1)',
+               title_font=dict(color="white", size=18)),
+    yaxis=dict(title='Rainfall (mm)',
+               showgrid=True,
+               zeroline=True,
+               gridcolor='rgba(255, 255, 255, 0.1)',
+               title_font=dict(color="white", size=18)),
+    plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
+    paper_bgcolor='rgba(0,0,0,0)'  # Set the paper background color to transparent
 )
+fig1.update_xaxes(color="white", gridwidth=2)
+fig1.update_yaxes(color="white")
+fig1.update_traces(hovertemplate='%{x}: %{y:.1f}°C', hoverlabel=dict(namelength=0))
+
+# Text of the legend in white
+fig1.update_layout(
+    legend=dict(
+        font=dict(color='white')
+    )
+)
+
+
+
 
 ######################################################################################################""
 #figure 2
@@ -50,12 +76,34 @@ rainy_counts = weather_data.groupby('Month')['bool_rainday'].sum()  # Count the 
 # Create the bar chart
 fig2 = go.Figure(data=go.Bar(x=months, y=rainy_counts))
 
+# Set the color of bars to yellow
+fig2.update_traces(marker=dict(color='#E6AF2E'))
+fig2.update_traces(hovertemplate='%{x}: %{y}', hoverlabel=dict(namelength=0))
+
 # Customize the chart layout
 fig2.update_layout(
-    title="Number of rainy days per month",
+    title=dict(text="Number of rainy days per month", x=0.5, font=dict(color="white")),
     xaxis_title="Month",
-    yaxis_title="Number of rainy days"
+    yaxis_title="Number of rainy days", 
+    title_font=dict(size=24),
+    yaxis=dict(
+        showgrid=True,
+        zeroline=True,
+        gridcolor='rgba(255, 255, 255, 0.1)',
+        title_font=dict(color="white", size=18)
+    ),
+    xaxis=dict(
+        showgrid=True,
+        zeroline=True,
+        gridcolor='rgba(255, 255, 255, 0.1)',
+        title_font=dict(color="white", size=18)
+    ),
+    plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
+    paper_bgcolor='rgba(0,0,0,0)',  # Set the paper background color to transparent
 )
+fig2.update_xaxes(color="white",gridwidth=5)
+fig2.update_yaxes(color="white")
+
 
 ######################################################################################################
 #figure 3
@@ -67,16 +115,39 @@ avg_temp_per_month = weather_data.groupby("Month")["LC_TEMP_QCL3"].mean()
 fig3 = go.Figure()
 
 # Add the scatter plot for average rainfall over the last 20 years
-fig3.add_trace(go.Scatter(x=months, y=avg_temp_Uccle, name="Average temperature (Last 20 Years)", mode="markers+lines"))
+fig3.add_trace(go.Scatter(x=months, y=avg_temp_Uccle, name="Average temperature (Last 20 Years)", mode="markers+lines", marker=dict(color='#2A9D8F'), line=dict(color='#2A9D8F')))
 
 # Add the scatter plot for rainfall in 2022
-fig3.add_trace(go.Scatter(x=months, y=avg_temp_per_month, name="Temperature in 2022", mode="markers+lines"))
+fig3.add_trace(go.Scatter(x=months, y=avg_temp_per_month, name="Temperature in 2022", mode="markers+lines", marker=dict(color='#EB862E'), line=dict(color='#EB862E')))
 
 # Update the layout
 fig3.update_layout(
-    title="Temperature comparison between year 2022 and the average over the past 20 years",
-    xaxis_title="Month",
-    yaxis_title="Temperature (°C)"
+    title=dict(text="Temperature comparison between year 2022 and the average over the past 20 years", 
+               x=0.5,
+               font=dict(color="white", size=24)
+               ),
+    xaxis=dict(title='Month',
+               showgrid=True,
+               zeroline=True,
+               gridcolor='rgba(255, 255, 255, 0.1)',
+               title_font=dict(color="white", size=18)),
+    yaxis=dict(title='Temperature (°C)',
+               showgrid=True,
+               zeroline=True,
+               gridcolor='rgba(255, 255, 255, 0.1)',
+               title_font=dict(color="white", size=18)),
+    plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
+    paper_bgcolor='rgba(0,0,0,0)'  # Set the paper background color to transparent
+)
+fig3.update_xaxes(color="white", gridwidth=2)
+fig3.update_yaxes(color="white")
+fig3.update_traces(hovertemplate='%{x}: %{y:.1f}mm', hoverlabel=dict(namelength=0))
+
+# Text of the legend in white
+fig3.update_layout(
+    legend=dict(
+        font=dict(color='white')
+    )
 )
 
 ##################################################################################""
@@ -85,7 +156,7 @@ fig3.update_layout(
 diff_temp = avg_temp_per_month-avg_temp_Uccle
 
 # Define colors based on diff_temp values
-colors = ['red' if temp > 0 else 'blue' for temp in diff_temp]
+colors = ['#EB862E' if temp > 0 else '#2A9D8F' for temp in diff_temp]
 
 # Create bar chart using go.Bar
 data = go.Bar(
@@ -97,20 +168,35 @@ data = go.Bar(
 
 # Create layout
 layout = go.Layout(
-    title='Temperature differences beween the year 2022 and the past 20 years - positive values indicate 2022 being warmer than the average',
-    xaxis=dict(title='Months'),
-    yaxis=dict(title='Difference in temperature (°C)')
+    title=dict(text='Temperature differences between the year 2022 and the past 20 years',
+               x=0.5,
+               font=dict(color="white", size=24)),
+    xaxis=dict(title='Months',
+               showgrid=True,
+               zeroline=True,
+               gridcolor='rgba(255, 255, 255, 0.1)',
+               title_font=dict(color="white", size=18)),
+    yaxis=dict(title='Difference in temperature (°C)',
+               showgrid=True,
+               zeroline=True,
+               gridcolor='rgba(255, 255, 255, 0.1)',
+               title_font=dict(color="white", size=18)),
+    plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
+    paper_bgcolor='rgba(0,0,0,0)'  # Set the paper background color to transparent
 )
 
 # Create figure
 fig4 = go.Figure(data=[data], layout=layout)
+fig4.update_xaxes(color="white",gridwidth=5)
+fig4.update_yaxes(color="white")
+fig4.update_traces(hovertemplate='%{x}: %{y:.1f}°C', hoverlabel=dict(namelength=0))
 
 # Add legend items
 fig4.add_trace(go.Scatter(
     x=[None],
     y=[None],
     mode='markers',
-    marker=dict(color='red'),
+    marker=dict(color='#EB862E'),
     name='2022 warmer than average',
     showlegend=True
 ))
@@ -118,18 +204,25 @@ fig4.add_trace(go.Scatter(
     x=[None],
     y=[None],
     mode='markers',
-    marker=dict(color='blue'),
+    marker=dict(color='#2A9D8F'),
     name='2022 colder than average',
     showlegend=True
 ))
+
+# Text of the legend in white
+fig4.update_layout(
+    legend=dict(
+        font=dict(color='white')
+    )
+)
+
 
 
 
 ##################################################################################################################
 # layout
-
 layout = html.Div([
-    html.H1("Rainfall Analysis"),
+    html.H1("Weather Analysis"),
     dcc.Dropdown(
         id="figure-dropdown",
         options=[
@@ -138,10 +231,11 @@ layout = html.Div([
             {"label": "Temperature comparison", "value": "figure3"},
             {"label": "Temperature comparison difference", "value": "figure4"}
         ],
-        value="figure1"
+        value="figure1",
     ),
     html.Div(id="figure-container")
 ])
+
 
 @callback(
     Output("figure-container", "children"),
