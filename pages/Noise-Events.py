@@ -6,7 +6,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import datetime
 
-dash.register_page(__name__)
+#dash.register_page(__name__)
 
 # Load data
 data_noise = pd.read_csv("Data for visualization/combined_noise_event.csv", header=0, sep=',')

@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 from dash.dependencies import Input, Output  #if I want a slider, button, ...
 
 
-#dash.register_page(__name__)
+dash.register_page(__name__)
 
 
 ############################### DATA PREPARATION #################################

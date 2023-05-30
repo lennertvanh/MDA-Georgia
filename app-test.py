@@ -71,9 +71,6 @@ app.layout = html.Div(
                     children=[
                         html.H3("Explore the weather data"),  # Category 3: Analysis of Weather
                         html.Div(
-                            dcc.Link("Rain days per month", href="rain-days-per-month")
-                        ),
-                        html.Div(
                             dcc.Link("Rain overview plots", href="rain-overview-plots")
                         ),
                         html.Div(
