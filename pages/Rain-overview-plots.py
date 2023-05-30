@@ -25,17 +25,43 @@ months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", 
 fig1 = go.Figure()
 
 # Add the scatter plot for average rainfall over the last 20 years
-fig1.add_trace(go.Scatter(x=months, y=avg_rain_month, name="Average Rainfall (Last 20 Years)", mode="markers+lines"))
+fig1.add_trace(go.Scatter(x=months, y=avg_rain_month, name="Average Rainfall (Last 20 Years)", mode="markers+lines", marker=dict(color='#2A9D8F'), line=dict(color='#2A9D8F')))
 
 # Add the scatter plot for rainfall in 2022
-fig1.add_trace(go.Scatter(x=months, y=total_rain_per_month, name="Rainfall in 2022", mode="markers+lines"))
+fig1.add_trace(go.Scatter(x=months, y=total_rain_per_month, name="Rainfall in 2022", mode="markers+lines", marker=dict(color='#EB862E'), line=dict(color='#EB862E')))
 
 # Update the layout
 fig1.update_layout(
-    title="Rainfall comparison between year 2022 and the average over the past 20 years",
-    xaxis_title="Month",
-    yaxis_title="Rainfall (mm)"
+    title=dict(text="Rainfall comparison between year 2022 and the average over the past 20 years", 
+               x=0.5,
+               font=dict(color="white", size=24)
+               ),
+    xaxis=dict(title='Month',
+               showgrid=True,
+               zeroline=True,
+               gridcolor='rgba(255, 255, 255, 0.1)',
+               title_font=dict(color="white", size=18)),
+    yaxis=dict(title='Rainfall (mm)',
+               showgrid=True,
+               zeroline=True,
+               gridcolor='rgba(255, 255, 255, 0.1)',
+               title_font=dict(color="white", size=18)),
+    plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
+    paper_bgcolor='rgba(0,0,0,0)'  # Set the paper background color to transparent
 )
+fig1.update_xaxes(color="white", gridwidth=5)
+fig1.update_yaxes(color="white")
+fig1.update_traces(hovertemplate='%{x}: %{y:.1f}mm', hoverlabel=dict(namelength=0))
+
+# Text of the legend in white
+fig1.update_layout(
+    legend=dict(
+        font=dict(color='white')
+    )
+)
+
+
+
 
 ######################################################################################################""
 #figure 2
@@ -140,7 +166,7 @@ layout = go.Layout(
 fig4 = go.Figure(data=[data], layout=layout)
 fig4.update_xaxes(color="white",gridwidth=5)
 fig4.update_yaxes(color="white")
-fig4.update_traces(hovertemplate='%{x}: %{y:.2f}°C', hoverlabel=dict(namelength=0))
+fig4.update_traces(hovertemplate='%{x}: %{y:.1f}°C', hoverlabel=dict(namelength=0))
 
 # Add legend items
 fig4.add_trace(go.Scatter(
