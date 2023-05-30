@@ -147,7 +147,7 @@ def update_scatter_plot(selected_month):
 
     fig = go.Figure()
 
-    # Add the line shape first (so that it is behind the other traces)
+    # Add the line shape 
     fig.add_shape(
         type='line',
         xref='x',
