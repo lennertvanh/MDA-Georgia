@@ -107,7 +107,7 @@ fig3.update_layout(
 diff_temp = avg_temp_per_month-avg_temp_Uccle
 
 # Define colors based on diff_temp values
-colors = ['red' if temp > 0 else 'blue' for temp in diff_temp]
+colors = ['#EB862E' if temp > 0 else '#2A9D8F' for temp in diff_temp]
 
 # Create bar chart using go.Bar
 data = go.Bar(
@@ -119,7 +119,7 @@ data = go.Bar(
 
 # Create layout
 layout = go.Layout(
-    title=dict(text='Temperature differences between the year 2022 and the past 20 years - positive values indicate 2022 being warmer than the average',
+    title=dict(text='Temperature differences between the year 2022 and the past 20 years',
                x=0.5,
                font=dict(color="white", size=24)),
     xaxis=dict(title='Months',
@@ -140,6 +140,7 @@ layout = go.Layout(
 fig4 = go.Figure(data=[data], layout=layout)
 fig4.update_xaxes(color="white",gridwidth=5)
 fig4.update_yaxes(color="white")
+fig4.update_traces(hovertemplate='%{x}: %{y:.2f}°C', hoverlabel=dict(namelength=0))
 
 # Add legend items
 fig4.add_trace(go.Scatter(
@@ -148,9 +149,7 @@ fig4.add_trace(go.Scatter(
     mode='markers',
     marker=dict(color='#EB862E'),
     name='2022 warmer than average',
-    showlegend=True,
-    hovertemplate='%{x}: %{y:.2f}°C', 
-    hoverlabel=dict(namelength=0)
+    showlegend=True
 ))
 fig4.add_trace(go.Scatter(
     x=[None],
@@ -158,19 +157,23 @@ fig4.add_trace(go.Scatter(
     mode='markers',
     marker=dict(color='#2A9D8F'),
     name='2022 colder than average',
-    showlegend=True,
-    hovertemplate='%{x}: %{y:.2f}°C', 
-    hoverlabel=dict(namelength=0)
+    showlegend=True
 ))
+
+# Text of the legend in white
+fig4.update_layout(
+    legend=dict(
+        font=dict(color='white')
+    )
+)
 
 
 
 
 ##################################################################################################################
 # layout
-
 layout = html.Div([
-    html.H1("Rainfall Analysis"),
+    html.H1("Weather Analysis"),
     dcc.Dropdown(
         id="figure-dropdown",
         options=[
@@ -179,10 +182,11 @@ layout = html.Div([
             {"label": "Temperature comparison", "value": "figure3"},
             {"label": "Temperature comparison difference", "value": "figure4"}
         ],
-        value="figure1"
+        value="figure1",
     ),
     html.Div(id="figure-container")
 ])
+
 
 @callback(
     Output("figure-container", "children"),
