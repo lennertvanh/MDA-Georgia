@@ -11,7 +11,7 @@ dash.register_page(__name__)
 #https://www.meteo.be/nl/klimaat/klimaat-van-belgie/klimaat-in-uw-gemeente
 avg_rain_month = [70.4, 62.2, 54.4, 43.3, 55.5, 67.3, 72.7, 79.5, 60.5, 62.8, 68.5, 83.5 ]
 
-weather_data = pd.read_csv("Data/daily_weatherdata_2022.csv")
+weather_data = pd.read_csv("Data for visualization/daily_weatherdata_2022.csv")
 
 weather_data["LC_DAILYRAIN_mm"] = weather_data["LC_DAILYRAIN"]*1000  #have in mm instead of m
 total_rain_per_month = weather_data.groupby("Month")["LC_DAILYRAIN_mm"].sum()

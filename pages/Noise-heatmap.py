@@ -11,7 +11,7 @@ dash.register_page(__name__)
 
 ## DATA ##
 
-noise_data = pd.read_csv("Data/hourly_noisedata_2022.csv")
+noise_data = pd.read_csv("Data for visualization/hourly_noisedata_2022.csv")
 
 # Should we take the mean over all locations first? Or make it such that you can select the locations?
 # take the mean value across all locations
