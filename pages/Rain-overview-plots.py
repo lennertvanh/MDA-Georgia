@@ -50,12 +50,34 @@ rainy_counts = weather_data.groupby('Month')['bool_rainday'].sum()  # Count the 
 # Create the bar chart
 fig2 = go.Figure(data=go.Bar(x=months, y=rainy_counts))
 
+# Set the color of bars to yellow
+fig2.update_traces(marker=dict(color='#E6AF2E'))
+fig2.update_traces(hovertemplate='%{x}: %{y}', hoverlabel=dict(namelength=0))
+
 # Customize the chart layout
 fig2.update_layout(
-    title="Number of rainy days per month",
+    title=dict(text="Number of rainy days per month", x=0.5, font=dict(color="white")),
     xaxis_title="Month",
-    yaxis_title="Number of rainy days"
+    yaxis_title="Number of rainy days", 
+    title_font=dict(size=24),
+    yaxis=dict(
+        showgrid=True,
+        zeroline=True,
+        gridcolor='rgba(255, 255, 255, 0.1)',
+        title_font=dict(color="white", size=18)
+    ),
+    xaxis=dict(
+        showgrid=True,
+        zeroline=True,
+        gridcolor='rgba(255, 255, 255, 0.1)',
+        title_font=dict(color="white", size=18)
+    ),
+    plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
+    paper_bgcolor='rgba(0,0,0,0)',  # Set the paper background color to transparent
 )
+fig2.update_xaxes(color="white",gridwidth=5)
+fig2.update_yaxes(color="white")
+
 
 ######################################################################################################
 #figure 3
@@ -97,31 +119,50 @@ data = go.Bar(
 
 # Create layout
 layout = go.Layout(
-    title='Temperature differences beween the year 2022 and the past 20 years - positive values indicate 2022 being warmer than the average',
-    xaxis=dict(title='Months'),
-    yaxis=dict(title='Difference in temperature (°C)')
+    title=dict(text='Temperature differences between the year 2022 and the past 20 years - positive values indicate 2022 being warmer than the average',
+               x=0.5,
+               font=dict(color="white", size=24)),
+    xaxis=dict(title='Months',
+               showgrid=True,
+               zeroline=True,
+               gridcolor='rgba(255, 255, 255, 0.1)',
+               title_font=dict(color="white", size=18)),
+    yaxis=dict(title='Difference in temperature (°C)',
+               showgrid=True,
+               zeroline=True,
+               gridcolor='rgba(255, 255, 255, 0.1)',
+               title_font=dict(color="white", size=18)),
+    plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
+    paper_bgcolor='rgba(0,0,0,0)'  # Set the paper background color to transparent
 )
 
 # Create figure
 fig4 = go.Figure(data=[data], layout=layout)
+fig4.update_xaxes(color="white",gridwidth=5)
+fig4.update_yaxes(color="white")
 
 # Add legend items
 fig4.add_trace(go.Scatter(
     x=[None],
     y=[None],
     mode='markers',
-    marker=dict(color='red'),
+    marker=dict(color='#EB862E'),
     name='2022 warmer than average',
-    showlegend=True
+    showlegend=True,
+    hovertemplate='%{x}: %{y:.2f}°C', 
+    hoverlabel=dict(namelength=0)
 ))
 fig4.add_trace(go.Scatter(
     x=[None],
     y=[None],
     mode='markers',
-    marker=dict(color='blue'),
+    marker=dict(color='#2A9D8F'),
     name='2022 colder than average',
-    showlegend=True
+    showlegend=True,
+    hovertemplate='%{x}: %{y:.2f}°C', 
+    hoverlabel=dict(namelength=0)
 ))
+
 
 
 
