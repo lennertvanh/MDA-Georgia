@@ -57,7 +57,7 @@ layout = html.Div([
             min=0,
             max=len(avg_wind) - 1,
             value=0,
-            marks={i: {'label': months[i], 'style': {'font-weight': 'bold', 'font-size': '20px'}} for i in range(len(months))},
+            marks={i: {'label': months[i], 'style': {'font-weight': 'bold', 'font-size': '20px', 'color': 'white'}} for i in range(len(months))},
             step=None,
         )
     ],style={'width': '49%'},),
@@ -85,7 +85,7 @@ def update_wind_rose(selected_month):
         theta=[0, arrow_direction],  # Angle
         mode='lines',
         line=dict(
-            color='green',
+            color='#FC440F',
             width=3
         ),
     ))
@@ -97,7 +97,7 @@ def update_wind_rose(selected_month):
         marker=dict(
             symbol="circle",  # Use a triangle marker to simulate an arrow#triangle-up
             size=12,
-            color='green',
+            color='#FC440F',
         ),
     ))
 
@@ -143,8 +143,6 @@ def update_wind_rose(selected_month):
 def update_scatter_plot(selected_month):
     
     data = avg_wind[selected_month+1]
-    
-
     avg_wind_speed_Uccle = [4.7, 4.5, 4.2, 3.5, 3.3, 3.1, 3.1, 3.1, 3.3, 3.8, 4.1, 4.6]
     
     # Create trace for the average wind speed over the last 20 years
@@ -152,7 +150,24 @@ def update_scatter_plot(selected_month):
         x=months,
         y=avg_wind_speed_Uccle,
         mode='markers+lines',
-        name='Average Wind Speed (Last 20 years)'
+        name='Average Wind Speed (Last 20 years)',
+        marker=dict(color='#2A9D8F'), 
+        line=dict(color='#2A9D8F')
+    )
+
+    # Add the line shape first (to put it behind the red points)
+    fig.add_shape(
+        type='line',
+        xref='x',
+        yref='y',
+        x0=months[selected_month],
+        x1=months[selected_month],
+        y0=0,
+        y1=5,
+        line=dict(
+            color='rgba(255, 255, 255, 0.5)',  # white with opacity (0.5)
+            width=2,
+        )
     )
 
     # Create red point trace
@@ -161,7 +176,7 @@ def update_scatter_plot(selected_month):
         y=[data, avg_wind_speed_Uccle[selected_month]],
         mode='markers',
         marker=dict(
-            color='green',
+            color='#FC440F',
             size=15
         ),
         showlegend=False
@@ -172,34 +187,47 @@ def update_scatter_plot(selected_month):
         x=months,
         y=avg_wind,
         mode='markers+lines',
-        name='Wind Speed (2022)'
+        name='Wind Speed (2022)',
+        marker=dict(color='#EB862E'), 
+        line=dict(color='#EB862E')
     )
 
     # Create layout
     layout = go.Layout(
-        title='Wind Speed Comparison - Less wind in the city?',
-        xaxis=dict(title='Month'),
-        yaxis=dict(title='Wind Speed (m/s)'),
+        title=dict(text='Wind Speed Comparison - Less wind in the city?',
+                   x=0.5,
+                   font=dict(color="white", size=24)),
+        xaxis=dict(title='Month',
+                showgrid=True,
+                zeroline=True,
+                gridcolor='rgba(255, 255, 255, 0.1)',
+                title_font=dict(color="white", size=18)
+                ),
+        yaxis=dict(title='Wind Speed (m/s)',
+                showgrid=True,
+                zeroline=True,
+                gridcolor='rgba(255, 255, 255, 0.1)',
+                title_font=dict(color="white", size=18)
+                ),
+        plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
+        paper_bgcolor='rgba(0,0,0,0)',  # Set the paper background color to transparent
         hovermode='closest',
-        legend=dict(orientation='h', y=1.1, yanchor='top'),
-        shapes=[
-        {
-            'type': 'line',
-            'xref': 'x',
-            'yref': 'y',
-            'x0': months[selected_month],
-            'x1': months[selected_month],
-            'y0': 0,
-            'y1': 5,
-            'line': dict(
-                color='black',
-                width=2,
-            )
-        }]
+        legend=dict(orientation='h', y=1.1, yanchor='top')
     )
 
     # Create figure and add traces
     fig = go.Figure(data=[trace1, trace2, green_point_trace], layout=layout)
+
+    fig.update_xaxes(color="white", gridwidth=2)
+    fig.update_yaxes(color="white")
+    fig.update_traces(hovertemplate='%{x}: %{y:.1f}m/s', hoverlabel=dict(namelength=0))
+
+    # Text of the legend in white
+    fig.update_layout(
+        legend=dict(
+            font=dict(color='white')
+        )
+    )
 
     return fig, None
 
