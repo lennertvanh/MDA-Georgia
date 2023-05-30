@@ -3,7 +3,7 @@ from dash import html, dcc
 import pandas as pd
 import plotly.graph_objects as go
 
-dash.register_page(__name__)
+#dash.register_page(__name__)
 
 weather_data = pd.read_csv("Data for visualization/daily_weatherdata_2022.csv", header = 0, sep=',')
 

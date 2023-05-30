@@ -4,7 +4,7 @@ import pandas as pd
 import plotly.graph_objects as go
 from dash.dependencies import Input, Output
 
-dash.register_page(__name__)
+#dash.register_page(__name__)
 
 # Define the radio item options
 radio_options = [

@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 from dash.dependencies import Input, Output
 import numpy as np
 
-dash.register_page(__name__)
+#dash.register_page(__name__)
 
 data_weather = pd.read_csv("Data/daily_weatherdata_2022.csv")
 

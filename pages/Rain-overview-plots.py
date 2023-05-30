@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 from dash.dependencies import Input, Output
 import plotly.graph_objects as go
 
-dash.register_page(__name__)
+#dash.register_page(__name__)
 
 #from kmi for Leuven from 1991 to 2020
 #https://www.meteo.be/nl/klimaat/klimaat-van-belgie/klimaat-in-uw-gemeente

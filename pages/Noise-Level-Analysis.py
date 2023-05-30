@@ -6,7 +6,7 @@ import pandas as pd
 from dash.dependencies import Input, Output, State
 import plotly.colors
 
-dash.register_page(__name__)
+#dash.register_page(__name__)
 
 # Loading noise data
 data_noise = pd.read_csv('Data for visualization/daily_noisedata_2022.csv', header=0, sep=',')
