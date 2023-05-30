@@ -112,18 +112,26 @@ def update_wind_rose(selected_month):
                 visible=True,
                 tickmode='array',
                 tickvals=[0, 45, 90, 135, 180, 225, 270, 315],  # Set custom tick values for the angular axis
-                ticktext=[ 'E', 'NE', 'N', 'NW', 'W', 'SW','S', 'SE'],  # Set custom tick labels for the angular axis
+                ticktext=['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],  # Set custom tick labels for the angular axis
+                tickfont=dict(color="white", size=18)
             )
         ),
+        plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
+        paper_bgcolor='rgba(0,0,0,0)',  # Set the paper background color to transparent
         showlegend=False,
         title=dict(
         text='Dominant wind direction - ' + months_complete[selected_month] + ' 2022',
         x=0.5,  # Set the title's x position to center
         y=0.9,  # Set the title's y position to center
         xanchor='center',  # Set the x anchor to center
-        yanchor='middle'  # Set the y anchor to middle
-    )   
+        yanchor='middle',  # Set the y anchor to middle
+        font=dict(color="white", size=24)
+        )   
     )
+
+    fig.update_traces(hoverlabel=dict(namelength=0))
+    fig.update_traces(hovertext=[''] * len(fig.data)) #remove the hovertext of r and theta, is not informative
+
     return fig
 
 # Callback to update the scatter plot based on the selected month
@@ -171,7 +179,7 @@ def update_scatter_plot(selected_month):
     layout = go.Layout(
         title='Wind Speed Comparison - Less wind in the city?',
         xaxis=dict(title='Month'),
-        yaxis=dict(title='Wind Speed'),
+        yaxis=dict(title='Wind Speed (m/s)'),
         hovermode='closest',
         legend=dict(orientation='h', y=1.1, yanchor='top'),
         shapes=[
