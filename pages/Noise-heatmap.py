@@ -8,7 +8,6 @@ import datetime
 import plotly.graph_objects as go
 from dash.dependencies import Input, Output  #if I want a slider, button, ...
 
-
 dash.register_page(__name__)
 
 #########################################################################################################
@@ -308,6 +307,7 @@ layout = html.Div([
             html.Button("At night", id="at-night-button", n_clicks=0),
 ])])
 
+
 #########################################################################################################
 # CALLBACK UPDATE GRAPH
 
@@ -316,7 +316,6 @@ layout = html.Div([
     [Input("entire-day-button", "n_clicks"),
      Input("at-night-button", "n_clicks")]
 )
-
 def update_figure(entire_day_clicks, at_night_clicks):
     ctx = dash.callback_context
 

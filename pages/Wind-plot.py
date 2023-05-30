@@ -1,3 +1,6 @@
+#########################################################################################################
+# PACKAGES
+
 import dash
 from dash import html, dcc, callback
 import pandas as pd
@@ -7,8 +10,11 @@ import numpy as np
 
 dash.register_page(__name__)
 
-data_weather = pd.read_csv("Data/daily_weatherdata_2022.csv")
 
+#########################################################################################################
+# DATA
+
+data_weather = pd.read_csv("Data/daily_weatherdata_2022.csv")
 
 avg_wind = data_weather.groupby("Month")["LC_WINDSPEED"].mean()
 

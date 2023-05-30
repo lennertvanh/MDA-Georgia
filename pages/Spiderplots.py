@@ -1,14 +1,18 @@
+#########################################################################################################
+# PACKAGES
+
 import dash
 from dash import html, dcc, callback
 import pandas as pd
 import plotly.graph_objects as go
 from dash.dependencies import Input, Output  #if I want a slider, button, ...
 
-
 dash.register_page(__name__)
 
 
-############################### DATA PREPARATION #################################
+#########################################################################################################
+# DATA
+
 # Load the data
 data_noise_hour = pd.read_csv("Data for visualization/hourly_noisedata_2022.csv")
 
@@ -26,21 +30,21 @@ hourly_mean_data = data_hour_night.groupby(['hour', 'description']).mean().reset
 
 # Remove the portion before ":" or "-" symbol, including any preceding numbers
 hourly_mean_data['description'] = hourly_mean_data['description'].str.replace('.*?(?!(\d|$))[:|-]', '', regex=True)
-#using a negative lookhead to keep the string if "\d" removes the complete string
-
 hourly_mean_data['description'] = hourly_mean_data['description'].str.replace('.*?(?!\d{2,}$)(\d{1,2})', '', regex=True)
 
 # Remove the text "KU Leuven" if it is present
 hourly_mean_data['description'] = hourly_mean_data['description'].str.replace('KU Leuven', '', regex=False)
 
-#exception that I cannot fix with code: empty ones should be Naamsestraat 81
+# Exception that can not be fixed with code: empty ones should be Naamsestraat 81
 hourly_mean_data.loc[hourly_mean_data['description'] == '', 'description'] = "Naamsestraat 81"
 
 # Remove spaces at begin and end
 hourly_mean_data['description'] = [description.strip() for description in hourly_mean_data['description']]
 
 
-##################### FIGURES #####################
+#########################################################################################################
+# VISUALIZATION
+
 # Common layout for all figures
 common_layout = {
     "margin": dict(l=100, r=100, t=40, b=40),
@@ -68,11 +72,13 @@ common_layout = {
 }
 
 
-################### FIGURE 1 ###################
+# FIGURE 1
+
+# Subset the data to only include hour 23 + sort them by location
 data_hour_23 = hourly_mean_data[hourly_mean_data['hour'] == 23]
 data_hour_23_sorted = data_hour_23.sort_values('description')
 
-# Create a new DataFrame with the first row duplicated(so that the line connecting the last and first point isn't thinner than the other ones)
+# Create a new DataFrame with the first row duplicated (so that the line connecting the last and first point isn't thinner than the other ones)
 first_row = data_hour_23_sorted.iloc[[0]]
 data_hour_23_sorted_closed = pd.concat([data_hour_23_sorted, first_row], ignore_index=True)
 
@@ -99,8 +105,9 @@ fig1.add_trace(go.Scatterpolar(
 fig1.update_layout(common_layout)
 
 
+# FIGURE 2
 
-################### FIGURE 2 ###################
+# Subset the data to only include hour 0 + sort them by location
 data_hour_0 = hourly_mean_data[hourly_mean_data['hour'] == 0]
 data_hour_0_sorted = data_hour_0.sort_values('description')
 
@@ -117,7 +124,7 @@ fig2.add_trace(go.Scatterpolar(
     fill='toself',
     name='00h',
     marker=dict(
-        color='#e6af2e'  # Set the marker color to #eb862e
+        color='#e6af2e'  
     ),
     opacity=0.8,
     marker_line_width=2,
@@ -126,11 +133,13 @@ fig2.add_trace(go.Scatterpolar(
     hovertemplate='Maximal noise: %{r:.2f} dB(A)' 
 ))
 
-# set common lay-out
+# Set common lay-out
 fig2.update_layout(common_layout)
 
 
-################### FIGURE 3 ###################
+# FIGURE 3
+
+# Subset the data to only include hour 1 + sort them by location
 data_hour_1 = hourly_mean_data[hourly_mean_data['hour'] == 1]
 data_hour_1_sorted = data_hour_1.sort_values('description')
 
@@ -147,7 +156,7 @@ fig3.add_trace(go.Scatterpolar(
     fill='toself',
     name='01h',
     marker=dict(
-        color='#e6af2e'  # Set the marker color to #eb862e
+        color='#e6af2e' 
     ),
     opacity=0.8,
     marker_line_width=2,
@@ -156,11 +165,13 @@ fig3.add_trace(go.Scatterpolar(
     hovertemplate='Maximal noise: %{r:.2f} dB(A)' 
 ))
 
-# set common lay-out
+# Set common lay-out
 fig3.update_layout(common_layout)
 
 
-################### FIGURE 4 ###################
+# FIGURE 4
+
+# Subset the data to only include hour 2 + sort them by location
 data_hour_2 = hourly_mean_data[hourly_mean_data['hour'] == 2]
 data_hour_2_sorted = data_hour_2.sort_values('description')
 
@@ -177,7 +188,7 @@ fig4.add_trace(go.Scatterpolar(
     fill='toself',
     name='02h',
     marker=dict(
-        color='#e6af2e'  # Set the marker color to #eb862e
+        color='#e6af2e'  
     ),
     opacity=0.8,
     marker_line_width=2,
@@ -186,11 +197,13 @@ fig4.add_trace(go.Scatterpolar(
     hovertemplate='Maximal noise: %{r:.2f} dB(A)' 
 ))
 
-# set common lay-out
+# Set common lay-out
 fig4.update_layout(common_layout)
 
 
-################### FIGURE 5 ###################
+# FIGURE 5
+
+# Subset the data to only include hour 3 + sort them by location
 data_hour_3 = hourly_mean_data[hourly_mean_data['hour'] == 3]
 data_hour_3_sorted = data_hour_3.sort_values('description')
 
@@ -207,7 +220,7 @@ fig5.add_trace(go.Scatterpolar(
     fill='toself',
     name='03h',
     marker=dict(
-        color='#e6af2e'  # Set the marker color to #eb862e
+        color='#e6af2e'  
     ),
     opacity=0.8,
     marker_line_width=2,
@@ -216,11 +229,13 @@ fig5.add_trace(go.Scatterpolar(
     hovertemplate='Maximal noise: %{r:.2f} dB(A)' 
 ))
 
-# set common lay-out
+# Set common lay-out
 fig5.update_layout(common_layout)
 
 
-################### FIGURE 6 ###################
+# FIGURE 6
+
+# Subset the data to only include hour 4 + sort them by location
 data_hour_4 = hourly_mean_data[hourly_mean_data['hour'] == 4]
 data_hour_4_sorted = data_hour_4.sort_values('description')
 
@@ -237,7 +252,7 @@ fig6.add_trace(go.Scatterpolar(
     fill='toself',
     name='04h',
     marker=dict(
-        color='#e6af2e'  # Set the marker color to #eb862e
+        color='#e6af2e'  
     ),
     opacity=0.8,
     marker_line_width=2,
@@ -246,11 +261,13 @@ fig6.add_trace(go.Scatterpolar(
     hovertemplate='Maximal noise: %{r:.2f} dB(A)' 
 ))
 
-# set common lay-out
+# Set common lay-out
 fig6.update_layout(common_layout)
 
 
-################### FIGURE 7 ###################
+# FIGURE 6
+
+# Subset the data to only include hour 5 + sort them by location
 data_hour_5 = hourly_mean_data[hourly_mean_data['hour'] == 5]
 data_hour_5_sorted = data_hour_5.sort_values('description')
 
@@ -258,6 +275,7 @@ data_hour_5_sorted = data_hour_5.sort_values('description')
 first_row = data_hour_5_sorted.iloc[[0]]
 data_hour_5_sorted_closed = pd.concat([data_hour_5_sorted, first_row], ignore_index=True)
 
+# Initialize the figure
 fig7 = go.Figure()
 
 fig7.add_trace(go.Scatterpolar(
@@ -266,7 +284,7 @@ fig7.add_trace(go.Scatterpolar(
     fill='toself',
     name='5h',
     marker=dict(
-        color='#e6af2e'  # Set the marker color to #eb862e
+        color='#e6af2e' 
     ),
     opacity=0.8,
     marker_line_width=2,
@@ -275,16 +293,17 @@ fig7.add_trace(go.Scatterpolar(
     hovertemplate='Maximal noise: %{r:.2f} dB(A)' 
 ))
 
-# set common lay-out
+# Set common lay-out
 fig7.update_layout(common_layout)
 
 
+#########################################################################################################
+# PAGE LAYOUT
 
-############################################
 layout = html.Div([
     html.H2("How do nightly noise peaks vary across different locations in Leuven?"),
     html.Div(
-        dcc.RadioItems(
+        dcc.RadioItems( # Add radio buttons for each nightly hour
             options=[
                 {'label': '23h', 'value': '23h'},
                 {'label': '00h', 'value': '00h'},
@@ -294,7 +313,7 @@ layout = html.Div([
                 {'label': '04h', 'value': '04h'},
                 {'label': '05h', 'value': '05h'}
             ],
-            value='23h',
+            value='23h', # default value 
             id='hour-radioitems',
             labelStyle={'display': 'inline-block'},
             style={'margin-left': 'auto', 'margin-right': 'auto', 'margin-bottom': '20px', 'margin-top': '20px', 'display': 'flex', 'justify-content': 'center'}
@@ -305,7 +324,9 @@ layout = html.Div([
 ])
 
 
-############################################
+#########################################################################################################
+# CALLBACK UPDATE FIGURE (changes the displayed figure when a different radio button is selected)
+
 @callback(
     Output("spiderplot-container", "children"),
     [Input("hour-radioitems", "value")]
@@ -325,5 +346,3 @@ def update_figure(selected_hour):
         return dcc.Graph(figure=fig6)
     elif selected_hour == "05h":
         return dcc.Graph(figure=fig7)
-
-
