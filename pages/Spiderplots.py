@@ -47,7 +47,7 @@ hourly_mean_data['description'] = [description.strip() for description in hourly
 
 # Common layout for all figures
 common_layout = {
-    "margin": dict(l=100, r=100, t=40, b=40),
+    "margin": dict(l=100, r=100, t=100, b=40),
     "polar": dict(
         radialaxis=dict(
             visible=True,
@@ -68,7 +68,10 @@ common_layout = {
         bgcolor='rgba(0,0,0,0)',
     ),
     "plot_bgcolor": "rgba(34, 49, 100, 0.89)",    # Set the plot area background color with transparency
-    "paper_bgcolor": "rgba(34, 49, 100, 0.89)"
+    "paper_bgcolor": "rgba(34, 49, 100, 0.89)",
+    "title": dict(text='How do nightly noise peaks vary across different locations in Leuven?',
+                  x=0.5,
+                  font=dict(color="white", size=24))
 }
 
 
@@ -301,9 +304,13 @@ fig7.update_layout(common_layout)
 # PAGE LAYOUT
 
 layout = html.Div([
-    html.H2("How do nightly noise peaks vary across different locations in Leuven?"),
+    html.H2("Are partying students the reason for nightly noise in Leuven?", style={'text-align': 'center'}),
+    html.P(
+        "The highest nightly noise peaks appear to be observed at Maxim (Naamsestraat 35), which is situated in close proximity to Leuven's vibrant Oude Markt, known for its bustling nightlife. Additionally, Maxim is located adjacent to Dulci, the faculty bar of economics, where students frequently gather to party throughout the night. Around 4-5h, the nightly peak shifts to the location Taste (Naamsestraat 62), indicating that the - now drunk - students are returning to their dorms.",
+        style={'text-align': 'center'}
+    ),
     html.Div(
-        dcc.RadioItems( # Add radio buttons for each nightly hour
+        dcc.RadioItems(
             options=[
                 {'label': '23h', 'value': '23h'},
                 {'label': '00h', 'value': '00h'},
@@ -313,15 +320,17 @@ layout = html.Div([
                 {'label': '04h', 'value': '04h'},
                 {'label': '05h', 'value': '05h'}
             ],
-            value='23h', # default value 
+            value='23h',
             id='hour-radioitems',
             labelStyle={'display': 'inline-block'},
             style={'margin-left': 'auto', 'margin-right': 'auto', 'margin-bottom': '20px', 'margin-top': '20px', 'display': 'flex', 'justify-content': 'center'}
         ),
     ),
     html.Div(
-        id="spiderplot-container")
+        id="spiderplot-container"
+    )
 ])
+
 
 
 #########################################################################################################
