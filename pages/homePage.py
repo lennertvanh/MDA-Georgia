@@ -25,7 +25,7 @@ dash.register_page(__name__, path='/')
 
 
 #data_noise = pd.read_csv("Data/daily_noisedata_2022.csv")
-data_noise_hour = pd.read_csv("Data/hourly_noisedata_2022.csv")
+data_noise_hour = pd.read_csv("Data for visualization/hourly_noisedata_2022.csv")
 
 ##########################
 #noisiest location
