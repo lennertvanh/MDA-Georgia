@@ -10,6 +10,7 @@ first version of the readme file that has to be modified
 - [Installation](#installation)
 - [Usage](#usage)
 - [Examples](#examples)
+- [Repository files](#respository)
 - [Resources](#resources)
 - [Authors](#authors)
 
@@ -24,7 +25,9 @@ Explain the used technologies
 
 ## Data  
 
-For the project, we used noise level data, weather data and data on specific noise events. Noise levels were monitored for the entire year of 2022, for 9 different locations in the centre of Leuven. Noise events were recorded and were assigned a certainty level and a noise source class. The data on 
+For the entire project, we used noise level and noise events data, weather data, traffic data, and a small corpus of scientific articles on noise pollution. 
+
+The noise data contains noise levels which were monitored for the entire year of 2022, for 9 different locations in the centre of Leuven. The noise events were also recorded and were assigned a certainty level and a noise source class. All the noise data was provided by KU Leuven. The weather data from 2022 was retrieved from the [Leuven.cool network](https://rdr.kuleuven.be/dataset.xhtml?persistentId=doi:10.48804/SSRN3F). We scraped the traffic data from [Telraam](https://telraam-api.net/), which is documented in detail in the notebook _ScrapingTelraam.ipynb_. Finally, we used Parsehub to extract some scientific articles about noise pollution to highlight the importance of our research topic, which is documented in the _NLP_ folder. 
  
 ---
 
@@ -81,10 +84,32 @@ Explain what the user can do in the app
 
 ---
 
+## Repository 
+
+In this section, we provide a brief explanation of the structure and files in our repository. 
+
+* _Data for visualization_: folder with data used for creating visualizations in the app
+* _Data for modeling_: folder with data used for modeling, split in training and test data
+* _Pages_: .py files for each page in the Dash app
+* _Assets_: 
+* _Exploration data_: folder with jupyter notebooks where we initially explored the data and created basic visualizations
+* _NLP_: 
+* _Preprocessing_:
+* _Modelling_: 
+* _app-test.py_: 
+* _requirements.txt_:
+* _ScrapingHolidays.ipynb_: jupyter notebook where we scraped holidays in 2022
+* _ScrapingTelraam.ipynb_: jupyter notebook where we scraped traffic data 
+
+
+---
+
 ## Resources
 * [Dash User Guide](https://dash.plot.ly/)
+* [Weather data from Leuven.cool network](https://rdr.kuleuven.be/dataset.xhtml?persistentId=doi:10.48804/SSRN3F)
 * [Coloring for Colorblindness](https://davidmathlogic.com/colorblind/#%23D81B60-%231E88E5-%23FFC107-%23004D40)
 * [Coolors Color Palette](https://coolors.co/223164-132244-eb862e-2a9d8f-e6af2e)
+* [OpenAI. (2023). ChatGPT (April 20 version) [Large language model].](https://chat.openai.com/)
 * add other resources 
 
 ---
