@@ -49,9 +49,9 @@ fig1.update_layout(
     plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
     paper_bgcolor='rgba(0,0,0,0)'  # Set the paper background color to transparent
 )
-fig1.update_xaxes(color="white", gridwidth=5)
+fig1.update_xaxes(color="white", gridwidth=2)
 fig1.update_yaxes(color="white")
-fig1.update_traces(hovertemplate='%{x}: %{y:.1f}mm', hoverlabel=dict(namelength=0))
+fig1.update_traces(hovertemplate='%{x}: %{y:.1f}°C', hoverlabel=dict(namelength=0))
 
 # Text of the legend in white
 fig1.update_layout(
@@ -115,16 +115,39 @@ avg_temp_per_month = weather_data.groupby("Month")["LC_TEMP_QCL3"].mean()
 fig3 = go.Figure()
 
 # Add the scatter plot for average rainfall over the last 20 years
-fig3.add_trace(go.Scatter(x=months, y=avg_temp_Uccle, name="Average temperature (Last 20 Years)", mode="markers+lines"))
+fig3.add_trace(go.Scatter(x=months, y=avg_temp_Uccle, name="Average temperature (Last 20 Years)", mode="markers+lines", marker=dict(color='#2A9D8F'), line=dict(color='#2A9D8F')))
 
 # Add the scatter plot for rainfall in 2022
-fig3.add_trace(go.Scatter(x=months, y=avg_temp_per_month, name="Temperature in 2022", mode="markers+lines"))
+fig3.add_trace(go.Scatter(x=months, y=avg_temp_per_month, name="Temperature in 2022", mode="markers+lines", marker=dict(color='#EB862E'), line=dict(color='#EB862E')))
 
 # Update the layout
 fig3.update_layout(
-    title="Temperature comparison between year 2022 and the average over the past 20 years",
-    xaxis_title="Month",
-    yaxis_title="Temperature (°C)"
+    title=dict(text="Temperature comparison between year 2022 and the average over the past 20 years", 
+               x=0.5,
+               font=dict(color="white", size=24)
+               ),
+    xaxis=dict(title='Month',
+               showgrid=True,
+               zeroline=True,
+               gridcolor='rgba(255, 255, 255, 0.1)',
+               title_font=dict(color="white", size=18)),
+    yaxis=dict(title='Temperature (°C)',
+               showgrid=True,
+               zeroline=True,
+               gridcolor='rgba(255, 255, 255, 0.1)',
+               title_font=dict(color="white", size=18)),
+    plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
+    paper_bgcolor='rgba(0,0,0,0)'  # Set the paper background color to transparent
+)
+fig3.update_xaxes(color="white", gridwidth=2)
+fig3.update_yaxes(color="white")
+fig3.update_traces(hovertemplate='%{x}: %{y:.1f}mm', hoverlabel=dict(namelength=0))
+
+# Text of the legend in white
+fig3.update_layout(
+    legend=dict(
+        font=dict(color='white')
+    )
 )
 
 ##################################################################################""
