@@ -222,7 +222,7 @@ fig4.update_layout(
 # layout
 layout = html.Div([
     html.H2("Weather Analysis"),
-    html.P("In this page, we will inspect the weather in Leuven in 2022. Please select with the dropdown menu what you want to take a closer look at."), 
+    html.P("It seems clear that students are an important cause for noise, but what about environemntal noise? Let's first inspect the weather in Leuven in 2022. Please select with the dropdown menu what you want to take a closer look at."), 
     html.Div(
         dcc.Dropdown(
             className="dropdown-style",

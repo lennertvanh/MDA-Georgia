@@ -46,16 +46,16 @@ app.layout = html.Div(
                             dcc.Link("Noise level per month", href="noise-level-per-month")
                         ),
                         html.Div(
-                            dcc.Link("Noise events", href="noise-events")
+                            dcc.Link("Nightly noise peaks per location", href="spiderplots")
+                        ),
+                        html.Div(
+                            dcc.Link("Noise level vs holidays", href="noise-level-vs-holidays")
                         ),
                         html.Div(
                             dcc.Link("Noise heatmap", href="noise-heatmap")
                         ),
                         html.Div(
-                            dcc.Link("Nightly noise peaks per location", href="spiderplots")
-                        ),
-                        html.Div(
-                            dcc.Link("Noise level vs holidays", href="noise-level-vs-holidays")
+                            dcc.Link("Noise events", href="noise-events")
                         ),
                         html.Div(
                             dcc.Link("Fourier transformation", href="fourier-transformation")
