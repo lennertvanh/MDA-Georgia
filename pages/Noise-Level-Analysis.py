@@ -1,3 +1,6 @@
+#########################################################################################################
+# PACKAGES
+
 import dash
 from dash import dcc, html, callback
 import plotly.express as px
@@ -6,41 +9,33 @@ import pandas as pd
 from dash.dependencies import Input, Output, State
 import plotly.colors
 
-#dash.register_page(__name__)
+dash.register_page(__name__)
+
+#########################################################################################################
+# DATA
 
 # Loading noise data
 data_noise = pd.read_csv('Data for visualization/daily_noisedata_2022.csv', header=0, sep=',')
-#data_holidays = pd.read_csv('Data/Holiday_dummies.csv', header=0, sep=',')
-
-# Create datetime variable for holiday data
-#data_holidays['result_date'] = pd.to_datetime(data_holidays['index']).dt.date
 
 # Only keeping the observations for Naamsestraat 62 - Taste since this is the only location with observations for each month
 value_to_keep = 'MP 03: Naamsestraat 62 Taste'
-
-# Boolean indexing to filter the DataFrame
 data_noise = data_noise[data_noise['description'] == value_to_keep]
 
-# Create new column 'year'
-#data_noise['year'] = 2022
-
-# Combine 'hour', 'day', 'month', and 'year' columns to create a new 'result_date' column
-#data_noise['result_date'] = pd.to_datetime(data_noise[['year', 'month', 'day']])
-
+# Changing format of 'date' variable
 data_noise['date'] = pd.to_datetime(data_noise['date'], format='%d-%m-%Y')
-# Sort the DataFrame by 'date' column
+
+# Sort the data by 'date' column
 data_noise = data_noise.sort_values('date')
 
-# Merge the two datasets
-#data_holidays = data_holidays.drop_duplicates(subset='result_date') # dropping duplicates
-#data_noise = pd.concat([data_noise, data_holidays.set_index('result_date')], axis=1, join='inner').reset_index()
+#########################################################################################################
+# VISUALIZATION
 
-# Line chart visualization
+# Create line chart
 fig = px.line(data_noise, x="date", y="laeq", title="Noise levels over time")
 
 fig.update_layout(
-    plot_bgcolor='rgba(0,0,0,0)',  # Set the plot background color to transparent
-    paper_bgcolor='rgba(0,0,0,0)',  # Set the paper background color to transparent
+    plot_bgcolor='rgba(0,0,0,0)', 
+    paper_bgcolor='rgba(0,0,0,0)',  
     title=dict(
         text="Average noise levels over time - Taste (Naamsestraat 62)",
         font=dict(color="white"),
@@ -65,18 +60,23 @@ fig.update_layout(
     hoverlabel=dict(font=dict(size=14))  
 )
 
+# Edit hoover text
 fig.data[0].hovertemplate = "Date: %{x}<br>Noise Level: %{y}"
 
 # Change the line color
 fig.update_traces(line=dict(color='#E6AF2E', width=4))
 
-# Defining the app layout
+
+#########################################################################################################
+# PAGE LAYOUT
+
+# Define page layout
 layout = html.Div(
     children=[
-        html.H2("Exploring the dynamic patterns of city noise in Leuven"),  # Title outside the frame
-        html.P("The best way to get a first look at the monitored noise levels is to plot them over time. (add some extra text) "),  # Paragraph outside the frame
+        html.H2("Exploring the dynamic patterns of city noise in Leuven"),  
+        html.P("The best way to get a first look at the monitored noise levels is to plot them over time. (add some extra text) "), 
         html.Div(
-            className="plot-container",  # Add the CSS class to this div element
+            className="plot-container",  
             style={'padding': '20px', 'max-width': '90vw', 'justify-content': 'center'},
             children=[
                 dcc.Graph(id="noise-graph", figure=fig,  className="plot-container"),
@@ -101,11 +101,14 @@ layout = html.Div(
     ]
 )
 
+#########################################################################################################
+# CALLBACK & UPDATE GRAPH
 
+# Callback
 @callback(
     Output("noise-graph", "figure"),
     [Input("date-slider", "value"), Input("average-checkbox", "value")],
-    [State("noise-graph", "figure")],  # Add this line
+    [State("noise-graph", "figure")],  
 )
 def update_graph(date_range, show_average, figure):
     start_month, end_month = date_range
@@ -134,7 +137,7 @@ def update_graph(date_range, show_average, figure):
             mode="lines",
             name="Yearly Average",
             line=dict(color="red"),
-            showlegend=False  # Hide the legend for the yearly average trace
+            showlegend=False  
         )
         
         overall_trace.hovertemplate = "Yearly Average:<br> %{y}"
@@ -160,7 +163,7 @@ def update_graph(date_range, show_average, figure):
                 mode="lines",
                 name=f"Monthly Average - {pd.Timestamp(month=month, year=2022, day=1).strftime('%B')}",
                 line=dict(color="#EB862E"),
-                showlegend=False  # Hide the legend for the monthly average trace
+                showlegend=False  
             )
             
             month_trace.hovertemplate = f"Monthly Average - {pd.Timestamp(month=month, year=2022, day=1).strftime('%B')}:<br> %{{y:.2f}}"
