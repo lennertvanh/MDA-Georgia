@@ -116,3 +116,5 @@ if __name__ == '__main__':
     app.run_server(debug=True)
 
 server = app.server
+app.css.append_css({'external_url': 'assets/typography.css'})
+app.css.append_css({'external_url': 'assets/header.css'})
