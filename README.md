@@ -1,16 +1,12 @@
 # **MDA-Georgia**
 
-first version of the readme file that has to be modified
-
----
-
 ## Table of contents
 - [Introduction](#introduction)
 - [Data](#data)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Examples](#examples)
-- [Repository files](#respository)
+- [Repository](#repository)
 - [Resources](#resources)
 - [Authors](#authors)
 
@@ -18,8 +14,6 @@ first version of the readme file that has to be modified
 ## Introduction
 `MDA-Georgia` is an app giving insights about the noise and weather datasets concerning the city of Leuven. 
 This had to be done as project for the course 'Modern Data Analytics' at KU Leuven during the 2022-2023 academic year. This app has been developed with the Dash interactive Python framework developed by [Plotly](https//plot.ly/).
-
-Explain the used technologies
 
 ---
 
@@ -56,31 +50,35 @@ In Windows:
 venv\Scripts\activate
 ```
 
-To install all of the required packages to this environment, simply run:
+To install all of the required `pip` packages to this environment, simply run:
 
 ```
 pip install -r requirements.txt
 ```
 
-and all of the required `pip` packages, will be installed, and the app will be able to run.
+Now, you're all set to succesfully run the app!
 
 ---
 
 ## Usage
-### How to use this app
 
 Run this app locally by running the following code in the terminal:
 ```
 python app-test.py
 ```
-Open http://0.0.0.0:8050/ in your browser, you will see the homepage of the app and you can explore all the insightful plots.
+The terminal will give the message 'Dash is running on [_http link_]'. By following this link, the homepage of the app will open in your browser. You can dive in and explore the app by clicking the links at the top of the page, which are categorized under 3 titles:
+
+1. _Explore the noise data_: these pages contain interactive visualizations concerning the noise levels and noise events data
+2. _Explore the weather data_: these pages show interactive visualizations concerning the meteo data
+3. _Analysis_: these pages contain visualizations that combine different datasets, and display the results of the modeling 
+
+
 
 ---
 
 ## Examples
-### What does this app show
 
-Explain what the user can do in the app
+Explain what the user can see/do in the app, what the app shows (GIFs, screenshots, ...)
 
 ---
 
