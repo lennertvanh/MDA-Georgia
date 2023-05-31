@@ -67,7 +67,7 @@ fig.add_trace(go.Scatter(
 
 fig.update_layout(
     title=dict(
-        text='How does the average noise level vary with temperature?',
+        text="Is Leuven more quiet when it's very hot or cold outside?",
         x=0.5,
         font=dict(color="white", size=24)
     ),
@@ -104,7 +104,7 @@ areachart = dcc.Graph(figure=fig)
 
 layout = html.Div([
     html.H2("Does temperature have an influence on noise?"),
-    html.P("This area chart indicates that extreme temperatures are negatively correlated with the average noise level: the more extreme temperatures correspond to lower noise levels."),
+    html.P("This area chart displays how the average noise lavel in Leuven varies with temperature. The plot indicates that extreme temperatures are negatively correlated with noise: the more extreme temperatures correspond to lower noise levels."),
     html.Div(
         className="plot-container",
         style={'padding': '20px', 'max-width': '90vw', 'justify-content': 'center'},
