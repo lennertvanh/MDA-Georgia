@@ -71,7 +71,7 @@ app.layout = html.Div(
                     children=[
                         html.H3("Explore the weather data"),  # Category 3: Analysis of Weather
                         html.Div(
-                            dcc.Link("Rain overview plots", href="rain-overview-plots")
+                            dcc.Link("Weather analysis", href="weather-analysis")
                         ),
                         html.Div(
                             dcc.Link("Wind plot", href="wind-plot")
@@ -87,7 +87,7 @@ app.layout = html.Div(
                             dcc.Link("Noise level in function dry rainy day", href="noise-level-in-function-dry-rainy-day")
                         ),
                         html.Div(
-                            dcc.Link("Noise map test 3", href="noise-map-test-3")
+                            dcc.Link("Noise map", href="noise-map")
                         ),
                     ],
                     style={"margin-bottom": "20px"}  # Add margin-bottom for extra space
