@@ -32,7 +32,7 @@ data_noise = data_noise[data_noise['noise_event_laeq_primary_detected_certainty'
 # Aggregate the data by day and noise class
 daily_counts = data_noise.groupby([data_noise['result_timestamp'].dt.date, 'noise_event_laeq_primary_detected_class']).size().reset_index(name='count')
 
-# Apply logarithmic transformation to a column
+# Apply logarithmic transformation the to frequency
 daily_counts['count_scaled'] = np.log10(daily_counts['count'])
 
 # Convert result_timestamp to datetime.date format for comparison
