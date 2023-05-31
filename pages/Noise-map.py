@@ -165,7 +165,9 @@ layout = html.Div(
         html.Div(
             [
                 html.H2("Noise map"),
-                html.P("This map displays the different locations in Leuven for which the noise levels were measured. Some locations don't have any observations during certain months. The blue circles are proportional to the observed sound levels. A distinction is made between the average and maximal noise levels per day. The day can be chosen with the slider, it automatically updates the weather icon to showcase whether it was raining a lot, a little or if the sun was shining in Leuven that day. Moreover, clicking a point will display its location name, observed sound level and the temperature in Leuven for the particular day."),
+                html.P("This map showcases various locations in Leuven where noise levels were measured. The blue circles represent the observed sound levels, with their size indicating the intensity of the noise. The map differentiates between the average and maximal noise levels recorded each day."),
+                html.P("You can select a specific day using the slider, which automatically updates the weather icon to reflect the weather conditions in Leuven on that day. The weather icon indicates whether it was rainy, partially cloudy, or sunny in Leuven."),
+                html.P("By clicking on a specific point on the map, you can view additional details such as the location name, the observed sound level, and the temperature in Leuven for the selected day.")
             ],
             style={'margin-bottom': '20px'}
         ),
@@ -178,8 +180,8 @@ layout = html.Div(
                             id='map-id',
                             figure=fig_laeq_daily,
                             style={'width': '100%', 'height': '100%'},
-                            clickData={'points': [{'customdata': [last_selected_location, 0, 1]}]} 
-                        ), 
+                            clickData={'points': [{'customdata': [last_selected_location, 0, 1]}]}
+                        ),
                     ],
                     style={'flex': '35%', 'display': 'inline-block'}
                 ),
@@ -212,8 +214,8 @@ layout = html.Div(
                             ],
                             style={'display': 'flex'}
                         ),
-
-                    ], style={'flex': '45%', 'margin': '30px', 'vertical-align': 'top', 'display': 'inline-block'}
+                    ],
+                    style={'flex': '45%', 'margin': '30px', 'vertical-align': 'top', 'display': 'inline-block'}
                 ),
                 html.Div(style={'flex': '15%'})
             ],
