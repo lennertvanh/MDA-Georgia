@@ -100,8 +100,9 @@ layout = html.Div([
         min=data_noise['result_timestamp'].min().date().toordinal(),
         max=data_noise['result_timestamp'].max().date().toordinal(),
         value=[data_noise['result_timestamp'].min().date().toordinal(), data_noise['result_timestamp'].max().date().toordinal()],
-        marks={timestamp.to_timestamp().date().toordinal(): {'label': timestamp.strftime('%d-%m-%Y'), 'style': {'transform': 'rotate(45deg)', 'white-space': 'nowrap'}}
-               for timestamp in data_noise['result_timestamp'].dt.to_period('D').unique()},
+        marks={#timestamp.to_timestamp().date().toordinal(): {'label': timestamp.strftime('%d-%m-%Y'), 'style': {'transform': 'rotate(45deg)', 'white-space': 'nowrap'}}
+               #for timestamp in data_noise['result_timestamp'].dt.to_period('D').unique()
+               },
         step=None
     ),
     dcc.Checklist(
