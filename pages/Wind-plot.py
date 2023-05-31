@@ -46,7 +46,7 @@ monthly_avg_direction["Weighted Avg Direction"] += base_direction
 
 layout = html.Div([
     html.H2("Wind Analysis"),
-    html.P("The measured windspeed in Leuven seems surprisingly lower than the average windspeed measured over the past 20 years. This difference could be attributed to variations in measurement methods. The KMI measures in an open area, while here it is measured within the city, with many buildings sheltering the measurement tools from the wind. Concerning the wind direction, the wind blows mainly in the Southwest direction."), 
+    html.P("The measured windspeed in Leuven seems surprisingly lower than the average windspeed measured over the past 30 years. This difference could be attributed to variations in measurement methods. The KMI measures in an open area, while here it is measured within the city, with many buildings sheltering the measurement tools from the wind. Concerning the wind direction, the wind blows mainly in the Southwest direction."), 
     html.Div([
         dcc.Graph(id='scatter-plot'),
     ], style={'width': '49%', 'display': 'inline-block'}),
@@ -186,7 +186,7 @@ def update_scatter_plot(selected_month):
         x=months,
         y=avg_wind_speed_Leuven,
         mode='markers+lines',
-        name='Average Wind Speed (Last 20 years)',
+        name='Average Wind Speed (Last 30 years)',
         marker=dict(color='#2A9D8F'),
         line=dict(color='#2A9D8F')
     ))
