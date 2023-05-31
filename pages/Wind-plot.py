@@ -14,41 +14,39 @@ dash.register_page(__name__)
 #########################################################################################################
 # DATA
 
-data_weather = pd.read_csv("Data/daily_weatherdata_2022.csv")
+data_weather = pd.read_csv("Data for visualization/daily_weatherdata_2022.csv")
 
+# Calculate avg value per month
 avg_wind = data_weather.groupby("Month")["LC_WINDSPEED"].mean()
-
-#############################################################################################
-#figure 1
 
 months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 months_complete = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
-###################################################################################################
-#figure 2
+# SW is base direction + correction polar plot having 0 on the right
+base_direction = 135+90 
 
-#figure polar plot
+data_weather["WINDDIR_transformed"] = data_weather["LC_WINDDIR"]
 
-base_direction = 135+90 #SW and correction polar plot having 0 on the right
-
-data_weather["WINDDIR_transformed"]=data_weather["LC_WINDDIR"]
-
+# Maximal value for a month (will correspond to the radius of the polar plot)
 max_wind_avg = avg_wind.max()
 avg_wind_rescaled = avg_wind/max_wind_avg
-
 
 # Calculate weighted average wind direction for each month
 monthly_avg_direction = data_weather.groupby(data_weather["Month"]) \
     .apply(lambda x: np.average(x["LC_WINDDIR"], weights=x["LC_WINDSPEED"])) \
     .reset_index(name="Weighted Avg Direction")
 
-monthly_avg_direction["Weighted Avg Direction"] +=base_direction
+# Add the base direction to it so we can correctly plot it on the wind rose
+monthly_avg_direction["Weighted Avg Direction"] += base_direction
+
+
 
 #########################################################################################################
-# Define app layout
+# PAGE LAYOUT 
+
 layout = html.Div([
     html.H2("Wind Analysis"),
-    html.P("The measured windspeed in Leuven seems surprisingly lower than the average windspeed measured in Ukkel over the past 20 years. An explanation could be that the wind measured for this experiment is not done the same way as by the KMI. The KMI measures in an open area, while here it is measured inside a city with many buildings sheltering the measurement tools from the wind. Concerning the wind direction, the wind blows mainly in the Southwest direction."), 
+    html.P("The measured windspeed in Leuven seems surprisingly lower than the average windspeed measured in Ukkel over the past 20 years. This difference could be attributed to variations in measurement methods. The KMI measures in an open area, while here it is measured within the city of Leuven, with many buildings sheltering the measurement tools from the wind. Concerning the wind direction, the wind blows mainly in the Southwest direction."), 
     html.Div([
         dcc.Graph(id='scatter-plot'),
     ], style={'width': '49%', 'display': 'inline-block'}),
@@ -72,7 +70,12 @@ layout = html.Div([
     
 ])
 
+
+
+#########################################################################################################
+# CALLBACK UPDATE GRAPH + VISUALIZATION (WIND ROSE)
 # Callback to update the wind rose graph based on the selected month
+
 @callback(
     Output('wind-rose', 'figure'),
     [Input('month-slider', 'value')]
@@ -97,9 +100,7 @@ def update_wind_rose(selected_month):
             width=3
         ),
         text=[f"Dominant wind has a direction of {round(arrow_direction-90,2)}° from the N<br>with a relative amplitude of {round(arrow_length,2)}"],  # Hover text
-         hoverinfo='text'  # Display hover information from the text attribute
-        #customdata=[arrow_direction, arrow_length],
-        #hovertemplate='Dominant wind has a direction of %{customdata[0]}°<br>with a relative amplitude of %{customdata[1]}'
+        hoverinfo='text'  # Display hover information from the text attribute
     ))
 
     fig.add_trace(go.Scatterpolar(
@@ -112,8 +113,7 @@ def update_wind_rose(selected_month):
             color='#FC440F',
         ),
         text=[f"Dominant wind has a direction of {round(arrow_direction-90,2)}° from the N<br>with a relative amplitude of {round(arrow_length,2)}"],  # Hover text
-         hoverinfo='text'
-        #hovertemplate='Dominant wind has a direction of %{theta:.2f}°<br>with a relative amplitude of %{r:.2f}'
+        hoverinfo='text'
     ))
 
     # Set polar plot layout
@@ -149,14 +149,18 @@ def update_wind_rose(selected_month):
 
     return fig
 
+
+
+#########################################################################################################
+# CALLBACK UPDATE GRAPH
 # Callback to update the scatter plot based on the selected month
+
 @callback(
     [Output('scatter-plot', 'figure'),
     Output('scatter-plot', 'selectedData')],
     [Input('month-slider', 'value')]
 )
 def update_scatter_plot(selected_month):
-    
     data = avg_wind[selected_month+1]
     avg_wind_speed_Uccle = [4.7, 4.5, 4.2, 3.5, 3.3, 3.1, 3.1, 3.1, 3.3, 3.8, 4.1, 4.6]
 
@@ -236,7 +240,6 @@ def update_scatter_plot(selected_month):
             }
         ]
     )
-
 
     fig.update_xaxes(color="white", gridwidth=2)
     fig.update_yaxes(color="white")
