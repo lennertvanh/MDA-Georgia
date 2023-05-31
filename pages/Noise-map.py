@@ -16,7 +16,7 @@ daily_weather = pd.read_csv("Data/daily_weatherdata_2022.csv")
 ####################################################################################
 ## path images ##
 
-image_rainy = "cloud with rain.jpg"
+image_rainy = "rainy-icon.jpg"
 image_sunny = "sunny-day.jpg"
 image_cloudly = "Cloudly.jpg"
 
