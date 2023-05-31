@@ -214,7 +214,9 @@ trace2 = go.Violin(
 layout_fig2 = go.Layout(
     title=dict(
         text='Noise levels during holidays and normal days <br>(primary and secondary school holidays)',
-        font=dict(color="white")
+        x=0.5,
+        xanchor='center',
+        font=dict(color="white", size=24)
     ),
     title_font=dict(size=24, color="white"),  
     xaxis=dict(
