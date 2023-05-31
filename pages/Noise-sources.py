@@ -1,9 +1,8 @@
 import plotly.graph_objects as go
 import pandas as pd
 import dash
-from dash import html, dcc, callback
+from dash import html, dcc
 from dash.dependencies import Input, Output
-import plotly.colors
 
 dash.register_page(__name__)
 
@@ -17,17 +16,17 @@ category_counts = data_noise['noise_event_laeq_primary_detected_class'].value_co
 # Sort the categories by frequency in descending order
 sorted_categories = category_counts.index.tolist()
 
-# Define the colorscale for the chart
-colorscale = plotly.colors.sequential.Redor_r
+# Calculate the total number of categories
+num_categories = len(category_counts)
 
-# Adjust the colorscale to have seven shades
-colorscale = colorscale[:7]
+# Calculate the opacity levels
+opacity_levels = [i / (num_categories - 1) for i in range(num_categories)]
 
-# Create a dictionary to map each category to its corresponding color
-category_colors = {category: color for category, color in zip(sorted_categories, colorscale)}
+# Reverse the list to make the largest category have the strongest opacity
+opacity_levels.reverse()  
 
-# Create a list of colors for each category based on the frequencies
-colors = [category_colors[category] for category in category_counts.index]
+# Create a list of colors with adjusted opacity
+colors = [f"rgba(227, 74, 111, {opacity})" for opacity in opacity_levels]
 
 # Create a donut plot with customized colors
 fig = go.Figure(data=[
@@ -35,17 +34,38 @@ fig = go.Figure(data=[
         labels=category_counts.index,
         values=category_counts.values,
         hole=0.6,
-        marker=dict(colors=colors)
+        marker=dict(colors=colors),
+        textfont=dict(color='white'),
+        showlegend=False,
+        hovertemplate='<b>Noise source</b>: %{label}<br>'
+                      '<b>Count</b>: %{value}<br>'
+                      '<b>Percentage</b>: %{percent:.1%}<extra></extra>'
     )
 ])
 
 # Set the layout options for the donut plot
 fig.update_layout(
-    title="Distribution of Noise Sources",
-    showlegend=True,
+    title=go.layout.Title(
+        text="Noise Events <br>Distribution",
+        x=0.5,
+        y=0.45,
+        xanchor="center",
+        yanchor="middle",
+        font=dict(color="white") 
+    ),
+    showlegend=False,
     legend_title="Noise Sources",
-    width=600,
-    height=600
+    width=400,
+    height=400,
+    margin=go.layout.Margin(
+        l=20,
+        r=20,
+        b=20,
+        t=80,
+        pad=4
+    ),
+    plot_bgcolor="white",
+    paper_bgcolor="rgba(0,0,0,0)"
 )
 
 # Add a white circle to create the donut effect
@@ -57,10 +77,9 @@ fig.add_shape(
     y0=0.35,
     x1=0.65,
     y1=0.65,
-    line_color="white",
-    fillcolor="white"
+    line_color="rgba(0,0,0,0)",
+    fillcolor="rgba(0,0,0,0)",
 )
-
 
 # Define the app layout
 layout = html.Div([
