@@ -8,6 +8,7 @@ import plotly.graph_objects as go
 import pandas as pd
 from dash.dependencies import Input, Output, State
 import plotly.colors
+from datetime import datetime
 
 dash.register_page(__name__)
 
@@ -26,6 +27,21 @@ data_noise['date'] = pd.to_datetime(data_noise['date'], format='%d-%m-%Y')
 
 # Sort the data by 'date' column
 data_noise = data_noise.sort_values('date')
+
+# Loading holiday data
+holiday_data = pd.read_csv('Data for visualization/Holiday_dummies.csv')
+holiday_data['index'] = pd.to_datetime(holiday_data['index'])
+
+# Format 'index' column to the desired format "01-01-2022"
+holiday_data['index'] = holiday_data['index'].dt.strftime("%Y-%m-%d")
+holiday_data.head(30)
+
+# Drop duplicates based on 'index' in the 'data' dataset
+holiday_data = holiday_data.drop_duplicates(subset='index')
+holiday_data.head(10)
+
+holiday_data['index'] = pd.to_datetime(holiday_data['index'])
+data_noise = pd.merge(holiday_data,data_noise, left_on='index', right_on='date', how='inner')
 
 #########################################################################################################
 # VISUALIZATION
@@ -57,14 +73,35 @@ fig.update_layout(
         gridcolor='rgba(255, 255, 255, 0.1)'
     ),
     margin=dict(l=50, r=50, t=50, b=50),
-    hoverlabel=dict(font=dict(size=14))  
+    hoverlabel=dict(font=dict(size=14)),
+    legend=dict(
+        font=dict(
+            color='white'
+        )
+    )  
 )
+
 
 # Edit hoover text
 fig.data[0].hovertemplate = "Date: %{x}<br>Noise Level: %{y}"
 
 # Change the line color
-fig.update_traces(line=dict(color='#E6AF2E', width=4))
+fig.update_traces(line=dict(color='#E6AF2E', width=3))
+
+# Add red markers for holidays
+holiday_dates = data_noise[data_noise['Holiday'] == 1]['date']
+holiday_laeq = data_noise[data_noise['Holiday'] == 1]['laeq']
+
+
+fig.add_trace(go.Scatter(
+    x=holiday_dates,
+    y=holiday_laeq,
+    mode='markers',
+    marker=dict(color='#F62DAE', symbol='circle', size=8),
+    name='Holiday',
+    showlegend=True
+))
+
 
 
 #########################################################################################################
