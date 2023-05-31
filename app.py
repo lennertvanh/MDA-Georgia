@@ -84,6 +84,9 @@ app.layout = html.Div(
                     children=[
                         html.H3("Analyzing noise and weather together"),  # Category 4: Analysis of Noise and Weather
                         html.Div(
+                            dcc.Link("Effect of temperature on noise", href="noise-wrt-temp")
+                        ),
+                        html.Div(
                             dcc.Link("Noise level during dry and rainy days", href="noise-level-dry-rainy-day")
                         ),
                         html.Div(
