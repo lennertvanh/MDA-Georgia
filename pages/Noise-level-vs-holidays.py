@@ -228,7 +228,7 @@ layout_fig2 = go.Layout(
         tickfont=dict(color='rgba(0, 0, 0, 0)'),
         gridcolor='rgba(255, 255, 255, 0.2)'),
     yaxis=dict(
-        {'title': 'Noise Level (Laeq in dB(A))'},
+        {'title': 'Noise Level (in dB(A))'},
         title_font=dict(color="white", size = 18),
         tickfont=dict(color="white"),
         gridcolor='rgba(255, 255, 255, 0.2)'),
