@@ -162,52 +162,64 @@ last_selected_location = 'Please select a location'
 # Update the layout with the clicked information
 layout = html.Div(
     children=[
-        html.Div(style={'flex': '15%'}),
         html.Div(
-            children=[
-                dcc.Graph(
-                    id='map-id',
-                    figure=fig_laeq_daily,
-                    style={'width': '100%', 'height': '100%'},
-                    clickData={'points': [{'customdata': [last_selected_location, 0, 1]}]} 
-                ), 
+            [
+                html.H2("Noise map"),
+                html.P("This map displays the different locations in Leuven for which the noise levels were measured. Some locations don't have any observations during certain months. The blue circles are proportional to the observed sound levels. A distinction is made between the average and maximal noise levels per day. The day can be chosen with the slider, it automatically updates the weather icon to showcase whether it was raining a lot, a little or if the sun was shining in Leuven that day. Moreover, clicking a point will display its location name, observed sound level and the temperature in Leuven for the particular day."),
             ],
-            style={'flex': '35%', 'display': 'inline-block'}
+            style={'margin-bottom': '20px'}
         ),
         html.Div(
-            children = [
-                html.Label('Select a day:', style={'font-size': '24px'}),
-                slider,
+            [
+                html.Div(style={'flex': '15%'}),
                 html.Div(
-                    id='text-selected-day',
-                    children=convert_day_to_date(1),
-                    style={'margin': '3px 10px 50px'}
-                    ),
-                html.Label('Select between average and maximal noise:', style={'font-size': '24px'}),
-                dcc.RadioItems(
-                    id='radio-item-laeq-lamax-id',
-                    options=[
-                        {'label': 'Average noise', 'value': 'option-laeq'},
-                        {'label': 'Maximal noise', 'value': 'option-lamax'},
+                    children=[
+                        dcc.Graph(
+                            id='map-id',
+                            figure=fig_laeq_daily,
+                            style={'width': '100%', 'height': '100%'},
+                            clickData={'points': [{'customdata': [last_selected_location, 0, 1]}]} 
+                        ), 
                     ],
-                    value='option-laeq',
-                    labelStyle={'display': 'block'}  # Optional styling for the labels
+                    style={'flex': '35%', 'display': 'inline-block'}
                 ),
                 html.Div(
                     children=[
+                        html.Label('Select a day:', style={'font-size': '20px'}),
+                        slider,
                         html.Div(
-                            id='clicked-data',
-                            style={'margin': '50px 0px',"width":"65%", 'display': 'flex', 'justify-content': 'flex-start'}
+                            id='text-selected-day',
+                            children=convert_day_to_date(1),
+                            style={'margin': '3px 10px 50px'}
                         ),
-                        html.Div(id="image-container", style={"width":"25%", "max-height":"100%", 'margin': '100px 40px'})
-                    ],
-                    style = {'display': 'flex'}
-                    ),
+                        html.Label('Select between average and maximal noise level:', style={'font-size': '20px'}),
+                        dcc.RadioItems(
+                            id='radio-item-laeq-lamax-id',
+                            options=[
+                                {'label': 'Average noise level', 'value': 'option-laeq'},
+                                {'label': 'Maximal noise level', 'value': 'option-lamax'},
+                            ],
+                            value='option-laeq',
+                            labelStyle={'display': 'block'}
+                        ),
+                        html.Div(
+                            children=[
+                                html.Div(
+                                    id='clicked-data',
+                                    style={'margin': '50px 0px', "width": "65%", 'display': 'flex', 'justify-content': 'flex-start'}
+                                ),
+                                html.Div(id="image-container", style={"width": "25%", "max-height": "100%", 'margin': '100px 40px'})
+                            ],
+                            style={'display': 'flex'}
+                        ),
 
-            ], style={'flex': '45%', 'margin': '30px', 'vertical-align': 'top', 'display': 'inline-block'}),
-        html.Div(style={'flex': '15%'})
-    ],
-    style={'display': 'flex', 'height': '450px', 'width': '100%'}
+                    ], style={'flex': '45%', 'margin': '30px', 'vertical-align': 'top', 'display': 'inline-block'}
+                ),
+                html.Div(style={'flex': '15%'})
+            ],
+            style={'display': 'flex', 'height': '450px', 'width': '100%'}
+        )
+    ]
 )
 
 
