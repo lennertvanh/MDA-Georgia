@@ -5,9 +5,10 @@ import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import datetime
+from datetime import datetime, timedelta
 from sklearn.preprocessing import StandardScaler
 
-#dash.register_page(__name__)
+dash.register_page(__name__)
 
 # Load data
 data_noise = pd.read_csv("Data for visualization/combined_noise_event.csv", header=0, sep=',')
@@ -51,9 +52,7 @@ category_colors = {
     'Human voice - Singing': 'pink',
     'Transport road - Passenger car' : 'blue',
     'Transport road - Siren' : 'orange',
-    'Nature elements - Wind' : 'beige',
-    'Unsupported' : 'black',
-    'Missing': 'green'
+    'Nature elements - Wind' : 'lightblue',
 }
 
 categories = [
@@ -63,8 +62,6 @@ categories = [
     'Transport road - Passenger car',
     'Transport road - Siren',
     'Nature elements - Wind',
-    'Unsupported',
-    'Missing',
 ]
 
 for category in categories:
@@ -131,12 +128,20 @@ def store_selected_categories(selected_categories):
     Input('selected-categories', 'data')
 )
 def update_plot(date_range, selected_categories):
-    min_timestamp = pd.to_datetime(date_range[0], unit='D')
-    max_timestamp = pd.to_datetime(date_range[1], unit='D')
+    min_ordinal = date_range[0]
+    max_ordinal = date_range[1]
+
+    min_date = datetime.fromordinal(min_ordinal).date()
+    max_date = datetime.fromordinal(max_ordinal).date() + timedelta(days=1)  # Add 1 day to include the end date
+
+    min_timestamp = pd.Timestamp(min_date)
+    max_timestamp = pd.Timestamp(max_date)
+
+    daily_counts['result_timestamp'] = pd.to_datetime(daily_counts['result_timestamp'])  # Convert to datetime data type
 
     filtered_data = daily_counts[
-        (daily_counts['result_timestamp'] >= min_timestamp) &
-        (daily_counts['result_timestamp'] <= max_timestamp) &
+        (daily_counts['result_timestamp'].dt.date >= min_timestamp.date()) &
+        (daily_counts['result_timestamp'].dt.date <= max_timestamp.date()) &
         (daily_counts['noise_event_laeq_primary_detected_class'].isin(selected_categories))
     ]
 
