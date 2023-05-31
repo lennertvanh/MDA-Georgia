@@ -100,17 +100,22 @@ fig.update_layout(
 
 #########################################################################################################
 # PAGE LAYOUT
+areachart = dcc.Graph(figure=fig)
 
 layout = html.Div([
     html.H2("Does temperature have an influence on noise?"),
     html.P("This area chart indicates that extreme temperatures are negatively correlated with the average noise level: the more extreme temperatures correspond to lower noise levels."),
     html.Div(
-        className="plot-container",  
+        className="plot-container",
         style={'padding': '20px', 'max-width': '90vw', 'justify-content': 'center'},
-        children=[
-            html.Div(id="areachart-container"),
-])])
+        id="areachart-container",
+        children=areachart  # Render the graph component inside the div
+    )
+])
+
+# Display the layout
+print(layout)
 
 
 #########################################################################################################
-# CALLBACK NOT NEEDED
+# NO CALLBACK NEEDED BECAUSE NO INPUT
