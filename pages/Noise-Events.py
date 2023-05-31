@@ -49,9 +49,9 @@ fig = go.Figure()
 category_colors = {
     'Human voice - Shouting': 'hotpink',
     'Music non-amplified': 'purple',
-    'Human voice - Singing': 'pink',
+    'Human voice - Singing': 'orange',
     'Transport road - Passenger car' : 'blue',
-    'Transport road - Siren' : 'orange',
+    'Transport road - Siren' : 'red',
     'Nature elements - Wind' : 'lightblue',
 }
 
@@ -104,28 +104,37 @@ months = pd.date_range(start=start_date, end=max_date, freq='MS')
 # Generate marks for each month
 marks = {date.toordinal(): {'label': date.strftime('%b %Y')} for date in months}
 
+fig.update_layout(
+    plot_bgcolor='rgba(0, 0, 0, 0)',
+    paper_bgcolor='rgba(0, 0, 0, 0)'
+)
 
 layout = html.Div([
     html.H2("What's causing the noise in Leuven?"),
     html.P("In order to trace the sources of noise events in the centre of Leuven, ..."),
-    dcc.Graph(id='noise-plot', figure=fig),
-    dcc.RangeSlider(
-        id='date-slider',
-        min=min_value,
-        max=max_date.toordinal(),
-        value=[min_value, max_date.toordinal()],
-        marks=marks,
-            #{timestamp.to_timestamp().date().toordinal(): {'label': timestamp.strftime('%b %Y')}
-            #for timestamp in data_noise['result_timestamp'].dt.to_period('M').unique()},
-            #{timestamp.to_timestamp().date().toordinal(): {'label': timestamp.strftime('%d-%m-%Y'), 'style': {'transform': 'rotate(45deg)', 'white-space': 'nowrap'}}
-            #for timestamp in data_noise['result_timestamp'].dt.to_period('D').unique()
-        step=None
-    ),
-    dcc.Checklist(
-        id='category-checkboxes',
-        options=[{'label': category, 'value': category} for category in categories],
-        value=categories,  # All checkboxes are initially checked
-        labelStyle={'display': 'block'}  # Display checkboxes vertically
+    html.Div(
+        className="plot-container",
+        style={'padding': '20px', 'max-width': '90vw', 'justify-content': 'center'},
+        children=[
+            dcc.Graph(
+                id='noise-plot', 
+                figure=fig
+                ),
+            dcc.RangeSlider(
+                id='date-slider',
+                min=min_value,
+                max=max_date.toordinal(),
+                value=[min_value,  max_date.toordinal()],
+                marks=marks,
+                step=None
+            ),
+            dcc.Checklist(
+                id='category-checkboxes',
+                options=[{'label': category, 'value': category} for category in categories],
+                value=categories,  # All checkboxes are initially checked
+                labelStyle={'display': 'block'}  # Display checkboxes vertically
+            ),
+        ]
     ),
     dcc.Store(id='selected-categories')
 ])
@@ -176,8 +185,31 @@ def update_plot(date_range, selected_categories):
                 sizeref=0.1,
                 color=category_colors[category]
             ),
-            name=category
+            name=category,
+            showlegend=False
         ))
+
+        fig.update_layout(
+            plot_bgcolor='rgba(0, 0, 0, 0)',
+            paper_bgcolor='rgba(0, 0, 0, 0)',
+            title=dict(
+                text="Noise events per day, with frequency of each noise source",
+                font=dict(color="white"),
+            ),
+            title_font=dict(size=24),
+            xaxis=dict(
+                title="Date",
+                title_font=dict(color="white", size =18),
+                tickfont=dict(color="white"),
+                gridcolor='rgba(255, 255, 255, 0.1)',
+            ),
+        yaxis=dict(
+            tickfont=dict(color="white"),
+            gridcolor='rgba(255, 255, 255, 0.1)'
+            ),
+        margin=dict(l=50, r=50, t=50, b=50),
+        
+    )
 
     fig.update_xaxes(range=[min_timestamp, max_timestamp], tickformat='%d-%m-%Y')
 

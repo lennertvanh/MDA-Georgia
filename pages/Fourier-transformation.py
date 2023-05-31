@@ -25,6 +25,7 @@ layout = html.Div(
     [
         html.H2("Probing the frequency spectrum for different time intervals"),
         html.P("The graph below allows us to dive into the fascinating world of noise patterns by exploring the frequency spectrum across various time intervals. By applying Fourier transformation to the recorded noise levels, we gain insight into the periodic components and dominant frequencies present in the noise data. Through the checkboxes, you can selectively examine the signal fit for different time resolutions, ranging from short intervals of 2 hours to longer durations of up to a year."),
+        html.P("In the frequency domain, the peaks match exactly the frequencies that we would expect: 12 hours, day, week, month... When these frequencies are kept to reconstruct the signal in the time domain, a good approximation is obtained when one zooms in on a shorter time interval with all the checkboxes on the right selected and the 'add complete time series' is also selected."),
         html.Div(
             className="plot-container",  # Add the CSS class to this div element
             style={'display': 'flex', 'justify-content': 'center'},
