@@ -236,9 +236,9 @@ layout = html.Div([
                 {"label": "Which months of 2022 were warmer or colder than the past?", "value": "figure4"}
             ],
             value="figure1",
-            style={'background-color': '#223164'}
+            style={'background-color': 'white', 'color': 'black'}
         ),
-        #className="dropdown-style"
+       
     ),
     html.Div(id="figure-container")
 ])
