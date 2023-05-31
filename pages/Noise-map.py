@@ -252,6 +252,10 @@ def update_marker_size(selected_day, selected_data, click_data):
     else: #almost no rain
         image_path = image_sunny
 
+    #if a point is selected (noiselevel higher than one)
+    if(click_data['points'][0]['customdata'][1]>0):
+        click_data['points'][0]['customdata'][2] = selected_weather["LC_TEMP_QCL3"] #update the temperature with the temperature of the day
+
     if selected_data == "option-laeq":
         fig_laeq_daily.data[0].lat = filtered_data['lat']
         fig_laeq_daily.data[0].lon = filtered_data['lon']
@@ -267,6 +271,16 @@ def update_marker_size(selected_day, selected_data, click_data):
                                                'Noise level: %{customdata[1]:.2f} dB(A)<br>' \
                                                'Temperature: %{customdata[2]:.1f} °C<br>'
         
+        location = click_data['points'][0]['customdata'][0]
+        location_array = filtered_data['description'].values
+        if(int(click_data['points'][0]['customdata'][1])>0 and location in location_array):
+            click_data['points'][0]['customdata'][1] = filtered_data[filtered_data["description"]==location]["laeq"].values[0] #update the laeq
+        elif(location not in location_array):
+            click_data['points'][0]['customdata'][1] = 0
+        #if(noise_level>0):
+        #    oise_level = click_data['points'][0]['customdata'][1]
+        #    temperature = click_data['points'][0]['customdata'][2]
+        
     elif selected_data == "option-lamax":
         fig_laeq_daily.data[0].lat = filtered_data['lat']
         fig_laeq_daily.data[0].lon = filtered_data['lon']
@@ -281,6 +295,13 @@ def update_marker_size(selected_day, selected_data, click_data):
         fig_laeq_daily.data[0].hovertemplate = 'Location: %{customdata[0]}<br>' \
                                                'Noise level: %{customdata[1]:.2f} dB(A)<br>' \
                                                'Temperature: %{customdata[2]:.1f} °C<br>'
+        
+        location = click_data['points'][0]['customdata'][0]
+        location_array = filtered_data['description'].values
+        if(int(click_data['points'][0]['customdata'][1])>0 and location in location_array):
+            click_data['points'][0]['customdata'][1] = filtered_data[filtered_data["description"]==location]["lamax"].values[0] #update the laeq
+        elif(location not in location_array):
+            click_data['points'][0]['customdata'][1] = 0
         
     if click_data is not None:
         location = click_data['points'][0]['customdata'][0]
