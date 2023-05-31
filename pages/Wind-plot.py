@@ -96,6 +96,10 @@ def update_wind_rose(selected_month):
             color='#FC440F',
             width=3
         ),
+        text=[f"Dominant wind has a direction of {round(arrow_direction-90,2)}° from the N<br>with a relative amplitude of {round(arrow_length,2)}"],  # Hover text
+         hoverinfo='text'  # Display hover information from the text attribute
+        #customdata=[arrow_direction, arrow_length],
+        #hovertemplate='Dominant wind has a direction of %{customdata[0]}°<br>with a relative amplitude of %{customdata[1]}'
     ))
 
     fig.add_trace(go.Scatterpolar(
@@ -107,6 +111,9 @@ def update_wind_rose(selected_month):
             size=12,
             color='#FC440F',
         ),
+        text=[f"Dominant wind has a direction of {round(arrow_direction-90,2)}° from the N<br>with a relative amplitude of {round(arrow_length,2)}"],  # Hover text
+         hoverinfo='text'
+        #hovertemplate='Dominant wind has a direction of %{theta:.2f}°<br>with a relative amplitude of %{r:.2f}'
     ))
 
     # Set polar plot layout

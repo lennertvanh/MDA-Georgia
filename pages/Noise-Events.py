@@ -5,9 +5,10 @@ import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import datetime
+from datetime import datetime, timedelta
 from sklearn.preprocessing import StandardScaler
 
-#dash.register_page(__name__)
+dash.register_page(__name__)
 
 # Load data
 data_noise = pd.read_csv("Data for visualization/combined_noise_event.csv", header=0, sep=',')
@@ -51,9 +52,7 @@ category_colors = {
     'Human voice - Singing': 'pink',
     'Transport road - Passenger car' : 'blue',
     'Transport road - Siren' : 'orange',
-    'Nature elements - Wind' : 'beige',
-    'Unsupported' : 'black',
-    'Missing': 'green'
+    'Nature elements - Wind' : 'lightblue',
 }
 
 categories = [
@@ -63,8 +62,6 @@ categories = [
     'Transport road - Passenger car',
     'Transport road - Siren',
     'Nature elements - Wind',
-    'Unsupported',
-    'Missing',
 ]
 
 for category in categories:
@@ -93,18 +90,35 @@ for category in categories:
 # Set x-axis range and format
 fig.update_xaxes(range=[data_noise['result_timestamp'].min(), data_noise['result_timestamp'].max()], tickformat='%d-%m-%Y')
 
-# Define layout
+# Find the minimum and maximum dates in the data
+min_date = data_noise['result_timestamp'].min().date()
+max_date = data_noise['result_timestamp'].max().date()
+
+# Set the start date as January 2022
+start_date = pd.Timestamp(year=2022, month=1, day=1)
+min_value = start_date.toordinal()
+
+# Create a list of all the months between the minimum and maximum dates
+months = pd.date_range(start=start_date, end=max_date, freq='MS')
+
+# Generate marks for each month
+marks = {date.toordinal(): {'label': date.strftime('%b %Y')} for date in months}
+
+
 layout = html.Div([
     html.H2("What's causing the noise in Leuven?"),
     html.P("In order to trace the sources of noise events in the centre of Leuven, ..."),
     dcc.Graph(id='noise-plot', figure=fig),
     dcc.RangeSlider(
         id='date-slider',
-        min=data_noise['result_timestamp'].min().date().toordinal(),
-        max=data_noise['result_timestamp'].max().date().toordinal(),
-        value=[data_noise['result_timestamp'].min().date().toordinal(), data_noise['result_timestamp'].max().date().toordinal()],
-        marks={timestamp.to_timestamp().date().toordinal(): {'label': timestamp.strftime('%d-%m-%Y'), 'style': {'transform': 'rotate(45deg)', 'white-space': 'nowrap'}}
-               for timestamp in data_noise['result_timestamp'].dt.to_period('D').unique()},
+        min=min_value,
+        max=max_date.toordinal(),
+        value=[min_value, max_date.toordinal()],
+        marks=marks,
+            #{timestamp.to_timestamp().date().toordinal(): {'label': timestamp.strftime('%b %Y')}
+            #for timestamp in data_noise['result_timestamp'].dt.to_period('M').unique()},
+            #{timestamp.to_timestamp().date().toordinal(): {'label': timestamp.strftime('%d-%m-%Y'), 'style': {'transform': 'rotate(45deg)', 'white-space': 'nowrap'}}
+            #for timestamp in data_noise['result_timestamp'].dt.to_period('D').unique()
         step=None
     ),
     dcc.Checklist(
@@ -131,12 +145,20 @@ def store_selected_categories(selected_categories):
     Input('selected-categories', 'data')
 )
 def update_plot(date_range, selected_categories):
-    min_timestamp = pd.to_datetime(date_range[0], unit='D')
-    max_timestamp = pd.to_datetime(date_range[1], unit='D')
+    min_ordinal = date_range[0]
+    max_ordinal = date_range[1]
+
+    min_date = datetime.fromordinal(min_ordinal).date()
+    max_date = datetime.fromordinal(max_ordinal).date() + timedelta(days=1)  # Add 1 day to include the end date
+
+    min_timestamp = pd.Timestamp(min_date)
+    max_timestamp = pd.Timestamp(max_date)
+
+    daily_counts['result_timestamp'] = pd.to_datetime(daily_counts['result_timestamp'])  # Convert to datetime data type
 
     filtered_data = daily_counts[
-        (daily_counts['result_timestamp'] >= min_timestamp) &
-        (daily_counts['result_timestamp'] <= max_timestamp) &
+        (daily_counts['result_timestamp'].dt.date >= min_timestamp.date()) &
+        (daily_counts['result_timestamp'].dt.date <= max_timestamp.date()) &
         (daily_counts['noise_event_laeq_primary_detected_class'].isin(selected_categories))
     ]
 
