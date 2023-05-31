@@ -1,3 +1,6 @@
+#########################################################################################################
+# PACKAGES
+
 import dash
 from dash import html, dcc, callback
 import pandas as pd
@@ -7,32 +10,59 @@ import plotly.graph_objects as go
 
 dash.register_page(__name__)
 
-#from kmi for Leuven from 1991 to 2020
-#https://www.meteo.be/nl/klimaat/klimaat-van-belgie/klimaat-in-uw-gemeente
-avg_rain_month = [70.4, 62.2, 54.4, 43.3, 55.5, 67.3, 72.7, 79.5, 60.5, 62.8, 68.5, 83.5 ]
+
+#########################################################################################################
+# DATA
 
 weather_data = pd.read_csv("Data for visualization/daily_weatherdata_2022.csv")
 
-weather_data["LC_DAILYRAIN_mm"] = weather_data["LC_DAILYRAIN"]*1000  #have in mm instead of m
+weather_data["LC_DAILYRAIN_mm"] = weather_data["LC_DAILYRAIN"]*1000  #convert to mm (instead of using m)
+
+# from kmi for Leuven from 1991 to 2020: https://www.meteo.be/nl/klimaat/klimaat-van-belgie/klimaat-in-uw-gemeente
+avg_rain_month = [70.4, 62.2, 54.5, 43.3, 55.5, 67.3, 72.7, 79.5, 60.5, 62.8, 68.5, 83.5]
+avg_temp_Leuven = [3.9, 4.4, 7.2, 10.4, 14.1, 17.1, 19.2, 18.8, 15.5, 11.6, 7.4, 4.5]
+
+# Calculate the total rain for each month
 total_rain_per_month = weather_data.groupby("Month")["LC_DAILYRAIN_mm"].sum()
 
 months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
+cutoff_rain_day = 0.0002
 
-#############################################################################################################""
-#figure 1
+# Create a variable saying whether a day was rainy or not
+weather_data["bool_rainday"] = weather_data["LC_DAILYRAIN"] > cutoff_rain_day
+
+# Count the number of rainy days per month
+rainy_counts = weather_data.groupby('Month')['bool_rainday'].sum()  
+
+# Calculate the average temperature for each month
+avg_temp_per_month = weather_data.groupby("Month")["LC_TEMP_QCL3"].mean()
+
+# Calculate the difference in temperature between 2022 and past years
+diff_temp = avg_temp_per_month-avg_temp_Leuven
+
+# Define colors based on difference
+colors = ['#EB862E' if temp > 0 else '#2A9D8F' for temp in diff_temp]
+
+
+
+#########################################################################################################
+# VISUALIZATION
+
+# Figure 1
+
 # Create the scatter plots
 fig1 = go.Figure()
 
-# Add the scatter plot for average rainfall over the last 20 years
-fig1.add_trace(go.Scatter(x=months, y=avg_rain_month, name="Average Rainfall (Last 20 Years)", mode="markers+lines", marker=dict(color='#2A9D8F'), line=dict(color='#2A9D8F')))
+# Add the scatter plot for average rainfall over the last 30 years
+fig1.add_trace(go.Scatter(x=months, y=avg_rain_month, name="Average Rainfall (Last 30 Years)", mode="markers+lines", marker=dict(color='#2A9D8F'), line=dict(color='#2A9D8F')))
 
 # Add the scatter plot for rainfall in 2022
 fig1.add_trace(go.Scatter(x=months, y=total_rain_per_month, name="Rainfall in 2022", mode="markers+lines", marker=dict(color='#EB862E'), line=dict(color='#EB862E')))
 
 # Update the layout
 fig1.update_layout(
-    title=dict(text="Rainfall comparison between year 2022 and the average over the past 20 years", 
+    title=dict(text="Rainfall comparison between year 2022 and the average over the past 30 years", 
                x=0.5,
                font=dict(color="white", size=24)
                ),
@@ -61,17 +91,7 @@ fig1.update_layout(
 )
 
 
-
-
-######################################################################################################""
-#figure 2
-
-cutoff_rain_day = 0.0002
-
-weather_data["bool_rainday"] = weather_data["LC_DAILYRAIN"] > cutoff_rain_day
-
-rainy_counts = weather_data.groupby('Month')['bool_rainday'].sum()  # Count the number of rainy days per month
-
+# Figure 2
 
 # Create the bar chart
 fig2 = go.Figure(data=go.Bar(x=months, y=rainy_counts))
@@ -105,24 +125,20 @@ fig2.update_xaxes(color="white",gridwidth=5)
 fig2.update_yaxes(color="white")
 
 
-######################################################################################################
-#figure 3
-#measured by kmi for leuven from 1991 to 2020
-avg_temp_Uccle = [3.9, 4.4, 7.2, 10.4, 14.1, 17.1, 19.2, 18.8, 15.5, 11.6, 7.4, 4.5]
+# Figure 3
 
-avg_temp_per_month = weather_data.groupby("Month")["LC_TEMP_QCL3"].mean()
 # Create the scatter plots
 fig3 = go.Figure()
 
-# Add the scatter plot for average rainfall over the last 20 years
-fig3.add_trace(go.Scatter(x=months, y=avg_temp_Uccle, name="Average temperature (Last 20 Years)", mode="markers+lines", marker=dict(color='#2A9D8F'), line=dict(color='#2A9D8F')))
+# Add the scatter plot for average rainfall over the last 30 years
+fig3.add_trace(go.Scatter(x=months, y=avg_temp_Leuven, name="Average temperature (Last 30 Years)", mode="markers+lines", marker=dict(color='#2A9D8F'), line=dict(color='#2A9D8F')))
 
 # Add the scatter plot for rainfall in 2022
 fig3.add_trace(go.Scatter(x=months, y=avg_temp_per_month, name="Temperature in 2022", mode="markers+lines", marker=dict(color='#EB862E'), line=dict(color='#EB862E')))
 
 # Update the layout
 fig3.update_layout(
-    title=dict(text="Temperature comparison between year 2022 and the average over the past 20 years", 
+    title=dict(text="Temperature comparison between year 2022 and the average over the past 30 years", 
                x=0.5,
                font=dict(color="white", size=24)
                ),
@@ -150,13 +166,8 @@ fig3.update_layout(
     )
 )
 
-##################################################################################""
-#figure 4
-#difference in temperature
-diff_temp = avg_temp_per_month-avg_temp_Uccle
 
-# Define colors based on diff_temp values
-colors = ['#EB862E' if temp > 0 else '#2A9D8F' for temp in diff_temp]
+# Figure 4
 
 # Create bar chart using go.Bar
 data = go.Bar(
@@ -168,7 +179,7 @@ data = go.Bar(
 
 # Create layout
 layout = go.Layout(
-    title=dict(text='Temperature differences between the year 2022 and the past 20 years',
+    title=dict(text='Temperature differences between the year 2022 and the past 30 years',
                x=0.5,
                font=dict(color="white", size=24)),
     xaxis=dict(title='Months',
@@ -218,8 +229,9 @@ fig4.update_layout(
 
 
 
-##################################################################################################################
-# layout
+#########################################################################################################
+# PAGE LAYOUT
+
 layout = html.Div([
     html.H2("Weather Analysis"),
     html.P("It seems clear that students are an important cause for noise, but what about environemntal noise? Let's first inspect the weather in Leuven in 2022. Please select with the dropdown menu what you want to take a closer look at."), 
@@ -242,6 +254,10 @@ layout = html.Div([
     ),
     html.Div(id="figure-container")
 ])
+
+
+#########################################################################################################
+# CALLBACK UPDATE FIGURE (based on selected dropdown)
 
 @callback(
     Output("figure-container", "children"),

@@ -46,7 +46,7 @@ monthly_avg_direction["Weighted Avg Direction"] += base_direction
 
 layout = html.Div([
     html.H2("Wind Analysis"),
-    html.P("The measured windspeed in Leuven seems surprisingly lower than the average windspeed measured in Ukkel over the past 20 years. This difference could be attributed to variations in measurement methods. The KMI measures in an open area, while here it is measured within the city of Leuven, with many buildings sheltering the measurement tools from the wind. Concerning the wind direction, the wind blows mainly in the Southwest direction."), 
+    html.P("The measured windspeed in Leuven seems surprisingly lower than the average windspeed measured over the past 20 years. This difference could be attributed to variations in measurement methods. The KMI measures in an open area, while here it is measured within the city, with many buildings sheltering the measurement tools from the wind. Concerning the wind direction, the wind blows mainly in the Southwest direction."), 
     html.Div([
         dcc.Graph(id='scatter-plot'),
     ], style={'width': '49%', 'display': 'inline-block'}),
@@ -162,7 +162,7 @@ def update_wind_rose(selected_month):
 )
 def update_scatter_plot(selected_month):
     data = avg_wind[selected_month+1]
-    avg_wind_speed_Uccle = [4.7, 4.5, 4.2, 3.5, 3.3, 3.1, 3.1, 3.1, 3.3, 3.8, 4.1, 4.6]
+    avg_wind_speed_Leuven = [4.7, 4.5, 4.2, 3.5, 3.3, 3.1, 3.1, 3.1, 3.3, 3.8, 4.1, 4.6]
 
     fig = go.Figure()
 
@@ -184,7 +184,7 @@ def update_scatter_plot(selected_month):
     # Add the average wind speed trace
     fig.add_trace(go.Scatter(
         x=months,
-        y=avg_wind_speed_Uccle,
+        y=avg_wind_speed_Leuven,
         mode='markers+lines',
         name='Average Wind Speed (Last 20 years)',
         marker=dict(color='#2A9D8F'),
@@ -194,7 +194,7 @@ def update_scatter_plot(selected_month):
     # Add the red point trace
     fig.add_trace(go.Scatter(
         x=[months[selected_month], months[selected_month]],
-        y=[data, avg_wind_speed_Uccle[selected_month]],
+        y=[data, avg_wind_speed_Leuven[selected_month]],
         mode='markers',
         marker=dict(
             color='#FC440F',
