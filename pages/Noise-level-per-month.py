@@ -11,22 +11,13 @@ dash.register_page(__name__)
 
 #########################################################################################################
 # DATA
+data_noise = pd.read_csv('Data for visualization/monthly_noisedata_2022.csv', header=0, sep=',')
 
-# Loading noise and weather data
-weather_data = pd.read_csv("Data for visualization/daily_weatherdata_2022.csv", header = 0, sep=',')
-data_noise = pd.read_csv('Data for visualization/daily_noisedata_2022.csv', header=0, sep=',', parse_dates=["date"])
-
-# Define cutoff value for rainy day
-cutoff_rain_day = 0.002
-weather_data["bool_rainday"] = weather_data["LC_DAILYRAIN"] > cutoff_rain_day
-
-# Standardized values
+# Average values per month
 average_noise = data_noise.groupby('month')['laeq'].mean()
 
-mean_average_noise = average_noise.mean()
-std_average_noise = average_noise.std()
-
-average_noise_std = (average_noise-mean_average_noise)/std_average_noise
+# Standardized values
+average_noise_std = data_noise.groupby('month')['laeq_standardized'].mean()
 
 months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
 
@@ -72,7 +63,6 @@ layout = html.Div(
     Output("noise-per-month-graph", "figure"),
     [Input("data-type-radio", "value")]
 )
-
 def update_graph(data_type):
     if data_type == 'standardized':
         fig = go.Figure(data=go.Bar(x=months, y=average_noise_std))
@@ -81,14 +71,14 @@ def update_graph(data_type):
             title=dict(text="Average noise level per month (standardized values)", font=dict(
             color="white", size=24)),
             xaxis_title="Month",
-            yaxis_title="Average noise level<br> (Laeq in dB(A))", title_font=dict(size=24), xaxis=dict(title_font=dict(color="white", size =18),showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)'),
+            yaxis_title="Average noise level (in dB(A))", title_font=dict(size=24), xaxis=dict(title_font=dict(color="white", size =18),showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)'),
             yaxis=dict(title_font=dict(color="white", size =18),showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)'),
             plot_bgcolor='rgba(0,0,0,0)', 
             paper_bgcolor='rgba(0,0,0,0)', 
-            
         )
         fig.update_xaxes(color="white",gridwidth=5)
         fig.update_yaxes(color="white")
+        fig.update_traces(hovertemplate='%{x}: %{y:.2f} dB(A)', hoverlabel=dict(namelength=0))
     else:
         fig = go.Figure()
         fig.add_trace(go.Bar(x=months, y=average_noise, showlegend=False))
@@ -124,5 +114,6 @@ def update_graph(data_type):
         )
         fig.update_xaxes(color="white",gridwidth=5)
         fig.update_yaxes(color="white")
+        fig.update_traces(hovertemplate='%{x}: %{y:.2f} dB(A)', hoverlabel=dict(namelength=0))
     
     return fig

@@ -76,17 +76,13 @@ fig.update_layout(
         gridcolor='rgba(255, 255, 255, 0.1)'
     ),
     margin=dict(l=50, r=50, t=50, b=50),
-    hoverlabel=dict(font=dict(size=14)),
+    hoverlabel=dict(namelength=0),
     legend=dict(
         font=dict(
             color='white'
         )
     )  
 )
-
-
-# Edit hoover text
-fig.data[0].hovertemplate = "Date: %{x}<br>Noise Level: %{y}"
 
 # Change the line color
 fig.update_traces(line=dict(color='#E6AF2E', width=3))
@@ -95,14 +91,15 @@ fig.update_traces(line=dict(color='#E6AF2E', width=3))
 holiday_dates = data_noise[data_noise['Holiday'] == 1]['date']
 holiday_laeq = data_noise[data_noise['Holiday'] == 1]['laeq']
 
-
 fig.add_trace(go.Scatter(
     x=holiday_dates,
     y=holiday_laeq,
     mode='markers',
     marker=dict(color='#F62DAE', symbol='circle', size=8),
     name='Holiday',
-    showlegend=True
+    showlegend=True,
+    hovertemplate='Date: %{x}<br>Noise Level: %{y:.2f} dB(A)',
+    hoverlabel=dict(namelength=0)
 ))
 
 
@@ -114,7 +111,7 @@ fig.add_trace(go.Scatter(
 layout = html.Div(
     children=[
         html.H2("Exploring the dynamic patterns of city noise in Leuven"),  
-        html.P("The best way to get a first look at the monitored noise levels is to plot them over time. (add some extra text) "), 
+        html.P("The best way to get a first look at the monitored noise levels is to plot them over time. Holidays mostly appear to be either situated in peaks or valleys of the time series."), 
         html.Div(
             className="plot-container",  
             style={'padding': '20px', 'max-width': '90vw', 'justify-content': 'center'},
@@ -174,16 +171,19 @@ def update_graph(date_range, show_average):
         mode="lines",
         name="Noise levels over time",
         line=dict(color='#E6AF2E', width=4),
-        hovertemplate="Date: %{x}<br>Noise Level: %{y}"
+        hoverlabel=dict(namelength=0),
+        hovertemplate='Date: %{x}<br>Noise Level: %{y:.2f} dB(A)'
     ))
     
     fig.add_trace(go.Scatter(
-    x=holiday_dates,
-    y=holiday_laeq,
-    mode='markers',
-    marker=dict(color='#F62DAE', symbol='circle', size=8),
-    name='Holiday',
-    showlegend=True
+        x=holiday_dates,
+        y=holiday_laeq,
+        mode='markers',
+        marker=dict(color='#F62DAE', symbol='circle', size=8),
+        name='Holiday',
+        showlegend=True,
+        hovertemplate='Date: %{x}<br>Noise Level: %{y:.2f} dB(A)',
+        hoverlabel=dict(namelength=0)
     ))
     
     if "average" in show_average:
@@ -198,9 +198,11 @@ def update_graph(date_range, show_average):
             name="Yearly Average",
             line=dict(color="red"),
             showlegend=False,
-            hovertemplate="Yearly Average:<br> %{y}"
+            hoverlabel=dict(namelength=0),
+            hovertemplate="Yearly Average:<br>%{y:.2f} dB(A)"
         ))
-    
+   
+            
     if "monthly" in show_average:
         # Calculate monthly average Laeq for each month
         monthly_average = filtered_data.groupby(filtered_data["date"].dt.month)["laeq"].mean()
@@ -215,9 +217,10 @@ def update_graph(date_range, show_average):
                 y=[average] * len(month_data),
                 mode="lines",
                 name=f"Monthly Average - {pd.Timestamp(month=month, year=2022, day=1).strftime('%B')}",
-                line=dict(color="#EB862E"),
+                line=dict(color="#2A9D8F"),
                 showlegend=False,
-                hovertemplate=f"Monthly Average - {pd.Timestamp(month=month, year=2022, day=1).strftime('%B')}:<br> %{average:.2f}" #instead of y
+                hoverlabel=dict(namelength=0),
+                hovertemplate=f"Monthly Average - {pd.Timestamp(month=month, year=2022, day=1).strftime('%B')}:<br>{average:.2f} dB(A)" #instead of y
             ))
     
     # Update layout of the figure
@@ -244,7 +247,7 @@ def update_graph(date_range, show_average):
             gridcolor='rgba(255, 255, 255, 0.1)'
         ),
         margin=dict(l=50, r=50, t=50, b=50),
-        hoverlabel=dict(font=dict(size=14)),
+        hoverlabel=dict(namelength=0),
         legend=dict(
         font=dict(
             color='white'
