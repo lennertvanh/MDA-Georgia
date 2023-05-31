@@ -111,7 +111,7 @@ fig.add_trace(go.Scatter(
 layout = html.Div(
     children=[
         html.H2("Exploring the dynamic patterns of city noise in Leuven"),  
-        html.P("The best way to get a first look at the monitored noise levels is to plot them over time. (add some extra text) "), 
+        html.P("The best way to get a first look at the monitored noise levels is to plot them over time. Holidays mostly appear to be either situated in peaks or valleys of the time series."), 
         html.Div(
             className="plot-container",  
             style={'padding': '20px', 'max-width': '90vw', 'justify-content': 'center'},
@@ -217,7 +217,7 @@ def update_graph(date_range, show_average):
                 y=[average] * len(month_data),
                 mode="lines",
                 name=f"Monthly Average - {pd.Timestamp(month=month, year=2022, day=1).strftime('%B')}",
-                line=dict(color="#EB862E"),
+                line=dict(color="#2A9D8F"),
                 showlegend=False,
                 hoverlabel=dict(namelength=0),
                 hovertemplate=f"Monthly Average - {pd.Timestamp(month=month, year=2022, day=1).strftime('%B')}:<br>{average:.2f} dB(A)" #instead of y
