@@ -256,6 +256,7 @@ def update_marker_size(selected_day, selected_data, click_data):
         fig_laeq_daily.data[0].lat = filtered_data['lat']
         fig_laeq_daily.data[0].lon = filtered_data['lon']
         fig_laeq_daily.data[0].marker.size = filtered_data['laeq_std']
+        fig_laeq_daily.data[0].marker.color = ['blue'] * len(filtered_data) #make them all blue
 
         # Convert the selected day to a formatted date string
         formatted_date = convert_day_to_date(selected_day)
@@ -270,6 +271,7 @@ def update_marker_size(selected_day, selected_data, click_data):
         fig_laeq_daily.data[0].lat = filtered_data['lat']
         fig_laeq_daily.data[0].lon = filtered_data['lon']
         fig_laeq_daily.data[0].marker.size = filtered_data['lamax_std']
+        fig_laeq_daily.data[0].marker.color = ['blue'] * len(filtered_data) #make them all blue
 
         # Convert the selected day to a formatted date string
         formatted_date = convert_day_to_date(selected_day)
@@ -284,6 +286,29 @@ def update_marker_size(selected_day, selected_data, click_data):
         location = click_data['points'][0]['customdata'][0]
         noise_level = click_data['points'][0]['customdata'][1]
         temperature = click_data['points'][0]['customdata'][2]
+
+        #if selected data, make the clicked location red
+        #if a location is selected
+        if(noise_level>0):
+            #point_index = click_data['points'][0]['pointIndex']
+            filtered_data.reset_index(drop=True, inplace=True)
+
+            location_array = filtered_data['description'].values
+
+            #if location exists at that time, sometimes location is not in the dataset
+            if(location in location_array):
+                
+                point_index = filtered_data[filtered_data['description'] == location].index[0]
+
+                # Convert the color attribute tuple to a list
+                color_list = list(fig_laeq_daily.data[0].marker.color)
+
+                # Modify the color attribute for the specific index to 'red'
+                color_list[point_index] = 'red'
+
+                # Convert the color list back to a tuple
+                fig_laeq_daily.data[0].marker.color = tuple(color_list)
+
 
         clicked_text = html.Div(
             children=[
