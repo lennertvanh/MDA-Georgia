@@ -18,9 +18,7 @@ labels_complete = ["intercept","2 hours","4 hours","6 hours","12 hours","day", "
 x = [1, 2, 3, 4, 5]
 y = [10, 5, 7, 8, 3]
 fig1 = go.Figure(data=go.Scatter(x=x, y=y, mode='markers'))
-fig1.update_layout(
-    plot_bgcolor='rgb(0, 0, 139)'  
-)
+
 
 # Define the HTML layout
 layout = html.Div(
@@ -125,8 +123,7 @@ fig_FFT.update_layout(
     yaxis_title="Amplitude",
     xaxis_type="log",
     yaxis_type="log",
-    showlegend=False,
-    plot_bgcolor='rgb(0,0,139)'
+    showlegend=False
 )
 
 # Add vertical lines
@@ -183,8 +180,7 @@ def update_figure(selected_values,selected_value_add_series):
     new_figure.update_layout(
         title='Scatter Plot of LAEQ over Time',
         xaxis=dict(title='Time (hours)'),
-        yaxis=dict(title='LAEQ'),
-        plot_bgcolor='rgb(0, 0, 139)'  
+        yaxis=dict(title='LAEQ') 
     )
 
     # Creating the scatter plot for reconstructed_signal

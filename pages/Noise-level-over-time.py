@@ -43,6 +43,9 @@ holiday_data.head(10)
 holiday_data['index'] = pd.to_datetime(holiday_data['index'])
 data_noise = pd.merge(holiday_data,data_noise, left_on='index', right_on='date', how='inner')
 
+#days per month
+month_days = [31,28,31,30,31,30,31,31,30,31,30,31]
+
 #########################################################################################################
 # VISUALIZATION
 
@@ -144,43 +147,59 @@ layout = html.Div(
 # Callback
 @callback(
     Output("noise-graph", "figure"),
-    [Input("date-slider", "value"), Input("average-checkbox", "value")],
-    [State("noise-graph", "figure")],  
+    [Input("date-slider", "value"), Input("average-checkbox", "value")],  
 )
-def update_graph(date_range, show_average, figure):
+def update_graph(date_range, show_average):
     start_month, end_month = date_range
+
+    
     
     # Filter the data based on the selected date range
     filtered_data = data_noise[
         (data_noise["date"].dt.month >= start_month) &
         (data_noise["date"].dt.month <= end_month)
     ]
-    
     # Update x and y values for the line chart
-    x_values = filtered_data["date"]
-    y_values = filtered_data["laeq"]
+    x = filtered_data["date"]
+    y = filtered_data["laeq"]
+
+
+    # Create a new figure object
+    fig = go.Figure()
     
-    # Remove existing average traces
-    figure["data"] = [trace for trace in figure["data"] if "Average" not in trace.get("name", "")]
+    # Add the line trace to the figure
+    fig.add_trace(go.Scatter(
+        x=filtered_data["date"],
+        y=filtered_data["laeq"],
+        mode="lines",
+        name="Noise levels over time",
+        line=dict(color='#E6AF2E', width=4),
+        hovertemplate="Date: %{x}<br>Noise Level: %{y}"
+    ))
+    
+    fig.add_trace(go.Scatter(
+    x=holiday_dates,
+    y=holiday_laeq,
+    mode='markers',
+    marker=dict(color='#F62DAE', symbol='circle', size=8),
+    name='Holiday',
+    showlegend=True
+    ))
     
     if "average" in show_average:
         # Calculate overall yearly average Laeq
         overall_average = data_noise["laeq"].mean()
         
         # Create a line trace for the overall yearly average
-        overall_trace = go.Scatter(
-            x=[min(x_values), max(x_values)],
+        fig.add_trace(go.Scatter(
+            x=[filtered_data["date"].min(), filtered_data["date"].max()],
             y=[overall_average, overall_average],
             mode="lines",
             name="Yearly Average",
             line=dict(color="red"),
-            showlegend=False  
-        )
-        
-        overall_trace.hovertemplate = "Yearly Average:<br> %{y}"
-
-        # Append the overall yearly average trace to the figure
-        figure["data"].append(overall_trace)
+            showlegend=False,
+            hovertemplate="Yearly Average:<br> %{y}"
+        ))
     
     if "monthly" in show_average:
         # Calculate monthly average Laeq for each month
@@ -191,26 +210,53 @@ def update_graph(date_range, show_average, figure):
             # Filter the data to include only the corresponding month
             month_data = filtered_data[filtered_data["date"].dt.month == month]
             
-            month_x_values = month_data["date"]
-            month_y_values = [average] * len(month_x_values)
-            
-            month_trace = go.Scatter(
-                x=month_x_values,
-                y=month_y_values,
+            fig.add_trace(go.Scatter(
+                x=month_data["date"],
+                y=[average] * len(month_data),
                 mode="lines",
                 name=f"Monthly Average - {pd.Timestamp(month=month, year=2022, day=1).strftime('%B')}",
                 line=dict(color="#EB862E"),
-                showlegend=False  
-            )
-            
-            month_trace.hovertemplate = f"Monthly Average - {pd.Timestamp(month=month, year=2022, day=1).strftime('%B')}:<br> %{{y:.2f}}"
-           
-            # Append the monthly average trace to the figure
-            figure["data"].append(month_trace)
+                showlegend=False,
+                hovertemplate=f"Monthly Average - {pd.Timestamp(month=month, year=2022, day=1).strftime('%B')}:<br> %{average:.2f}" #instead of y
+            ))
     
-    # Update x-axis range in the figure layout
-    figure["layout"]["xaxis"]["range"] = [pd.Timestamp(year=2022, month=start_month, day=1),
-                                        pd.Timestamp(year=2022, month=end_month, day=31)]
+    # Update layout of the figure
+    fig.update_layout(
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
+        title=dict(
+            text="Average noise levels over time - Taste (Naamsestraat 62)",
+            font=dict(color="white")
+        ),
+        title_font=dict(size=24),
+        xaxis=dict(
+            title="Date",
+            title_font=dict(color="white", size=18),
+            tickfont=dict(color="white"),
+            gridcolor='rgba(255, 255, 255, 0.1)',
+            tickmode='linear',
+            dtick='M1'
+        ),
+        yaxis=dict(
+            title="Noise level (dB(A))",
+            title_font=dict(color="white", size=18),
+            tickfont=dict(color="white"),
+            gridcolor='rgba(255, 255, 255, 0.1)'
+        ),
+        margin=dict(l=50, r=50, t=50, b=50),
+        hoverlabel=dict(font=dict(size=14)),
+        legend=dict(
+        font=dict(
+            color='white'
+        )
+    )  
+    )
+    
+    # Set the x-axis range based on the selected date range
+    fig.update_xaxes(range=[
+        pd.Timestamp(year=2022, month=start_month, day=1),
+        pd.Timestamp(year=2022, month=end_month, day=month_days[end_month-1])
+    ])
 
     
-    return figure
+    return fig
