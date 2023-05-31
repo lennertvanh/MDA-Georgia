@@ -1,3 +1,6 @@
+#########################################################################################################
+# PACKAGES
+
 import dash
 from dash import html, dcc, callback
 from dash.dependencies import Input, Output
@@ -6,9 +9,12 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import datetime
 from datetime import datetime, timedelta
-from sklearn.preprocessing import StandardScaler
+import numpy as np
 
 dash.register_page(__name__)
+
+#########################################################################################################
+# DATA
 
 # Load data
 data_noise = pd.read_csv("Data for visualization/combined_noise_event.csv", header=0, sep=',')
@@ -17,17 +23,8 @@ data_noise = pd.read_csv("Data for visualization/combined_noise_event.csv", head
 data_noise['noise_event_laeq_primary_detected_class'] = data_noise['noise_event_laeq_primary_detected_class'].fillna('Missing')
 data_noise['noise_event_laeq_primary_detected_certainty'] = data_noise['noise_event_laeq_primary_detected_certainty'].fillna(1)
 
-# dropping the observations which did not record a noise source
-#data_noise = data_noise.dropna(subset=['noise_event_laeq_primary_detected_class'])
-
-# Drop observations with noise source 'unsupported'
-#data_noise = data_noise[data_noise['noise_event_laeq_primary_detected_class'] != ('Unsupported', 'Transport road - Passenger car', 'Transport road - Siren', 'Nature elements - Wind','Missing')]
-
 # Convert 'result_timestamp' column to datetime with the specified format
 data_noise['result_timestamp'] = pd.to_datetime(data_noise['result_timestamp'], format='%Y-%m-%d %H:%M:%S.%f')
-
-# Filter the data for January dates
-#january_data = data_noise[data_noise['result_timestamp'].dt.month == 1]
 
 # Filter the data based on certainty cutoff of 95%
 data_noise = data_noise[data_noise['noise_event_laeq_primary_detected_certainty'] >= 95]
@@ -35,12 +32,14 @@ data_noise = data_noise[data_noise['noise_event_laeq_primary_detected_certainty'
 # Aggregate the data by day and noise class
 daily_counts = data_noise.groupby([data_noise['result_timestamp'].dt.date, 'noise_event_laeq_primary_detected_class']).size().reset_index(name='count')
 
-# Standardize the count values
-scaler = StandardScaler()
-daily_counts['count_scaled'] = scaler.fit_transform(daily_counts[['count']])
+# Apply logarithmic transformation to a column
+daily_counts['count_scaled'] = np.log10(daily_counts['count'])
 
 # Convert result_timestamp to datetime.date format for comparison
 daily_counts['result_timestamp'] = pd.to_datetime(daily_counts['result_timestamp']).dt.date
+
+#########################################################################################################
+# VISUALIZATION
 
 # Create figure
 fig = go.Figure()
@@ -81,7 +80,7 @@ for category in categories:
         mode='markers',
         marker=dict(
             size=daily_counts[daily_counts['noise_event_laeq_primary_detected_class'] == category]['count_scaled'].abs(),
-            sizeref=0.1,
+            sizeref=0.045,
             color=category_colors[category]
         ),
         name=category
@@ -108,6 +107,9 @@ fig.update_layout(
     plot_bgcolor='rgba(0, 0, 0, 0)',
     paper_bgcolor='rgba(0, 0, 0, 0)'
 )
+
+#########################################################################################################
+# PAGE LAYOUT
 
 layout = html.Div([
     html.H2("What's causing the noise in Leuven?"),
@@ -138,6 +140,9 @@ layout = html.Div([
     ),
     dcc.Store(id='selected-categories')
 ])
+
+#########################################################################################################
+# CALLBACK UPDATE GRAPH
 
 # Define callbacks
 @callback(
@@ -182,18 +187,23 @@ def update_plot(date_range, selected_categories):
             mode='markers',
             marker=dict(
                 size=category_data['count_scaled'].abs(),
-                sizeref=0.1,
-                color=category_colors[category]
+                sizeref=0.045,
+                color=category_colors[category],
             ),
             name=category,
-            showlegend=False
+            showlegend=False,
+            hovertemplate='<b>Date</b>: %{x|%d-%m-%Y}<br>' +
+                          '<b>Noise Class</b>: %{y}<br>' +
+                          '<b>Count</b>: %{text:.0f}<br>' +
+                          '<b>Log Count</b>: %{marker.size:.2f}<extra></extra>',
+            text=10 ** category_data['count_scaled'],  # Compute the original count values
         ))
 
         fig.update_layout(
             plot_bgcolor='rgba(0, 0, 0, 0)',
             paper_bgcolor='rgba(0, 0, 0, 0)',
             title=dict(
-                text="Noise events per day, with frequency of each noise source",
+                text="Sources of noise events per day in 2022, with log10(frequency) as circle size",
                 font=dict(color="white"),
             ),
             title_font=dict(size=24),
