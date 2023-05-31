@@ -64,7 +64,7 @@ normal_day_data = data_noise[data_noise['is_holiday'] == 0]
 # Define the radio item options
 radio_options = [
     {'label': 'KU Leuven Holidays', 'value': 'university'},
-    {'label': 'Primary/Secondary school Holidays', 'value': 'undergraduate'}
+    {'label': 'Undergraduate school Holidays', 'value': 'undergraduate'}
 ]
 
 #########################################################################################################
@@ -74,25 +74,25 @@ radio_options = [
 layout = html.Div(
     children=[
         html.H2("Is Leuven more or less noisy during holidays?"),
-        html.P("This violinplot compares the daily average noise levels in Leuven during holidays vs. regular days. Moreover, a distinction is made between primary/secondary school holidays and university holidays."),
+        html.P("This violinplot compares the daily average noise levels in Leuven during holidays vs. regular days. Moreover, a distinction is made between primary/secondary school holidays and university holidays. We notice that it seems to be less noisy during school holidays, the effect is a bit more outspoken for KUL holidays."),
         html.Div(
             className="plot-container",  
             style={'display': 'flex', 'justify-content': 'center'},
             children=[
                 html.Div(
-                    style={'width': '15%'},
+                    style={'width': '5%'},
                     children=[
                         html.Div('')
                     ]
                 ),
                 html.Div(
-                    style={'padding': '20px', 'max-width': '90vw', 'justify-content': 'center'},
+                    style={'padding': '10px', 'max-width': '90vw', 'justify-content': 'center'},
                     children=[
                         dcc.Graph(id='graph')
                     ]
                 ),
                 html.Div(
-                    style={'width': '15%', 'position': 'relative'},
+                    style={'width': '20%', 'position': 'relative'},
                     children=[
                         html.Div(
                             dcc.RadioItems(
@@ -122,7 +122,8 @@ trace1 = go.Violin(
     side='negative',
     box_visible=True,
     meanline_visible=True,
-    hovertemplate='<b>Holiday</b><br>Noise Level: %{y} dB',
+    hovertemplate='Holiday<br>Noise Level: %{y.2f} dB(A)',
+    hoverlabel=dict(namelength=0),
     fillcolor='rgba(255, 132, 232, 0.6)',  
     line=dict(color='rgba(0, 0, 0, 0.8)', width=1)  
 )
@@ -135,7 +136,8 @@ trace2 = go.Violin(
     side='positive',
     box_visible=True,
     meanline_visible=True,
-    hovertemplate='<b>Normal Day</b><br>Noise Level: %{y} dB',
+    hovertemplate='Normal Day<br>Noise Level: %{y.2f} dB(A)',
+    hoverlabel=dict(namelength=0),
     fillcolor='rgba(230, 175, 46, 0.6)',
     line=dict(color='rgba(0, 0, 0, 0.8)', width=1)  
 )
@@ -144,7 +146,9 @@ trace2 = go.Violin(
 layout_fig1 = go.Layout(
     title=dict(
         text='Noise levels during holidays and normal days <br>(KU Leuven holidays)',
-        font=dict(color="white")
+        x=0.5,
+        xanchor='center',
+        font=dict(color="white", size=24)
     ),
     title_font=dict(size=24, color="white"),  
     xaxis=dict(
@@ -156,7 +160,7 @@ layout_fig1 = go.Layout(
         tickfont=dict(color='rgba(0, 0, 0, 0)'),
         gridcolor='rgba(255, 255, 255, 0.2)'),
     yaxis=dict(
-        {'title': 'Noise Level (Laeq in dB(A))'},
+        {'title': 'Noise Level (in dB(A))'},
         title_font=dict(color="white", size = 18),
         tickfont=dict(color="white"),
         gridcolor='rgba(255, 255, 255, 0.2)'),
@@ -186,7 +190,8 @@ trace1 = go.Violin(
     side='negative',
     box_visible=True,
     meanline_visible=True,
-    hovertemplate='<b>Holiday</b><br>Noise Level: %{y} dB',
+    hovertemplate='Holiday<br>Noise Level: %{y.2f} dB(A)',
+    hoverlabel=dict(namelength=0),
     fillcolor='rgba(255, 132, 232, 0.6)', 
     line=dict(color='rgba(0, 0, 0, 0.8)', width=1)  
 )
@@ -199,7 +204,8 @@ trace2 = go.Violin(
     side='positive',
     box_visible=True,
     meanline_visible=True,
-    hovertemplate='<b>Normal Day</b><br>Noise Level: %{y} dB',
+    hovertemplate='Normal Day<br>Noise Level: %{y.2f} dB(A)',
+    hoverlabel=dict(namelength=0),
     fillcolor='rgba(230, 175, 46, 0.6)',
     line=dict(color='rgba(0, 0, 0, 0.8)', width=1)  
 )
@@ -251,4 +257,3 @@ def update_figure(selected_option):
     else:
         # Handle other cases or return a default figure
         return {}
-
