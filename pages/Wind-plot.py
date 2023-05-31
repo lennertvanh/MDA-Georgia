@@ -47,6 +47,8 @@ monthly_avg_direction["Weighted Avg Direction"] +=base_direction
 #########################################################################################################
 # Define app layout
 layout = html.Div([
+    html.H2("Wind Analysis"),
+    html.P("The measured windspeed in Leuven seems surprisingly lower than the average windspeed measured in Ukkel over the past 20 years. An explanation could be that the wind measured for this experiment is not done the same way as by the KMI. The KMI measures in an open area, while here it is measured inside a city with many buildings sheltering the measurement tools from the wind. Concerning the wind direction, the wind blows mainly in the Southwest direction."), 
     html.Div([
         dcc.Graph(id='scatter-plot'),
     ], style={'width': '49%', 'display': 'inline-block'}),
