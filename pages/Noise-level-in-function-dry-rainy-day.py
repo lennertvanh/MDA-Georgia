@@ -96,7 +96,6 @@ layout = html.Div([
         "margin-left": "10px"
     },
     ),
-
         #plot taking 80% of the width
         dcc.Graph(id="plot", figure=go.Figure(data=go.Bar(x=months, y=average_noise)),style={"margin-top":"0"}),
     ], style={'width': '80%', 'display': 'inline-block', 'vertical-align': 'top'}),
@@ -137,7 +136,6 @@ layout = html.Div([
     ], className="button-container", style={'display': 'inline-block', 'vertical-align': 'top', 'margin-left': '20px'}),
     
     ], className="dashboard-tiles", style={'display': 'inline-block', 'vertical-align': 'top', 'margin-left': '20px'}),
-
     
 ])
 
@@ -149,8 +147,8 @@ layout = html.Div([
     Output("plot", "figure"),
     [Input("data-type","value"),
      Input("total-noise", "n_clicks"),
-      Input("rainy-noise", "n_clicks"), 
-      Input("dry-noise", "n_clicks")]
+     Input("rainy-noise", "n_clicks"), 
+     Input("dry-noise", "n_clicks")]
 )
 
 #what should be done when the inputs change
@@ -198,7 +196,7 @@ def update_plot(data_type,total_clicks, rainy_clicks, dry_clicks):
     else:
         prev_clicked_button_id=clicked_button_id
 
-    #chose which plot to show now that an input has been triggered
+    #choose which plot to show now that an input has been triggered
     if data_type == "raw":
         if clicked_button_id == "total-noise":
             #initialize the plot with the data

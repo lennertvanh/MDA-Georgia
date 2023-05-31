@@ -1,0 +1,122 @@
+/* typography.css */
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    background-color: #132244f8;
+    color:#ffffff; 
+}
+
+h1 {
+    font-size: 54px;
+    font-weight: bold;
+}
+
+h2 {
+    font-size: 32px;
+    font-weight: bold;
+    padding: 0;
+    margin: 20px 0 20px 100px;
+}
+
+p {
+    font-size: 18px;
+    line-height: 1.5;
+    margin: 20px 0 20px 100px;
+}
+
+.header {
+    background-color: #20213f;
+    padding: 10px;
+    text-align: center;
+    color: #20213f;
+}
+
+.header h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+br {
+    background: #223164e4;
+    color: #ffffff;
+    width: 150px;
+    height: 80px;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    border-radius: 10px;
+    font-size: 20px;
+}
+
+button {
+    background: #223164e4;
+    color: #ffffff;
+    width: 150px;
+    height: 80px;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    border-radius: 10px;
+    font-size: 20px;
+}
+
+.category-grid {
+    display: flex;
+    justify-content: space-between;
+}
+
+.category-column {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    width: 23%;
+}
+
+.category {
+    border: 1px solid black;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.category h3 {
+    margin: 0;
+}
+
+.category-links {
+    margin-top: 10px;
+}
+
+/*.plot-frame {
+  border: 3px solid #ffffff; 
+  border-radius: 5px; 
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3); 
+  padding: 10px; 
+} */
+
+.plot-container {
+  background-color:  #223164e4; /* Set the background color for the plot container */
+  padding: 20px; /* Add padding to create space around the plot */
+}
+
+/*.plot-container.plot-frame {
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); 
+    padding: 10px; 
+    background-color: #f0f0f0;
+  } */ 
+  
+/* these aren't working */
+.dropdown-style {
+    background-color: '#223164';
+    color: 'white';
+}
+
+.dropdown-style option {
+    background-color: '#223164';
+    color: 'white';
+}
