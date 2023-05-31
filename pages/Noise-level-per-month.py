@@ -78,7 +78,7 @@ def update_graph(data_type):
         )
         fig.update_xaxes(color="white",gridwidth=5)
         fig.update_yaxes(color="white")
-        fig.update_traces(hovertemplate='%{x}: %{y:.2f}', hoverlabel=dict(namelength=0))
+        fig.update_traces(hovertemplate='%{x}: %{y:.2f} dB(A)', hoverlabel=dict(namelength=0))
     else:
         fig = go.Figure()
         fig.add_trace(go.Bar(x=months, y=average_noise, showlegend=False))
@@ -114,6 +114,6 @@ def update_graph(data_type):
         )
         fig.update_xaxes(color="white",gridwidth=5)
         fig.update_yaxes(color="white")
-        fig.update_traces(hovertemplate='%{x}: %{y:.2f}', hoverlabel=dict(namelength=0))
+        fig.update_traces(hovertemplate='%{x}: %{y:.2f} dB(A)', hoverlabel=dict(namelength=0))
     
     return fig
