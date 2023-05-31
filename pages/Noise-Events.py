@@ -123,6 +123,7 @@ layout = html.Div([
                 figure=fig
                 ),
             dcc.RangeSlider(
+                className='slider-white',
                 id='date-slider',
                 min=min_value,
                 max=max_date.toordinal(),

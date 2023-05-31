@@ -80,7 +80,7 @@ layout = html.Div([
     #title
     html.Div([
         html.H2("Does rain have an impact on noise?", style={'margin-top': '0px'}),
-        html.P("This plot displays the average noise level per month for the entire dataset, allowing you to observe the variations in noise levels throughout the year. Additionally, you can compare the average noise level during rainy and dry days to see if rain has an impact on noise levels."),
+        html.P("This plot displays the average noise level per month for the entire dataset, allowing you to observe the variations in noise levels throughout the year. Additionally, you can compare the average noise level during rainy and dry days to see if rain has an impact on noise levels. The difference appears to be very small."),
         dcc.RadioItems(
         id="data-type",
         options=[
