@@ -90,19 +90,35 @@ for category in categories:
 # Set x-axis range and format
 fig.update_xaxes(range=[data_noise['result_timestamp'].min(), data_noise['result_timestamp'].max()], tickformat='%d-%m-%Y')
 
-# Define layout
+# Find the minimum and maximum dates in the data
+min_date = data_noise['result_timestamp'].min().date()
+max_date = data_noise['result_timestamp'].max().date()
+
+# Set the start date as January 2022
+start_date = pd.Timestamp(year=2022, month=1, day=1)
+min_value = start_date.toordinal()
+
+# Create a list of all the months between the minimum and maximum dates
+months = pd.date_range(start=start_date, end=max_date, freq='MS')
+
+# Generate marks for each month
+marks = {date.toordinal(): {'label': date.strftime('%b %Y')} for date in months}
+
+
 layout = html.Div([
     html.H2("What's causing the noise in Leuven?"),
     html.P("In order to trace the sources of noise events in the centre of Leuven, ..."),
     dcc.Graph(id='noise-plot', figure=fig),
     dcc.RangeSlider(
         id='date-slider',
-        min=data_noise['result_timestamp'].min().date().toordinal(),
-        max=data_noise['result_timestamp'].max().date().toordinal(),
-        value=[data_noise['result_timestamp'].min().date().toordinal(), data_noise['result_timestamp'].max().date().toordinal()],
-        marks={#timestamp.to_timestamp().date().toordinal(): {'label': timestamp.strftime('%d-%m-%Y'), 'style': {'transform': 'rotate(45deg)', 'white-space': 'nowrap'}}
-               #for timestamp in data_noise['result_timestamp'].dt.to_period('D').unique()
-               },
+        min=min_value,
+        max=max_date.toordinal(),
+        value=[min_value, max_date.toordinal()],
+        marks=marks,
+            #{timestamp.to_timestamp().date().toordinal(): {'label': timestamp.strftime('%b %Y')}
+            #for timestamp in data_noise['result_timestamp'].dt.to_period('M').unique()},
+            #{timestamp.to_timestamp().date().toordinal(): {'label': timestamp.strftime('%d-%m-%Y'), 'style': {'transform': 'rotate(45deg)', 'white-space': 'nowrap'}}
+            #for timestamp in data_noise['result_timestamp'].dt.to_period('D').unique()
         step=None
     ),
     dcc.Checklist(
