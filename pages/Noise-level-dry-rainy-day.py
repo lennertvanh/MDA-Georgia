@@ -79,9 +79,8 @@ average_noise_dry_std = (average_noise_dry-mean_average_noise_dry)/std_average_n
 layout = html.Div([
     #title
     html.Div([
-        html.H2("Does rain have an impact on noise?"),
-        html.P("text"),
-        #html.Br(),
+        html.H2("Does rain have an impact on noise?", style={'margin-top': '0px'}),
+        html.P("This plot displays the average noise level per month for the entire dataset, allowing you to observe the variations in noise levels throughout the year. Additionally, you can compare the average noise level during rainy and dry days to see if rain has an impact on noise levels."),
         dcc.RadioItems(
         id="data-type",
         options=[
@@ -91,7 +90,7 @@ layout = html.Div([
         ],
         value="raw", #initial value of the input
         labelStyle={"display": "inline-block"},
-        style = {"margin-left":"100px","font-size":"15px"},
+        style = {"margin-left":"90px","font-size":"15px"},
         inputStyle={
         "width": "12px",
         "height": "12px",
@@ -100,7 +99,7 @@ layout = html.Div([
     },
     ),
         #plot taking 80% of the width
-        dcc.Graph(id="plot", figure=go.Figure(data=go.Bar(x=months, y=average_noise)),style={"margin-top":"0"}),
+        dcc.Graph(id="plot", figure=go.Figure(data=go.Bar(x=months, y=average_noise)),style={"margin-top":"10px"}),
     ], style={'width': '80%', 'display': 'inline-block'}),
 
 
@@ -134,8 +133,8 @@ layout = html.Div([
             html.Br(),
             f"{mean_dry:.2f} dB(A)",
         ], id="dry-noise", n_clicks=0),
-    ], className="button-container", style={'display': 'inline-block', 'vertical-align': 'center', 'margin-left': '20px'}),
-    
+    ], className="button-container", style={'display': 'inline-block', 'vertical-align': 'center', 'margin-left': '20px', 'margin-top': '180px'}),
+
     ], className="dashboard-tiles", style={'display': 'inline-block', 'vertical-align': 'top', 'margin-left': '20px'}),
     
 ])
