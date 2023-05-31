@@ -88,6 +88,8 @@ def update_graph(data_type):
             mode='lines',
             line=dict(color='#e9ff70', width=3),
             name='Average Line',
+            hoverlabel=dict(namelength=0),
+            hovertemplate="Average noise level of 2022:<br>%{y:.2f} dB(A)",
             showlegend=True
         ))
         fig.update_traces(marker=dict(color=color, opacity=opacity))
