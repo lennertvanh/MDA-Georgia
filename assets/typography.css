@@ -120,3 +120,7 @@ button {
     background-color: '#223164';
     color: 'white';
 }
+
+.slider-white .rc-slider-mark-text {
+    color: white;
+}

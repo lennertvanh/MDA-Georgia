@@ -1,3 +1,6 @@
+#########################################################################################################
+# PACKAGES
+
 import dash
 from dash import html, dcc, callback,get_asset_url
 from dash.dependencies import Input, Output, State
@@ -8,20 +11,17 @@ from datetime import datetime, timedelta
 
 dash.register_page(__name__)
 
-####################################################################################
-## data ##
-daily_noise = pd.read_csv("Data/daily_noisedata_2022.csv")
-daily_weather = pd.read_csv("Data/daily_weatherdata_2022.csv")
 
-####################################################################################
-## path images ##
+#########################################################################################################
+# DATA
+daily_noise = pd.read_csv("Data for visualization/daily_noisedata_2022.csv")
+daily_weather = pd.read_csv("Data for visualization/daily_weatherdata_2022.csv")
 
+# Path images
 image_rainy = "rainy-icon.jpg"
 image_sunny = "sunny-day.jpg"
 image_cloudly = "Cloudly.jpg"
 
-######################################################################################"
-#gps data"
 # Create dataframe with GPS coordinates
 gps_data = {
     'description': ['MP 01: Naamsestraat 35  Maxim', 'MP 02: Naamsestraat 57 Xior', 'MP 03: Naamsestraat 62 Taste', 'MP 04: His & Hears', 'MP 05: Calvariekapel KU Leuven', 'MP 06: Parkstraat 2 La Filosovia', 'MP 07: Naamsestraat 81', 'MP08bis - Vrijthof'],
@@ -30,31 +30,30 @@ gps_data = {
 }
 gps_df = pd.DataFrame(gps_data)
 
-######################################################################################
+
 # Merging noise data with GPS coordinates
 merged_daily = pd.merge(daily_noise, gps_df, on='description', how='left')
 #merged_monthly = pd.merge(monthly_noise, gps_df, on='description', how='left')
 
-######################################################################################
 #setup arrays for months
 months_for_cum_months = [0,31,28,31,30,31,30,31,31,30,31,30,31]
 cumulative_months = np.cumsum(months_for_cum_months).tolist()
 
-######################################################################################
 #cumulative day
 merged_daily["day_cum"] = merged_daily.apply(lambda row: cumulative_months[row["month"]-1] + row["day"], axis=1)
 daily_weather["day_cum"] = daily_weather.apply(lambda row: cumulative_months[np.int64(row["Month"])-1] + row["Day"], axis=1)
 
-######################################################################################
+# MEAN SOUND LEVEL
 # Group the data by 'day_cum' and apply the scaler separately for each group
 max_laeq = merged_daily["laeq"].max()
 min_laeq = merged_daily["laeq"].min()
 
+# Create custom scaler/mapping for the sizes of the points on the map (proportional to sound level)
 start_size = 0.3 #minimum size
 step_size = 0.7 #maximum size of 1 (0.3+0.7)
 
 def divide_by_max(x):
-    #max_value = x.max()#for each column separately: not good all the circles more or less same size
+    #max_value = x.max() #for each column separately: not good all the circles more or less same size
     return x / max_laeq
 
 def myMapping(x):
@@ -62,22 +61,17 @@ def myMapping(x):
 
 merged_daily['laeq_std'] = merged_daily.groupby('day_cum')['laeq'].transform(myMapping)
 
-######################################################################################
-# Group the data by 'day_cum' and apply the scaler separately for each group
-#same for lamax
+# Repeat steps for MAX SOUND LEVEL
 max_lamax = merged_daily["lamax"].max()
 min_lamax = merged_daily["lamax"].min()
 
-start_size = 0.3 #minimum size
-step_size = 0.7 #maximum size of 1 (0.3+0.7)
-
+# same start and step size
 def myMapping(x):
     return start_size + step_size*(x-min_lamax)/(max_lamax-min_lamax)
 
 merged_daily['lamax_std'] = merged_daily.groupby('day_cum')['lamax'].transform(myMapping)
 
-######################################################################################
-#Change the locations names 
+# Change the locations names 
 replacements = {
     'MP 01: Naamsestraat 35  Maxim': 'Maxim (Naamsestraat 35)',
     'MP 02: Naamsestraat 57 Xior': 'Xior (Naamsestraat 57)',
@@ -91,19 +85,32 @@ replacements = {
 # Replace the values in the "description" column
 merged_daily['description'] = merged_daily['description'].replace(replacements)
 
-
-######################################################################################
 # Merge noise and weather data together in a final dataset
 merged_data = pd.merge(merged_daily, daily_weather, on='day_cum', how='left')
 
+# Function to convert the day (value on the slider) to a date
+def convert_day_to_date(day):
+    # Define the start date for the year
+    start_date = datetime(2022, 1, 1)
+    
+    # Add the number of days to the start date
+    target_date = start_date + timedelta(days=day - 1)
+    
+    # Format the date as desired (e.g., "5 March 2022")
+    formatted_date = target_date.strftime("%d %B %Y")
+    
+    return formatted_date
 
 
 
-## Laeq map daily ##
+#########################################################################################################
+# VISUALIZATION
+
+# Initialize filtered data
+filtered_data = merged_data[merged_data['day_cum'] == 1] 
+
+# Mean sound level (= the one when you enter the page)
 # Create the Scattermapbox trace
-
-filtered_data = merged_data[merged_data['day_cum'] == 90] #why do we need this?
-
 data_trace = go.Scattermapbox(
     lat=filtered_data['lat'],
     lon=filtered_data['lon'],
@@ -120,23 +127,24 @@ data_trace = go.Scattermapbox(
                   'Noise level: %{customdata[1]:.2f} dB(A)<br>'
                   'Temperature: %{customdata[2]:.1f} °C<br>'
 )
-# Create the layout #this is the same for all 4 figures
+
+# Create the common layout
 layout_fig_map = go.Layout(
     mapbox=dict(
         center=dict(lat=50.8762, lon=4.70020),
         zoom=15,
         style='open-street-map'
     ),
-    #height=400,
-    #width=200,
     margin=dict(l=0, r=0, t=0, b=0)
 )
-# Create the figure
+
+# Create the figure (= the one when you enter the page)
 fig_laeq_daily = go.Figure(data=[data_trace], layout=layout_fig_map)
 
-######################################################################################
-# Define the marks for the slider
-marks = {day: str(day) for day in range(1, 366)}
+
+
+#########################################################################################################
+# PAGE LAYOUT
 
 # Create the slider component
 slider = dcc.Slider(
@@ -144,115 +152,110 @@ slider = dcc.Slider(
     min=1,
     max=365,
     value=1,
-    #marks=marks,
     step=None,  # Set step=None to allow only discrete values
+    className='slider-white',
 )
 
-######################################################################################
-
-
-def convert_day_to_date(day):
-    # Define the start date for the year
-    start_date = datetime(2022, 1, 1)
-    
-    # Add the number of days to the start date
-    target_date = start_date + timedelta(days=day - 1)
-    
-    # Format the date as desired (e.g., "5 March 2022")
-    formatted_date = target_date.strftime("%d %B %Y")
-    
-    return formatted_date
-
-# Example usage
-#day = 365
-#formatted_date = convert_day_to_date(day)
-
-######################################################################################
+# Initialize the selected location TEXT
 last_selected_location = 'Please select a location'
 
 # Update the layout with the clicked information
 layout = html.Div(
     children=[
-        html.Div(style={'flex': '15%'}),
         html.Div(
-            children=[
-                dcc.Graph(
-                    id='map-id',
-                    figure=fig_laeq_daily,
-                    style={'width': '100%', 'height': '100%'},
-                    clickData={'points': [{'customdata': [last_selected_location, 0, 1]}]} 
-                ), 
+            [
+                html.H2("Noise map"),
+                html.P("This map showcases various locations in Leuven where noise levels were measured. The blue circles represent the observed sound levels, with their size indicating the intensity of the noise. The map differentiates between the average and maximal noise levels recorded each day."),
+                html.P("You can select a specific day using the slider, which automatically updates the weather icon to reflect the weather conditions in Leuven on that day. The weather icon indicates whether it was rainy, partially cloudy, or sunny in Leuven."),
+                html.P("By clicking on a specific point on the map, you can view additional details such as the location name, the observed sound level, and the temperature in Leuven for the selected day.")
             ],
-            style={'flex': '35%', 'display': 'inline-block'}
+            style={'margin-bottom': '20px'}
         ),
         html.Div(
-            children = [
-                html.Label('Select a day:', style={'font-size': '24px'}),
-                slider,
+            [
+                html.Div(style={'flex': '15%'}),
                 html.Div(
-                    id='text-selected-day',
-                    children=convert_day_to_date(1),
-                    style={'margin': '3px 10px 50px'}
-                    ),
-                html.Label('Select between average and maximal noise:', style={'font-size': '24px'}),
-                dcc.RadioItems(
-                    id='radio-item-laeq-lamax-id',
-                    options=[
-                        {'label': 'Average noise', 'value': 'option-laeq'},
-                        {'label': 'Maximal noise', 'value': 'option-lamax'},
+                    children=[
+                        dcc.Graph(
+                            id='map-id',
+                            figure=fig_laeq_daily,
+                            style={'width': '100%', 'height': '100%'},
+                            clickData={'points': [{'customdata': [last_selected_location, 0, 1]}]}
+                        ),
                     ],
-                    value='option-laeq',
-                    labelStyle={'display': 'block'}  # Optional styling for the labels
+                    style={'flex': '35%', 'display': 'inline-block'}
                 ),
                 html.Div(
                     children=[
+                        html.Label('Select a day:', style={'font-size': '20px'}),
+                        slider,
                         html.Div(
-                            id='clicked-data',
-                            style={'margin': '50px 0px',"width":"65%", 'display': 'flex', 'justify-content': 'flex-start'}
+                            id='text-selected-day',
+                            children=convert_day_to_date(1),
+                            style={'margin': '3px 10px 50px'}
                         ),
-                        html.Div(id="image-container", style={"width":"25%", "max-height":"100%", 'margin': '100px 40px'})
-                        #html.Img(src=dash.get_asset_url('sunny-day.jpg'),style={"width":"25%",'max-height': '100%', 'object-fit': 'contain'}), #does not work: ,"border-radius":"10%"
+                        html.Label('Select between average and maximal noise level:', style={'font-size': '20px'}),
+                        dcc.RadioItems(
+                            id='radio-item-laeq-lamax-id',
+                            options=[
+                                {'label': 'Average noise level', 'value': 'option-laeq'},
+                                {'label': 'Maximal noise level', 'value': 'option-lamax'},
+                            ],
+                            value='option-laeq',
+                            labelStyle={'display': 'block'}
+                        ),
+                        html.Div(
+                            children=[
+                                html.Div(
+                                    id='clicked-data',
+                                    style={'margin': '50px 0px', "width": "65%", 'display': 'flex', 'justify-content': 'flex-start'}
+                                ),
+                                html.Div(id="image-container", style={"width": "25%", "max-height": "100%", 'margin': '100px 40px'})
+                            ],
+                            style={'display': 'flex'}
+                        ),
                     ],
-                    style = {'display': 'flex'}
-                    ),
-
-            ], style={'flex': '45%', 'margin': '30px', 'vertical-align': 'top', 'display': 'inline-block'}),
-        html.Div(style={'flex': '15%'})
-    ],
-    style={'display': 'flex', 'height': '450px', 'width': '100%'}
+                    style={'flex': '45%', 'margin': '30px', 'vertical-align': 'top', 'display': 'inline-block'}
+                ),
+                html.Div(style={'flex': '15%'})
+            ],
+            style={'display': 'flex', 'height': '450px', 'width': '100%'}
+        )
+    ]
 )
 
 
-############################################
+
+#########################################################################################################
+# CALLBACK UPDATE GRAPH
 
 # Store the last selected slider value
 last_slider_value = 1
 
-######################################################################################
+# Callback function to update the entire page (graph, clicked info, weather icon)
 @callback(
     [Output('map-id', 'figure'), Output('text-selected-day', 'children'), Output('clicked-data', 'children'), Output("image-container", "children")],
     [Input('daily-slider', 'value'), Input('radio-item-laeq-lamax-id', 'value'), Input('map-id', 'clickData')],
 )
-def update_marker_size(selected_day, selected_data, click_data):
+def update_page(selected_day, selected_data, click_data):
     global last_slider_value  # Declare the variable as global to modify it within the function
-    # Update the last_slider_value with the current selected_day
-    last_slider_value = selected_day
+    last_slider_value = selected_day # Update the last_slider_value with the current selected_day
 
     filtered_data = merged_data[merged_data['day_cum'] == selected_day]
 
     selected_weather = daily_weather.loc[selected_day-1]
 
     #criterions can be changed later
-    if(selected_weather["LC_DAILYRAIN"]>0.0002):#rainy day
+    if(selected_weather["LC_DAILYRAIN"]>0.0002): #rainy day
         image_path = image_rainy
-    elif(selected_weather["LC_TEMP_QCL3"]>15):#average temperature above 15°C and not rainy
+    elif(selected_weather["LC_TEMP_QCL3"]>15): #average temperature above 15°C and not rainy
         image_path = image_sunny
-    elif(selected_weather["LC_DAILYRAIN"]>0.00002):#some rain and not "warm"
+    elif(selected_weather["LC_DAILYRAIN"]>0.00002): #some rain and not "warm"
         image_path = image_cloudly
-    else: #almost no rain
+    else: #almost no rain and cold 
         image_path = image_sunny
 
-    #if a point is selected (noiselevel higher than one)
+    #if a point is selected (noiselevel higher than zero)
     if(click_data['points'][0]['customdata'][1]>0):
         click_data['points'][0]['customdata'][2] = selected_weather["LC_TEMP_QCL3"] #update the temperature with the temperature of the day
 
@@ -277,9 +280,6 @@ def update_marker_size(selected_day, selected_data, click_data):
             click_data['points'][0]['customdata'][1] = filtered_data[filtered_data["description"]==location]["laeq"].values[0] #update the laeq
         elif(location not in location_array):
             click_data['points'][0]['customdata'][1] = 0
-        #if(noise_level>0):
-        #    oise_level = click_data['points'][0]['customdata'][1]
-        #    temperature = click_data['points'][0]['customdata'][2]
         
     elif selected_data == "option-lamax":
         fig_laeq_daily.data[0].lat = filtered_data['lat']
@@ -354,6 +354,9 @@ def update_marker_size(selected_day, selected_data, click_data):
         ),
     ]
 )
+        
+    # Create an HTML component for displaying the image with specified source and styling
     image_html_comp = html.Img(src=dash.get_asset_url(image_path), style={"width": "100%", "max-height": "100%", "object-fit": "contain"})
+
 
     return fig_laeq_daily, formatted_date, clicked_text, image_html_comp 

@@ -104,7 +104,7 @@ areachart = dcc.Graph(figure=fig)
 
 layout = html.Div([
     html.H2("Does temperature have an influence on noise?"),
-    html.P("This area chart displays how the average noise lavel in Leuven varies with temperature. The plot indicates that extreme temperatures are negatively correlated with noise: the more extreme temperatures correspond to lower noise levels."),
+    html.P("This area chart displays how the average noise level in Leuven varies with temperature. The plot indicates that extreme temperatures might correspond to lower noise levels."),
     html.Div(
         className="plot-container",
         style={'padding': '20px', 'max-width': '90vw', 'justify-content': 'center'},

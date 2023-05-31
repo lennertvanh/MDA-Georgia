@@ -304,7 +304,7 @@ fig7.update_layout(common_layout)
 # PAGE LAYOUT
 
 layout = html.Div([
-    html.H2("Are partying students the reason for nightly noise in Leuven?", style={'text-align': 'center'}),
+    html.H2("Are partying students the reason for nightly noise in Leuven?"),
     html.P(
         "The highest nightly noise peaks appear to be observed at Maxim (Naamsestraat 35), which is situated in close proximity to Leuven's vibrant Oude Markt, known for its bustling nightlife. Additionally, Maxim is located adjacent to Dulci, the faculty bar of economics, where students frequently gather to party throughout the night. Around 4-5h, the nightly peak shifts to the location Taste (Naamsestraat 62), indicating that the - now drunk - students are returning to their dorms.",
         style={'display': 'flex'}

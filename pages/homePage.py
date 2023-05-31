@@ -7,23 +7,6 @@ import numpy as np
 
 dash.register_page(__name__, path='/')
 
-""" layout = html.Div(children=[
-    #html.H1(children='Welcome to the home page of the app'),
-
-    #html.Div(children='''
-    #    Data about the city of Leuven will be analyzed and hopefully insight about it will be given.
-    #'''),
-    html.Div(
-        style={'width': '400px', 'height': '400px', 'overflow': 'auto', 'border': '1px solid #000', 'padding': '10px'},
-        children=[
-            # Your content here
-        ]
-    )
-
-
-]) """
-
-
 #data_noise = pd.read_csv("Data/daily_noisedata_2022.csv")
 data_noise_hour = pd.read_csv("Data for visualization/hourly_noisedata_2022.csv")
 
@@ -146,18 +129,7 @@ fig_polar_noise.update_layout(
     )
 )
 
-#########################################################################################################""
-
-
-
-
-
-
-
-
-
-
-
+#########################################################################################################"
 
 
 weather_data = pd.read_csv("Data/daily_weatherdata_2022.csv", header = 0, sep=',')
@@ -166,65 +138,10 @@ weather_data["bool_rainday"] = weather_data["LC_DAILYRAIN"] > cutoff_rain_day
 data_month = pd.read_csv('Data/monthly_weatherdata_2022.csv')
 
 
-
 # Define the months and maximum days
 months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 max_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-"""
-# Create an empty list to store the subplot figures
-subplot_figures = []
 
-# Iterate over each month
-for month_num, month_name in enumerate(months):
-    # Filter the weather data for the current month
-    month_data = weather_data[weather_data["Month"] == month_num + 1]
-
-    # Create an empty matrix to store the rain data
-    matrix = np.zeros((1, max_days[month_num]))
-
-    # Iterate over each day in the month
-    for day in range(1, max_days[month_num] + 1):
-        is_rainy = month_data[month_data["Day"] == day]["bool_rainday"].values[0]
-        matrix[0, day - 1] = 1 if is_rainy else 0
-
-    # Calculate the width and height of each cell in the heatmap
-    cell_width = 1
-    cell_height = 1 / len(matrix)
-
-    color_zero = "red"
-    color_one = "blue"
-
-    #handle extreme cases where all dry or wet
-    if np.all(matrix == 1):
-        color_zero = "blue"
-    elif np.all(matrix == 1):
-        color_one = "red"
-
-    # Create the heatmap figure
-    fig = go.Figure(data=go.Heatmap(z=matrix, colorscale=[[0, color_zero], [1, color_one]],
-                                   x=list(range(1, max_days[month_num] + 1)), y=[month_name],
-                                   showscale=False, xgap=1, ygap=0.1))
-
-    # Set the layout for the heatmap
-    fig.update_layout(title="", #f"Rain in {month_name}",
-                      xaxis=dict(showgrid=False, zeroline=False, showticklabels=True),
-                      yaxis=dict(showgrid=False, zeroline=False, showticklabels=True,
-                                 range=[-0.5, 0.5]),
-                      height=50)
-
-    # Append the subplot figure to the list
-    subplot_figures.append(fig)
-
-# Create a figure with subplots
-fig = sp.make_subplots(rows=len(months), cols=1, shared_xaxes=True, vertical_spacing=0.05)   #, subplot_titles=months
-
-# Add the heatmap subplots to the figure
-for i, subplot_fig in enumerate(subplot_figures):
-    fig.add_trace(subplot_fig.data[0], row=i + 1, col=1)
-
-# Update the subplot layout
-fig.update_layout(width=500,height=60 * len(months), title="Monthly Rain Heatmaps")
- """
 
 import plotly.graph_objects as go
 import numpy as np
@@ -256,33 +173,8 @@ fig.update_layout(#title="Rain in January",
 )
 
 
-
 # Add 12 sub divs inside the central div
 sub_divs = []
-
-""" sub_div = html.Div(
-        style={"position":"sticky",'width': '500px', 'height': '35px', 'border': '1px solid #000', 'margin': '0px','display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
-        children=[
-            html.Div(
-                style={'width': '100px', 'height': '35px', 'border': '1px solid #000', 'margin': '0px','display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
-                children=[html.P("Month"),]),
-            html.Div(
-                style={'width': '50px', 'height': '35px', 'border': '1px solid #000', 'margin': '0px','display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
-                children=[html.P("Temp"),]),
-            
-            html.Div(
-                style={'width': '300px','display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
-                children=[
-                    html.P("Rainy days")
-                ]
-            ),
-
-            html.Div(
-                style={'width': '50px', 'height': '35px', 'border': '1px solid #000', 'margin': '0px','display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
-                children=[html.P("Wind"),]),
-        ]
-    )
-sub_divs.append(sub_div) """
 
 for i in range(12):
 
@@ -327,10 +219,10 @@ for i in range(12):
         children=[
             html.Div(
                 style={'width': '20%', 'height': '50px',  'margin': '0px','display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
-                children=[html.P(f"{months[i]}"),]),
+                children=[html.P(f"{months[i]}",style={"margin":"0"}),]),
             html.Div(
                 style={'width': '10%', 'height': '50px', 'margin': '0px','display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
-                children=[html.P(f"{temp_avg_month}"),]),
+                children=[html.P(f"{temp_avg_month}",style={"margin":"0"}),]),
             
             html.Div(
                 style={'width': '60%'},
@@ -341,7 +233,7 @@ for i in range(12):
 
             html.Div(
                 style={'width': '10%', 'height': '50px', 'margin': '0px','display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
-                children=[html.P(f'{wind_avg_month}'),]),
+                children=[html.P(f'{wind_avg_month}',style={"margin":"0"}),]),
         ]
     )
     sub_divs.append(sub_div)
@@ -423,71 +315,6 @@ windDir_div = html.Div(
     ]
 )
 
-""" layout = html.Div(
-    style={
-        'display': 'flex',
-        'justify-content': 'center',
-        'height': '100vh',
-    },
-    children=[
-        html.Div(
-            style={'flex': '1', 'height': '500px', 'border': '1px solid #000'},  #
-            children=[
-                # Left div content here
-                html.Div(
-                    style={'height': '150px', 'border': '1px solid #000', 'margin': '5px', 'display': 'flex', 'flex-direction': 'column', 'align-items': 'center', 'justify-content': 'center'},
-                    title="Location with the highest average of maximal noise",
-                    children=[html.P(f"{location_with_highest_average}", style={'fontSize': '50px', 'margin': '0', 'lineHeight': '1'}),
-                              html.Br(style={'margin': '0'}),
-                              html.P(f"{round(highest_average_value)} dB(A)", style={'fontSize': '50px', 'margin': '0', 'lineHeight': '1'})
-    
-                              ],
-
-                )
-            ]
-        ),
-        html.Div(  # Central div
-            style={'width': '500px', 'height': '250px', 'border': '1px solid #000', 'padding': '0px'},
-            title = "Average temperature, rainy days and average windspeed per month",
-            children=[
-                html.Div(
-                    style={"position": "sticky", 'width': '500px', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
-                    children=[
-                        html.Div(
-                            style={'width': '100px', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
-                            children=[html.P("Month")],
-                        ),
-                        html.Div(
-                            style={'width': '50px', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
-                            children=[html.P("Temp")],
-                        ),
-                        html.Div(
-                            style={'width': '300px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
-                            children=[
-                                html.P("Rainy days")
-                            ],
-                        ),
-                        html.Div(
-                            style={'width': '50px', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
-                            children=[html.P("Wind")],
-                        ),
-                    ],
-                ),
-                # Sub divs
-                html.Div(style={  'width': '510px', 'height': '215px','overflow': 'auto','overflow-x':'hidden'},
-                    children=sub_divs
-                ),
-            ],
-        ),
-        windDir_div,
-        html.Div(
-            style={'flex': '1'},
-            children=[
-                # Right div content here
-            ]
-        ),
-    ]
-) """
 
 layout = html.Div(
     style={
@@ -535,21 +362,21 @@ layout = html.Div(
                             children=[
                                 html.Div(
                                     style={'width': '20%', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
-                                    children=[html.P("Month")],
+                                    children=[html.P("Month",style={"margin":"0"})],
                                 ),
                                 html.Div(
                                     style={'width': '10%', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
-                                    children=[html.P("Temp")],
+                                    children=[html.P("Temp",style={"margin":"0"})],
                                 ),
                                 html.Div(
                                     style={'width': '58%', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
                                     children=[
-                                        html.P("Rainy days")
+                                        html.P("Rainy days",style={"margin":"0"})
                                     ],
                                 ),
                                 html.Div( #58 and 12 to make wind align with the numbers
                                     style={'width': '12%', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
-                                    children=[html.P("Wind")],
+                                    children=[html.P("Wind",style={"margin":"0"})],
                                 ),
                             ],
                         ),
@@ -560,7 +387,6 @@ layout = html.Div(
                         ),
                     ],
                 ),
-                #here is the issue
                 html.Div(
                     style={"width":"100%","box-sizing": "border-box",'height': '150px', 'border': '1px solid #000'}, #border box are paddings and margins added to the div. when i put 100% width, it adds to it margins and paddings so it starts growing.#'width': '1200px',
                     title = f"Time series in hours of the laeq (in dB) for {chose_location_timeseries}",

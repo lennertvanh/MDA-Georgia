@@ -87,7 +87,7 @@ app.layout = html.Div(
                             dcc.Link("Effect of temperature on noise", href="noise-wrt-temp")
                         ),
                         html.Div(
-                            dcc.Link("Noise level during dry and rainy days", href="noise-level-dry-rainy-day")
+                            dcc.Link("Effect of rain on noise", href="noise-level-dry-rainy-day")
                         ),
                         html.Div(
                             dcc.Link("Noise map", href="noise-map")
