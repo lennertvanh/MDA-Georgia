@@ -61,7 +61,7 @@ app.layout = html.Div(
                             dcc.Link("Fourier transformation", href="fourier-transformation")
                         ),
                         html.Div(
-                            dcc.Link("Noise sources", href="noise-sources")
+                            dcc.Link("Noise sources", href="noise-source-laeq")
                         ),
                     ],
                     style={"margin-bottom": "20px"}  # Add margin-bottom for extra space

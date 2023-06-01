@@ -47,11 +47,11 @@ fig = go.Figure()
 # Define colors for each category
 category_colors = {
     'Human voice - Shouting': 'hotpink',
-    'Music non-amplified': 'purple',
-    'Human voice - Singing': 'orange',
-    'Transport road - Passenger car' : 'blue',
-    'Transport road - Siren' : 'red',
-    'Nature elements - Wind' : 'lightblue',
+    'Music non-amplified': '#7F5439',
+    'Human voice - Singing': '#EB862E',
+    'Transport road - Passenger car' : '#2A9D8F',
+    'Transport road - Siren' : '#E6AF2E',
+    'Nature elements - Wind' : 'purple',
 }
 
 categories = [
@@ -113,7 +113,7 @@ fig.update_layout(
 
 layout = html.Div([
     html.H2("What's causing the noise in Leuven?"),
-    html.P("We have observed that students likely play a significant role in contributing to the noise in Leuven. However, the data also provides insights regarding the sources of the observed sounds. To better understand and trace the various noise sources in Leuven, we present a bubble chart, which showcases the different potential noise sources and their frequencies over time. The size of each circle corresponds to the frequency of sound observations on a particular day, offering a dynamic portrayal of noise patterns in the city."),
+    html.P("We have observed that students likely play a significant role in contributing to the noise in Leuven. However, the data also provides insights regarding the sources of the observed sounds. To better understand and trace the various noise sources in Leuven, we present a bubble chart, which showcases the different potential noise sources and their frequencies over time. The size of each circle corresponds to the frequency of sound observations on a particular day, offering a dynamic portrayal of noise patterns in the city. Humans and traffic are the most prominent noise sources."),
     html.Div(
         className="plot-container",
         style={'padding': '20px', 'max-width': '90vw', 'justify-content': 'center'},
