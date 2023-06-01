@@ -109,7 +109,7 @@ fig_polar_noise = go.Figure(go.Barpolar(
     marker_line_width=1,
     opacity=1,
     customdata=average_noise_per_location[["Average laeq", "Average lamax"]],
-    hovertemplate="Average noise: %{customdata[0]:.2f}<br>Maximal noise: %{customdata[1]:.2f}<extra></extra>"
+    hovertemplate="Average noise: %{customdata[0]:.2f} dB(A)<br>Maximal noise: %{customdata[1]:.2f} dB(A)<extra></extra>"
 ))
 
 fig_polar_noise.update_layout(
@@ -460,7 +460,7 @@ layout = html.Div(
                                 html.Div(
                                     style={'height':'100%','padding-left':'10%','padding-right':'0px','padding-top':'0px','padding-bottom':'0px'},
                                     children=[
-                                        html.H2("60.5 dB(A)",style={'margin':'5% 0 0 0','font-size':'3em'}),
+                                        html.H2("86.9 dB(A)",style={'margin':'5% 0 0 0','font-size':'3em'}),
                                         html.P("Peak noise",style={'margin':'2% 0 0 0'})
                                     ])
                                 #html.P('Box',style={'margin':'0'})

@@ -123,9 +123,10 @@ data_trace = go.Scattermapbox(
     ),
     customdata=filtered_data[['description', 'laeq', 'LC_TEMP_QCL3']],
     hoverlabel=dict(namelength=0),
-    hovertemplate='Location: %{customdata[0]}<br>'
-                  'Noise level: %{customdata[1]:.2f} dB(A)<br>'
-                  'Temperature: %{customdata[2]:.1f} °C<br>'
+    hovertemplate='<b>Location:</b> %{customdata[0]}<br>'
+                '<b>Noise level:</b> %{customdata[1]:.2f} dB(A)<br>'
+                '<b>Temperature:</b> %{customdata[2]:.1f} °C<br>'
+
 )
 
 # Create the common layout
@@ -270,9 +271,10 @@ def update_page(selected_day, selected_data, click_data):
 
         # Update the hovertemplate and customdata
         fig_laeq_daily.data[0].customdata = filtered_data[['description', 'laeq', 'LC_TEMP_QCL3']]
-        fig_laeq_daily.data[0].hovertemplate = 'Location: %{customdata[0]}<br>' \
-                                               'Noise level: %{customdata[1]:.2f} dB(A)<br>' \
-                                               'Temperature: %{customdata[2]:.1f} °C<br>'
+        fig_laeq_daily.data[0].hovertemplate = '<b>Location:</b> %{customdata[0]}<br>' \
+                                            '<b>Noise level:</b> %{customdata[1]:.2f} dB(A)<br>' \
+                                            '<b>Temperature:</b> %{customdata[2]:.1f} °C<br>'
+
         
         location = click_data['points'][0]['customdata'][0]
         location_array = filtered_data['description'].values
@@ -292,9 +294,9 @@ def update_page(selected_day, selected_data, click_data):
 
         # Update the hovertemplate and customdata
         fig_laeq_daily.data[0].customdata = filtered_data[['description', 'lamax', 'LC_TEMP_QCL3']]
-        fig_laeq_daily.data[0].hovertemplate = 'Location: %{customdata[0]}<br>' \
-                                               'Noise level: %{customdata[1]:.2f} dB(A)<br>' \
-                                               'Temperature: %{customdata[2]:.1f} °C<br>'
+        fig_laeq_daily.data[0].hovertemplate = '<b>Location:</b> %{customdata[0]}<br>' \
+                                               '<b>Noise level:</b> %{customdata[1]:.2f} dB(A)<br>' \
+                                               '<b>Temperature:</b> %{customdata[2]:.1f} °C<br>'
         
         location = click_data['points'][0]['customdata'][0]
         location_array = filtered_data['description'].values

@@ -72,7 +72,7 @@ pip install -r requirements-full.txt
 
 Run this app locally by running the following code in the terminal:
 ```
-python app-test.py
+python app.py
 ```
 The terminal will give the message 'Dash is running on [_http link_]'. By following this link, the homepage of the app will open in your browser. You can dive in and explore the app by clicking the links at the top of the page, which are categorized under 3 titles:
 
@@ -100,12 +100,12 @@ In this section, we provide a brief explanation of the structure and files in ou
 * _Assets_: 
 * _Exploration data_: folder with jupyter notebooks where we initially explored the data and created basic visualizations
 * _NLP_: 
-* _Preprocessing_:
+* _Preprocessing.ipynb_: jupyter notebook where we preprocessed the noise and weather data for both visualization and modelling purposes
 * _Modelling_: 
-* _app-test.py_: 
+* _app.py_: 
 * _requirements.txt_:
 * _ScrapingHolidays.ipynb_: jupyter notebook where we scraped holidays in 2022
-* _ScrapingTelraam.ipynb_: jupyter notebook where we scraped traffic data 
+* _ScrapingTelraam.ipynb_: jupyter notebook where we scraped and preprocessed traffic data 
 
 
 ---
@@ -116,6 +116,7 @@ In this section, we provide a brief explanation of the structure and files in ou
 * [Coloring for Colorblindness](https://davidmathlogic.com/colorblind/#%23D81B60-%231E88E5-%23FFC107-%23004D40)
 * [Coolors Color Palette](https://coolors.co/223164-132244-eb862e-2a9d8f-e6af2e)
 * [OpenAI. (2023). ChatGPT (April 20 version) [Large language model].](https://chat.openai.com/)
+* [Plotly Graphing Libraries](https://plotly.com/python/)
 * add other resources 
 
 ---
