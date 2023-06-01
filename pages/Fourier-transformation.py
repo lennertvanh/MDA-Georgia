@@ -117,7 +117,7 @@ laeq_standardized = data_Namen["laeq_standardized"]
 
 # Fourier plot
 # Create the Plotly scatter plot
-fig_FFT = go.Figure(data=go.Scatter(x=3600*xf, y=2.0/N * np.abs(yf[0:N//2]), mode='lines', line=dict(color='#2A9D8F'), opacity=0.8))
+fig_FFT = go.Figure(data=go.Scatter(x=3600*xf, y=2.0/N * np.abs(yf[0:N//2]), mode='lines', line=dict(color='#E6AF2E'), opacity=0.8))
 
 # Customize the plot layout
 fig_FFT.update_layout(
@@ -151,7 +151,7 @@ for x, label in zip(selected_frequencies_not_complete, labels):
                   y0=fig_FFT.data[0].y.min(),
                   x1=x,
                   y1=fig_FFT.data[0].y.max(),
-                  line=dict(color="#EB862E", width=1, dash="dash")
+                  line=dict(color="#FF69B4", width=1.5, dash="dash")
                   )
     fig_FFT.add_annotation(
         x=np.log10(x),
@@ -213,8 +213,8 @@ def update_figure(selected_values,selected_value_add_series):
         y=reconstructed_signal,
         mode='lines',
         name='Reconstructed Signal',
-        line=dict(color='#EB862E'),
-        opacity=0.5
+        line=dict(color='#FF69B4'),
+        opacity=0.8
     )
 
     # Creating the scatter plot for laeq_standardized
@@ -223,7 +223,7 @@ def update_figure(selected_values,selected_value_add_series):
         mode='lines',
         name='Standardized average<br>noise level',
         opacity=0.8,
-        line=dict(color='#2A9D8F')
+        line=dict(color='#E6AF2E')
     )
 
     if("full-series" in selected_value_add_series):
