@@ -21,7 +21,7 @@ This had to be done as project for the course 'Modern Data Analytics' at KU Leuv
 
 For the entire project, we used noise level and noise events data, weather data, traffic data, and a small corpus of scientific articles on noise pollution. 
 
-The noise data contains noise levels which were monitored for the entire year of 2022, for 9 different locations in the centre of Leuven. The noise events were also recorded and were assigned a certainty level and a noise source class. All the noise data was provided by KU Leuven. The weather data from 2022 was retrieved from the [Leuven.cool network](https://rdr.kuleuven.be/dataset.xhtml?persistentId=doi:10.48804/SSRN3F). We scraped the traffic data from [Telraam](https://telraam-api.net/), which is documented in detail in the notebook _ScrapingTelraam.ipynb_. Finally, we used Parsehub to extract some scientific articles about noise pollution to highlight the importance of our research topic, which is documented in the _NLP_ folder. 
+The noise data contains noise levels which were monitored for the entire year of 2022, for 9 different locations in the centre of Leuven. The noise events were also recorded and were assigned a certainty level and a noise source class. All the noise data was provided by KU Leuven. The weather data from 2022 was retrieved from the [Leuven.cool network](https://rdr.kuleuven.be/dataset.xhtml?persistentId=doi:10.48804/SSRN3F). We scraped the traffic data from [Telraam](https://telraam-api.net/), which is documented in detail in the notebook _ScrapingTelraam.ipynb_. Finally, we scraped some scientific articles from PubMed Central about noise pollution to highlight the importance of our research topic, which is documented in the _NLP_ folder. 
  
 ---
 
