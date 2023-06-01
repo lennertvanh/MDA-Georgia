@@ -97,7 +97,7 @@ app.layout = html.Div(
                 ),
             ],
         ),
-        html.Hr(style={"margin-top": "20px", "margin-bottom": "20px"}),  # Add horizontal line
+        html.Hr(style={"margin-top": "20px", "margin-bottom": "20px",'background-color':'rgba(19, 34, 68, 0.973)'}),  # Add horizontal line
         dash.page_container
     ],
     className="app-container"

@@ -1,7 +1,7 @@
 .app-header {
     height: 60px;
     line-height: 60px;
-    background-color: #223164e4;
+    background-color: rgba(34, 49, 100, 0.894);
 }
 
 .app-header .app-header--title {
