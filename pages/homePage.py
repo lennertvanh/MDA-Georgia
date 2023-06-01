@@ -104,29 +104,30 @@ fig_polar_noise = go.Figure(go.Barpolar(
     r=average_noise_per_location["radius"],
     theta=angles,
     width=average_noise_per_location["angle"],
-    marker_color=["#E4FF87", '#709BFF',  '#FFDF70', '#FFAA70', '#96D5B3', '#FFC2A0', '#B6FFB4', '#FFDEA6'],
+    marker_color=["#e86c8a", '#eb7d98',  '#e65b7d', '#e34a6f', '#f09fb3', '#ee8ea5', '#f3b0c0', '#f5c1ce'], #Maxim - Xior - Taste - His&Hears - Kapel - La Filosovia - Naamse - Vrijthof
     marker_line_color="black",
-    marker_line_width=2,
-    opacity=0.8,
+    marker_line_width=1,
+    opacity=1,
     customdata=average_noise_per_location[["Average laeq", "Average lamax"]],
     hovertemplate="Average noise: %{customdata[0]:.2f}<br>Maximal noise: %{customdata[1]:.2f}<extra></extra>"
 ))
 
 fig_polar_noise.update_layout(
-    template=None,
     #margin=dict(l=50, r=50, t=20, b=20),  # Set margins to 0
     margin=dict(l=50, r=50, t=20, b=20),
     polar = dict(
-        radialaxis = dict(range=[0, 5], showticklabels=False, ticks=''),
+        radialaxis = dict(range=[0, 5], showticklabels=False, ticks='', showline=False),
         angularaxis=dict(
             tickmode='array',
             tickvals=angles,
             ticktext=average_noise_per_location["description"],
             showticklabels=True, #True to see the labels of the locations
-            #tickfont = dict(size=10),
+            tickfont = dict(color='white'),
             ticks=''
         )
-    )
+    ),
+    plot_bgcolor="rgba(0,0,0,0)",
+    paper_bgcolor="rgba(0,0,0,0)"
 )
 
 #########################################################################################################"
@@ -189,13 +190,13 @@ for i in range(12):
         is_rainy = data_specific_month[data_specific_month["Day"] == day]["bool_rainday"].values[0]
         matrix[0, day - 1] = 1 if is_rainy else 0
 
-    color_zero = "red"
-    color_one = "blue"
+    color_zero = "rgba(158, 46, 61, 1.0)"
+    color_one = "rgba(47, 119, 177, 1.0)"
     #handle extreme cases where all dry or wet
     if np.all(matrix == 1):
-        color_zero = "blue"
+        color_zero = "rgba(47, 119, 177, 1.0)"
     elif np.all(matrix == 1):
-        color_one = "red"
+        color_one = "rgba(158, 46, 61, 1.0)"
 
     # Create the heatmap figure
     fig = go.Figure(data=go.Heatmap(z=matrix, colorscale=[[0, color_zero], [1, color_one]],
@@ -376,7 +377,7 @@ fig_donut.update_layout(
         t=20,
         pad=4
     ),
-    plot_bgcolor="white",
+    plot_bgcolor="rgba(0,0,0,0)",
     paper_bgcolor="rgba(0,0,0,0)"
 )
 
@@ -413,7 +414,7 @@ layout = html.Div(
                            }, #'display': 'flex', 'align-items': 'center', 'justify-content': 'center'
                     children=[
                         html.Div(
-                            style={'height':'100%','background-color': 'green', 'border': '1px solid green', 'padding': '0px','border-radius':'0.25rem',
+                            style={'height':'100%','background-color': 'rgba(34, 49, 100, 0.89)', 'border': '1px solid white', 'padding': '0px','border-radius':'0.25rem',
                         'box-sizing': 'border-box'}, #, 'border': '1px solid red'
                             children=[
                                 html.Div(
@@ -433,7 +434,7 @@ layout = html.Div(
                            }, #'display': 'flex', 'align-items': 'center', 'justify-content': 'center'
                     children=[
                         html.Div(
-                            style={'height':'100%','background-color': 'red', 'border': '1px solid red', 'padding': '0px','border-radius':'0.25rem',
+                            style={'height':'100%','background-color': 'rgba(34, 49, 100, 0.89)', 'border': '1px solid white', 'padding': '0px','border-radius':'0.25rem',
                         'box-sizing': 'border-box'},
                             children=[
                                 html.Div(
@@ -453,7 +454,7 @@ layout = html.Div(
                            }, #'display': 'flex', 'align-items': 'center', 'justify-content': 'center'
                     children=[
                         html.Div(
-                            style={'height':'100%','background-color': 'purple', 'border': '1px solid purple', 'padding': '0px','border-radius':'0.25rem',
+                            style={'height':'100%','background-color': 'rgba(34, 49, 100, 0.89)', 'border': '1px solid white', 'padding': '0px','border-radius':'0.25rem',
                         'box-sizing': 'border-box'},
                             children=[
                                 html.Div(
@@ -473,7 +474,7 @@ layout = html.Div(
                            }, #'display': 'flex', 'align-items': 'center', 'justify-content': 'center'
                     children=[
                         html.Div(
-                            style={'height':'100%','background-color': 'black', 'border': '1px solid black', 'padding': '0px','border-radius':'0.25rem',
+                            style={'height':'100%','background-color': 'rgba(34, 49, 100, 0.89)', 'border': '1px solid white', 'padding': '0px','border-radius':'0.25rem',
                         'box-sizing': 'border-box'},
                             children=[
                                 html.Div(
@@ -490,23 +491,23 @@ layout = html.Div(
             ],
         ),
         html.Div(
-            style={'width': '100%', 'height': '250px', 'border': '1px solid #000', 'padding': '0px','margin-top':"20px", 'display': 'grid', 'grid-template-columns': '3fr 4fr 3fr'},
+            style={'width': '100%', 'height': '250px', 'border': '1px solid rgba(0, 0, 0, 0)', 'padding': '0px','margin-top':"20px", 'margin-left':"20px", 'margin-right':"20px", 'display': 'grid', 'grid-template-columns': '3fr 4fr 3fr', 'background-color': 'rgba(0,0,0,0)'},
             children=[
                 html.Div(
-                    style={'border': '1px solid #000', 'box-sizing': 'border-box'},
+                    style={'border': '1px solid rgba(0, 0, 0, 0)', 'box-sizing': 'border-box', 'background-color': 'rgba(0,0,0,0)'},
                     children=[
                         dcc.Graph(
                             id='plot-polar-noise-location',
                             figure=fig_polar_noise,
-                            style={'width': '100%', 'height': '100%'}
+                            style={'width': '100%', 'height': '100%', 'background-color': 'rgba(0,0,0,0)'}
                         )
                     ],
                 ),
                 
-                html.Div(style={'border': '1px solid #000', 'box-sizing': 'border-box'},
+                html.Div(style={'border': '1px solid rgba(0, 0, 0, 0)', 'box-sizing': 'border-box'},
                          children=[
                              html.Div(
-                                style={'width': '100%', 'height': '250px', 'border': '1px solid #000', 'padding': '0px'},#500px
+                                style={'width': '100%', 'height': '250px', 'border': '1px solid rgba(0, 0, 0, 0)', 'padding': '0px'},#500px
                                 title="Average temperature, rainy days and average windspeed per month",
                                 children=[
                                     html.Div(
@@ -541,12 +542,12 @@ layout = html.Div(
                             ),
                          ]),  # Second div (40% width)
                 html.Div(
-                    style={'border': '1px solid #000', 'box-sizing': 'border-box'},
+                    style={'border': '1px solid rgba(0, 0, 0, 0)', 'box-sizing': 'border-box', 'margin-right':"40px", 'background-color': 'rgba(0,0,0,0)'},
                     children=[
                         dcc.Graph(
                             id='plot-donut-noise-events',
                             figure=fig_donut,
-                            style={'width': '100%', 'height': '100%'}
+                            style={'width': '100%', 'height': '100%', 'background-color': 'rgba(0,0,0,0)'}
                         )
                     ],
                 ),  # Third div (30% width)
