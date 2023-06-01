@@ -100,7 +100,9 @@ fig.update_layout(
 
 layout = html.Div([
     html.H2("Which source causes the loudest noise on average?"),
-    html.P("We previously discovered that the most frequently occurring source of noise in the city of Leuven was cars, but are they also the loudest? In the figure below, the average noise level is displayed for each noise source. It turns out cars are actually the most quiet one out of these noise sources."),
+    html.P("We previously discovered that the most frequently occurring source of noise in the city of Leuven was cars, but are they also the loudest? In the figure below, the average noise level is displayed for each noise source." +
+           "It turns out cars are actually the most quiet out of these noise sources. On the other hand, singing people seem to produce the loudest noise, with the average noise level being over 74 db(A), which is comparable to the sound " +
+           "of hearing landscape equipment being used when you're inside the house."),
     html.Div(
         className="plot-container",
         style={'padding': '20px', 'max-width': '90vw', 'justify-content': 'center'},
