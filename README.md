@@ -139,6 +139,7 @@ In this section, we provide a brief explanation of the structure and files in ou
 * [OpenAI. (2023). ChatGPT (April 20 version) [Large language model].](https://chat.openai.com/)
 * [Plotly Graphing Libraries](https://plotly.com/python/)
 * [Telraam traffic data](https://telraam-api.net/)
+* [Decibel Levels Information](https://hearinghealthfoundation.org/decibel-levels)
 
 
 ---
