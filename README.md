@@ -86,9 +86,21 @@ The terminal will give the message 'Dash is running on [_http link_]'. By follow
 
 ## Examples
 
-Explain what the user can see/do in the app, what the app shows (GIFs, screenshots, ...)
+We suggest you start with 'Explore the noise data', following the order of the pages. In this section, interactive visualizations concerning the noise in the city of Leuven are shown. Here are some examples to show what you can expect:
+
+![Alt Text](assets/Noise-over-time-readme.png)
+
+![Alt Text](assets/Noise-heatmap-readme.png)
+
+After exploring the noise data, you can explore the weather data by clicking the pages under 'Explore the weather data', which will you some interesting plots like this one:
+
+![Alt Text](assets/Windplot-readme.png)
+
+Finally, you can discover how noise and weather are related by visiting the pages underneath 'Analyzing noise and weather together':
 
 ![Alt Text](assets/Noise-map-readme.png)
+
+Underneath the last category, you can also find our modelling page:
 
 ---
 
