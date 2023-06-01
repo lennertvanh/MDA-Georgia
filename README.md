@@ -100,12 +100,12 @@ In this section, we provide a brief explanation of the structure and files in ou
 * _Assets_: 
 * _Exploration data_: folder with jupyter notebooks where we initially explored the data and created basic visualizations
 * _NLP_: 
-* _Preprocessing_:
+* _Preprocessing.ipynb_: jupyter notebook where we preprocessed the noise and weather data for both visualization and modelling purposes
 * _Modelling_: 
-* _app-test.py_: 
+* _app.py_: 
 * _requirements.txt_:
 * _ScrapingHolidays.ipynb_: jupyter notebook where we scraped holidays in 2022
-* _ScrapingTelraam.ipynb_: jupyter notebook where we scraped traffic data 
+* _ScrapingTelraam.ipynb_: jupyter notebook where we scraped and preprocessed traffic data 
 
 
 ---
