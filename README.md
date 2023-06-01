@@ -72,7 +72,7 @@ pip install -r requirements-full.txt
 
 Run this app locally by running the following code in the terminal:
 ```
-python app-test.py
+python app.py
 ```
 The terminal will give the message 'Dash is running on [_http link_]'. By following this link, the homepage of the app will open in your browser. You can dive in and explore the app by clicking the links at the top of the page, which are categorized under 3 titles:
 
