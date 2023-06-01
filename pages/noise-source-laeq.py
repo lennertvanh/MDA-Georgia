@@ -78,7 +78,7 @@ for category in categories:
         ),
         name=category,
         showlegend=False,
-        hovertemplate='<b>Average Noise Level</b>: %{x}<br>' +
+        hovertemplate='<b>Average Noise Level</b>: %{x:.2f} dB(A)<br>' +
                       '<b>Noise Source</b>: %{y}<extra></extra>',
     ))
 
@@ -91,7 +91,7 @@ fig.update_layout(
             ),
             title_font=dict(size=24),
             xaxis=dict(
-                title="Average noise level (laeq)",
+                title="Average noise level (in dB(A))",
                 title_font=dict(color="white", size =18),
                 tickfont=dict(color="white"),
                 gridcolor='rgba(255, 255, 255, 0.1)',
@@ -108,7 +108,7 @@ fig.update_layout(
 
 layout = html.Div([
     html.H2("Which source causes the loudest noise on average?"),
-    html.P("We previously discovered that the most frequently occurring source of noise in the city of Leuven was cars, but are they also the loudest? In the figure below, the average noise level is displayed for each noise source."),
+    html.P("We previously discovered that the most frequently occurring source of noise in the city of Leuven was cars, but are they also the loudest? In the figure below, the average noise level is displayed for each noise source. It turns out cars are actually the most quiet one out of these noise sources."),
     html.Div(
         className="plot-container",
         style={'padding': '20px', 'max-width': '90vw', 'justify-content': 'center'},
