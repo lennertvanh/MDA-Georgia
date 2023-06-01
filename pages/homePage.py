@@ -460,7 +460,7 @@ layout = html.Div(
                                 html.Div(
                                     style={'height':'100%','padding-left':'10%','padding-right':'0px','padding-top':'0px','padding-bottom':'0px'},
                                     children=[
-                                        html.H2("60.5 dB(A)",style={'margin':'5% 0 0 0','font-size':'3em'}),
+                                        html.H2("86.9 dB(A)",style={'margin':'5% 0 0 0','font-size':'3em'}),
                                         html.P("Peak noise",style={'margin':'2% 0 0 0'})
                                     ])
                                 #html.P('Box',style={'margin':'0'})
