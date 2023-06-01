@@ -113,7 +113,7 @@ fig.update_layout(
 
 layout = html.Div([
     html.H2("What's causing the noise in Leuven?"),
-    html.P("In order to trace the sources of noise events in the centre of Leuven, ..."),
+    html.P("We have observed that students likely play a significant role in contributing to the noise in Leuven. However, the data also provides insights regarding the sources of the observed sounds. To better understand and trace the various noise sources in Leuven, we present a bubble chart, which showcases the different potential noise sources and their frequencies over time. The size of each circle corresponds to the frequency of sound observations on a particular day, offering a dynamic portrayal of noise patterns in the city."),
     html.Div(
         className="plot-container",
         style={'padding': '20px', 'max-width': '90vw', 'justify-content': 'center'},

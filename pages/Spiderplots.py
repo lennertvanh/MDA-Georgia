@@ -75,6 +75,7 @@ common_layout = {
 }
 
 
+
 # FIGURE 1
 
 # Subset the data to only include hour 23 + sort them by location
