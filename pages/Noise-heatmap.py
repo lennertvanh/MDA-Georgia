@@ -60,7 +60,7 @@ fig1.update_layout(
     },
     xaxis=dict(
         title='Time of day',
-        tickvals=[0, 6, 12, 18, 23],
+        tickvals=[0, 4, 8, 12, 16, 20, 23],
         title_font=dict(color="white", size =18),
         tickfont=dict(color="white"),
         gridcolor='rgba(0, 0, 0, 0)',  
