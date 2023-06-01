@@ -88,13 +88,15 @@ The terminal will give the message 'Dash is running on [_http link_]'. By follow
 
 Explain what the user can see/do in the app, what the app shows (GIFs, screenshots, ...)
 
+![Alt Text](assets/Noise-map-readme.png)
+
 ---
 
 ## Repository 
 
 In this section, we provide a brief explanation of the structure and files in our repository. 
 
-* _**assets**_: folder with CSS and graphic elements to style the app
+* _**assets**_: folder with CSS and graphic elements to style the app, AI generated icons for the noise map plot, images in this README file
 * _**Data for modeling**_: folder with data used for modeling, split in training and test data
 * _**Data for visualization**_: folder with data used for creating visualizations in the app
 * _**Modelling**_: folder with jupyter notebooks of our models 
