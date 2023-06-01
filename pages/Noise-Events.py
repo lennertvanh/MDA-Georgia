@@ -97,8 +97,12 @@ max_date = data_noise['result_timestamp'].max().date()
 start_date = pd.Timestamp(year=2022, month=1, day=1)
 min_value = start_date.toordinal()
 
+# Set the end date as December 2022
+end_date = pd.Timestamp(year=2023, month=1, day=1)
+max_value = end_date.toordinal()
+
 # Create a list of all the months between the minimum and maximum dates
-months = pd.date_range(start=start_date, end=max_date, freq='MS')
+months = pd.date_range(start=start_date, end=end_date, freq='MS')  # Change max_date to end_date
 
 # Generate marks for each month
 marks = {date.toordinal(): {'label': date.strftime('%b %Y')} for date in months}
@@ -126,8 +130,8 @@ layout = html.Div([
                 className='slider-white',
                 id='date-slider',
                 min=min_value,
-                max=max_date.toordinal(),
-                value=[min_value,  max_date.toordinal()],
+                max=max_value,
+                value=[min_value,  max_value],
                 marks=marks,
                 step=None
             ),
@@ -164,18 +168,13 @@ def update_plot(date_range, selected_categories):
     max_ordinal = date_range[1]
 
     min_date = datetime.fromordinal(min_ordinal).date()
-    max_date = datetime.fromordinal(max_ordinal).date() + timedelta(days=1)  # Add 1 day to include the end date
-
-    min_timestamp = pd.Timestamp(min_date)
-    max_timestamp = pd.Timestamp(max_date)
-
-    daily_counts['result_timestamp'] = pd.to_datetime(daily_counts['result_timestamp'])  # Convert to datetime data type
+    max_date = datetime.fromordinal(max_ordinal).date()  # Remove the "+ timedelta(days=1)" here
 
     filtered_data = daily_counts[
-        (daily_counts['result_timestamp'].dt.date >= min_timestamp.date()) &
-        (daily_counts['result_timestamp'].dt.date <= max_timestamp.date()) &
+        (daily_counts['result_timestamp'] >= min_date) &
+        (daily_counts['result_timestamp'] <= max_date) &
         (daily_counts['noise_event_laeq_primary_detected_class'].isin(selected_categories))
-    ]
+    ].copy()
 
     fig = go.Figure()  # Create a new figure
 
@@ -200,28 +199,27 @@ def update_plot(date_range, selected_categories):
             text=10 ** category_data['count_scaled'],  # Compute the original count values
         ))
 
-        fig.update_layout(
-            plot_bgcolor='rgba(0, 0, 0, 0)',
-            paper_bgcolor='rgba(0, 0, 0, 0)',
-            title=dict(
-                text="Sources of noise events per day in 2022, with log10(frequency) as circle size",
-                font=dict(color="white"),
-            ),
-            title_font=dict(size=24),
-            xaxis=dict(
-                title="Date",
-                title_font=dict(color="white", size =18),
-                tickfont=dict(color="white"),
-                gridcolor='rgba(255, 255, 255, 0.1)',
-            ),
+    fig.update_xaxes(range=[min_date, max_date], tickformat='%d-%m-%Y')
+
+    fig.update_layout(
+        plot_bgcolor='rgba(0, 0, 0, 0)',
+        paper_bgcolor='rgba(0, 0, 0, 0)',
+        title=dict(
+            text="Sources of noise events per day in 2022, with log10(frequency) as circle size",
+            font=dict(color="white"),
+        ),
+        title_font=dict(size=24),
+        xaxis=dict(
+            title="Date",
+            title_font=dict(color="white", size=18),
+            tickfont=dict(color="white"),
+            gridcolor='rgba(255, 255, 255, 0.1)',
+        ),
         yaxis=dict(
             tickfont=dict(color="white"),
             gridcolor='rgba(255, 255, 255, 0.1)'
-            ),
+        ),
         margin=dict(l=50, r=50, t=50, b=50),
-        
     )
-
-    fig.update_xaxes(range=[min_timestamp, max_timestamp], tickformat='%d-%m-%Y')
 
     return fig
