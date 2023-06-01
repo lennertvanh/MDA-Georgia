@@ -117,7 +117,7 @@ laeq_standardized = data_Namen["laeq_standardized"]
 
 # Fourier plot
 # Create the Plotly scatter plot
-fig_FFT = go.Figure(data=go.Scatter(x=3600*xf, y=2.0/N * np.abs(yf[0:N//2]), mode='lines', line=dict(color='#2A9D8F')))
+fig_FFT = go.Figure(data=go.Scatter(x=3600*xf, y=2.0/N * np.abs(yf[0:N//2]), mode='lines', line=dict(color='#2A9D8F'), opacity=0.8))
 
 # Customize the plot layout
 fig_FFT.update_layout(
@@ -127,7 +127,7 @@ fig_FFT.update_layout(
                ),
     xaxis=dict(title='Frequency (1/hour)',
                showgrid=True,
-               zeroline=False,
+               zeroline=True,
                gridcolor='rgba(255, 255, 255, 0.1)',
                title_font=dict(color="white", size=18),
                type="log"),
