@@ -30,17 +30,6 @@ data_noise = data_noise.sort_values(by='laeq')
 # Create figure
 fig = go.Figure()
 
-category_colors = {
-    'Human voice - Shouting': 'hotpink',
-    'Music non-amplified': 'purple',
-    'Human voice - Singing': 'orange',
-    'Transport road - Passenger car' : 'blue',
-    'Transport road - Siren' : 'red',
-    'Nature elements - Wind' : 'lightblue',
-    'Unsupported' : 'black',
-    'Missing' : 'green'
-}
-
 categories = [
     'Human voice - Singing',
     'Nature elements - Wind',
@@ -58,11 +47,11 @@ for category in categories:
     
     # Add a horizontal line trace for each category
     fig.add_trace(go.Scatter(
-        x=[x_values.iloc[0], x_values.iloc[-1]],
-        y=[category],
+        x=[68, x_values.iloc[0]],
+        y=[category, category],
         mode='lines',
-        name=category,
-        line=dict(color='red', width=1),
+        name=category + ' Line',
+        line=dict(color='hotpink', width=3),  # Increase line width 
         showlegend=False,
     ))
 
@@ -74,7 +63,7 @@ for category in categories:
         marker=dict(
             size=30,
             sizemode='diameter',
-            color='red',
+            color='hotpink',
         ),
         name=category,
         showlegend=False,
@@ -86,22 +75,25 @@ fig.update_layout(
     plot_bgcolor='rgba(0, 0, 0, 0)',
     paper_bgcolor='rgba(0, 0, 0, 0)',
     title=dict(
-                text="Average noise level per noise source",
-                font=dict(color="white"),
-            ),
-            title_font=dict(size=24),
-            xaxis=dict(
-                title="Average noise level (in dB(A))",
-                title_font=dict(color="white", size =18),
-                tickfont=dict(color="white"),
-                gridcolor='rgba(255, 255, 255, 0.1)',
-            ),
-        yaxis=dict(
-            tickfont=dict(color="white"),
-            gridcolor='rgba(255, 255, 255, 0.1)'
-            ),
-        margin=dict(l=50, r=50, t=50, b=50),
+        text="Average noise level per noise source",
+        font=dict(color="white", size=24),
+    ),
+    xaxis=dict(
+        title="Average noise level (in dB(A))",
+        title_font=dict(color="white", size=18),
+        tickfont=dict(color="white"),
+        gridcolor='rgba(255, 255, 255, 0.1)',
+        range=[68, data_noise['laeq'].max() + 0.5]  # Set x-axis range with a buffer 
+    ),
+    yaxis=dict(
+        tickfont=dict(color="white"),
+        gridcolor='rgba(255, 255, 255, 0.1)'
+    ),
+    margin=dict(l=50, r=50, t=50, b=50),
 )
+
+
+
 
 #########################################################################################################
 # PAGE LAYOUT
