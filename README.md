@@ -116,6 +116,7 @@ In this section, we provide a brief explanation of the structure and files in ou
 * [Coloring for Colorblindness](https://davidmathlogic.com/colorblind/#%23D81B60-%231E88E5-%23FFC107-%23004D40)
 * [Coolors Color Palette](https://coolors.co/223164-132244-eb862e-2a9d8f-e6af2e)
 * [OpenAI. (2023). ChatGPT (April 20 version) [Large language model].](https://chat.openai.com/)
+* [Plotly Graphing Libraries](https://plotly.com/python/)
 * add other resources 
 
 ---
