@@ -86,6 +86,11 @@ The terminal will give the message 'Dash is running on [_http link_]'. By follow
 
 ## Examples
 
+When you visit our app, the first page you'll see is our homepage, which displays some of the most important and general statistics:
+
+![Alt Text](assets/Homepage-readme.png)
+
+
 We suggest you start with 'Explore the noise data', following the order of the pages. In this section, interactive visualizations concerning the noise in the city of Leuven are shown. Here are some examples to show what you can expect:
 
 ![Alt Text](assets/Noise-over-time-readme.png)
