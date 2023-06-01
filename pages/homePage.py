@@ -115,7 +115,7 @@ fig_polar_noise = go.Figure(go.Barpolar(
 fig_polar_noise.update_layout(
     template=None,
     #margin=dict(l=50, r=50, t=20, b=20),  # Set margins to 0
-    margin=dict(l=50, r=50, t=5, b=5),
+    margin=dict(l=50, r=50, t=20, b=20),
     polar = dict(
         radialaxis = dict(range=[0, 5], showticklabels=False, ticks=''),
         angularaxis=dict(
@@ -315,15 +315,266 @@ windDir_div = html.Div(
     ]
 )
 
+#################################################################################################################"
+#make the donut plot - noise events
+
+
+# Load the data
+data_noise = pd.read_csv('Data for visualization/combined_noise_event.csv', header=0, sep=',')
+
+# Calculate the frequencies of each category in the 'noise_source' variable
+category_counts = data_noise['noise_event_laeq_primary_detected_class'].value_counts()
+
+# Sort the categories by frequency in descending order
+sorted_categories = category_counts.index.tolist()
+
+# Calculate the total number of categories
+num_categories = len(category_counts)
+
+# Calculate the opacity levels
+opacity_levels = [i / (num_categories - 1) for i in range(num_categories)]
+
+# Reverse the list to make the largest category have the strongest opacity
+opacity_levels.reverse()  
+
+# Create a list of colors with adjusted opacity
+colors = [f"rgba(227, 74, 111, {opacity})" for opacity in opacity_levels]
+
+# Create a donut plot with customized colors
+fig_donut = go.Figure(data=[
+    go.Pie(
+        labels=category_counts.index,
+        values=category_counts.values,
+        hole=0.6,
+        marker=dict(colors=colors),
+        textfont=dict(color='white'),
+        showlegend=False,
+        hovertemplate='<b>Noise source</b>: %{label}<br>'
+                      '<b>Count</b>: %{value}<br>'
+                      '<b>Percentage</b>: %{percent:.1%}<extra></extra>'
+    )
+])
+
+# Set the layout options for the donut plot
+fig_donut.update_layout(
+    title=go.layout.Title(
+        text="Noise Events <br>Distribution",
+        x=0.52,
+        y=0.52,
+        xanchor="center",
+        yanchor="middle",
+        font=dict(color="white") 
+    ),
+    showlegend=False,
+    legend_title="Noise Sources",
+    #width=400,
+    #height=400,
+    margin=go.layout.Margin(
+        l=20,
+        r=20,
+        b=20,
+        t=20,
+        pad=4
+    ),
+    plot_bgcolor="white",
+    paper_bgcolor="rgba(0,0,0,0)"
+)
+
+# Add a white circle to create the donut effect
+fig_donut.add_shape(
+    type="circle",
+    xref="paper",
+    yref="paper",
+    x0=0.35,
+    y0=0.35,
+    x1=0.65,
+    y1=0.65,
+    line_color="rgba(0,0,0,0)",
+    fillcolor="rgba(0,0,0,0)",
+)
+
+#################################################################################################""
+#html layout and css
+
 
 layout = html.Div(
     style={
         'display': 'flex',
-        'justify-content': 'center',
         'height': '100vh',
+        'flex-direction': 'column', #add divs below each other
     },
     children=[
         html.Div(
+            style={'width': '100%', 'height': '120px', 'padding': '0px','display':'flex'}, #, 'border': '1px solid #000'
+            children=[
+                html.Div(
+                    style={'flex': '1', 'padding-left': '2%', 'padding-right': '2%', #, 'border': '1px solid #000'
+                        'box-sizing': 'border-box',
+                           }, #'display': 'flex', 'align-items': 'center', 'justify-content': 'center'
+                    children=[
+                        html.Div(
+                            style={'height':'100%','background-color': 'green', 'border': '1px solid green', 'padding': '0px','border-radius':'0.25rem',
+                        'box-sizing': 'border-box'}, #, 'border': '1px solid red'
+                            children=[
+                                html.Div(
+                                    style={'height':'100%','padding-left':'10%','padding-right':'0px','padding-top':'0px','padding-bottom':'0px'},
+                                    children=[
+                                        html.H2("8",style={'margin':'5% 0 0 0','font-size':'3em'}),
+                                        html.P("Locations",style={'margin':'2% 0 0 0'})
+                                    ])
+                                #html.P('Box',style={'margin':'0'})
+                            ]
+                        )
+                    ]
+                ),  # Child 1
+                html.Div(
+                    style={'flex': '1', 'padding-left': '2%', 'padding-right': '2%',
+                        'box-sizing': 'border-box',
+                           }, #'display': 'flex', 'align-items': 'center', 'justify-content': 'center'
+                    children=[
+                        html.Div(
+                            style={'height':'100%','background-color': 'red', 'border': '1px solid red', 'padding': '0px','border-radius':'0.25rem',
+                        'box-sizing': 'border-box'},
+                            children=[
+                                html.Div(
+                                    style={'height':'100%','padding-left':'10%','padding-right':'0px','padding-top':'0px','padding-bottom':'0px'},
+                                    children=[
+                                        html.H2("His & Hears",style={'margin':'5% 0 0 0','font-size':'3em'}),
+                                        html.P("Noisiest location",style={'margin':'2% 0 0 0'})
+                                    ])
+                                #html.P('Box',style={'margin':'0'})
+                            ]
+                        )
+                    ]
+                ),  # Child 2
+                html.Div(
+                    style={'flex': '1', 'padding-left': '2%', 'padding-right': '2%',
+                        'box-sizing': 'border-box',
+                           }, #'display': 'flex', 'align-items': 'center', 'justify-content': 'center'
+                    children=[
+                        html.Div(
+                            style={'height':'100%','background-color': 'purple', 'border': '1px solid purple', 'padding': '0px','border-radius':'0.25rem',
+                        'box-sizing': 'border-box'},
+                            children=[
+                                html.Div(
+                                    style={'height':'100%','padding-left':'10%','padding-right':'0px','padding-top':'0px','padding-bottom':'0px'},
+                                    children=[
+                                        html.H2("60.5 dB(A)",style={'margin':'5% 0 0 0','font-size':'3em'}),
+                                        html.P("Peak noise",style={'margin':'2% 0 0 0'})
+                                    ])
+                                #html.P('Box',style={'margin':'0'})
+                            ]
+                        )
+                    ]
+                ),  # Child 3
+                html.Div(
+                    style={'flex': '1', 'padding-left': '2%', 'padding-right': '2%',
+                        'box-sizing': 'border-box',
+                           }, #'display': 'flex', 'align-items': 'center', 'justify-content': 'center'
+                    children=[
+                        html.Div(
+                            style={'height':'100%','background-color': 'black', 'border': '1px solid black', 'padding': '0px','border-radius':'0.25rem',
+                        'box-sizing': 'border-box'},
+                            children=[
+                                html.Div(
+                                    style={'height':'100%','padding-left':'10%','padding-right':'0px','padding-top':'0px','padding-bottom':'0px'},
+                                    children=[
+                                        html.H2("October",style={'margin':'5% 0 0 0','font-size':'3em'}),
+                                        html.P("Noisiest month",style={'margin':'2% 0 0 0'})
+                                    ])
+                                #html.P('Box',style={'margin':'0'})
+                            ]
+                        )
+                    ]
+                ),  # Child 4
+            ],
+        ),
+        html.Div(
+            style={'width': '100%', 'height': '250px', 'border': '1px solid #000', 'padding': '0px','margin-top':"20px", 'display': 'grid', 'grid-template-columns': '3fr 4fr 3fr'},
+            children=[
+                html.Div(
+                    style={'border': '1px solid #000', 'box-sizing': 'border-box'},
+                    children=[
+                        dcc.Graph(
+                            id='plot-polar-noise-location',
+                            figure=fig_polar_noise,
+                            style={'width': '100%', 'height': '100%'}
+                        )
+                    ],
+                ),
+                
+                html.Div(style={'border': '1px solid #000', 'box-sizing': 'border-box'},
+                         children=[
+                             html.Div(
+                                style={'width': '100%', 'height': '250px', 'border': '1px solid #000', 'padding': '0px'},#500px
+                                title="Average temperature, rainy days and average windspeed per month",
+                                children=[
+                                    html.Div(
+                                        style={"position": "sticky", 'width': '100%', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
+                                        children=[
+                                            html.Div(
+                                                style={'width': '20%', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
+                                                children=[html.P("Month",style={"margin":"0"})],
+                                            ),
+                                            html.Div(
+                                                style={'width': '10%', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
+                                                children=[html.P("Temp",style={"margin":"0"})],
+                                            ),
+                                            html.Div(
+                                                style={'width': '58%', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
+                                                children=[
+                                                    html.P("Rainy days",style={"margin":"0"})
+                                                ],
+                                            ),
+                                            html.Div( #58 and 12 to make wind align with the numbers
+                                                style={'width': '12%', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
+                                                children=[html.P("Wind",style={"margin":"0"})],
+                                            ),
+                                        ],
+                                    ),
+                                    # Sub divs
+                                    html.Div(
+                                        style={'width': '102%', 'height': '215px', 'overflow': 'auto', 'overflow-x': 'hidden'}, #510px
+                                        children=sub_divs
+                                    ),
+                                ],
+                            ),
+                         ]),  # Second div (40% width)
+                html.Div(
+                    style={'border': '1px solid #000', 'box-sizing': 'border-box'},
+                    children=[
+                        dcc.Graph(
+                            id='plot-donut-noise-events',
+                            figure=fig_donut,
+                            style={'width': '100%', 'height': '100%'}
+                        )
+                    ],
+                ),  # Third div (30% width)
+                ]
+            )
+        ]
+            # Rest of the content here
+    )
+
+
+""" html.Div(
+                    style={'display': 'flex', 'height': '100%'},
+                    children=[
+                        html.Div(style={'border': '1px solid #000', 'box-sizing': 'border-box'}, #,'display':'flex','align-items': 'center', 'justify-content': 'center'
+                            title="Average noise (radius) and maximal noise (width) per location in linear scale",
+                            children=[
+                                dcc.Graph(
+                                    id='plot-polar-noise-location',
+                                    figure=fig_polar_noise,
+                                    style={'width': '100%', 'height': '100%'}
+                            )
+                            ],
+                        )
+                    ]),  # First div (30% width) """
+
+
+"""
+html.Div( #div to next line
             style={'height': '500px',"flex":"0 0 20%", 'border': '1px solid #000'},#,'width':'300px'"width":"100%"
             children=[
                 # Left div content here
@@ -387,18 +638,5 @@ layout = html.Div(
                         ),
                     ],
                 ),
-                html.Div(
-                    style={"width":"100%","box-sizing": "border-box",'height': '150px', 'border': '1px solid #000'}, #border box are paddings and margins added to the div. when i put 100% width, it adds to it margins and paddings so it starts growing.#'width': '1200px',
-                    title = f"Time series in hours of the laeq (in dB) for {chose_location_timeseries}",
-                    children=[
-                        dcc.Graph(
-                            id='plot-timeseries',
-                            figure=fig_timeseries,
-                            style={'width': '100%', 'height': '100%'}
-                        )
-                    ]
-                ),
             ],
-        ),
-    ],
-)
+        ),"""
