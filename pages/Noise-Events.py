@@ -32,11 +32,23 @@ data_noise = data_noise[data_noise['noise_event_laeq_primary_detected_certainty'
 # Aggregate the data by day and noise class
 daily_counts = data_noise.groupby([data_noise['result_timestamp'].dt.date, 'noise_event_laeq_primary_detected_class']).size().reset_index(name='count')
 
-# Apply logarithmic transformation the to frequency
-daily_counts['count_scaled'] = np.log10(daily_counts['count'])
-
 # Convert result_timestamp to datetime.date format for comparison
 daily_counts['result_timestamp'] = pd.to_datetime(daily_counts['result_timestamp']).dt.date
+
+### CREATE SCALER FOR SIZES OF CIRCLE MARKERS (proportional to the daily count) ###
+max_count = daily_counts["count"].max()
+min_count = daily_counts["count"].min()
+
+start_size = 0.4 #minimum size
+step_size = 4.8 #maximum size 
+
+def divide_by_max(x):
+    return x / max_count
+
+def myMapping(x):
+    return start_size + step_size*(x-min_count)/(max_count-min_count)
+
+daily_counts['count_scaled'] = daily_counts['count'].transform(myMapping)
 
 #########################################################################################################
 # VISUALIZATION
@@ -47,11 +59,11 @@ fig = go.Figure()
 # Define colors for each category
 category_colors = {
     'Human voice - Shouting': 'hotpink',
-    'Music non-amplified': '#7F5439',
+    'Music non-amplified': 'red',
     'Human voice - Singing': '#EB862E',
     'Transport road - Passenger car' : '#2A9D8F',
     'Transport road - Siren' : '#E6AF2E',
-    'Nature elements - Wind' : 'purple',
+    'Nature elements - Wind' : 'white',
 }
 
 categories = [
@@ -185,6 +197,7 @@ def update_plot(date_range, selected_categories):
             x=category_data['result_timestamp'],
             y=category_data['noise_event_laeq_primary_detected_class'],
             mode='markers',
+            text = category_data['count'].astype(str), 
             marker=dict(
                 size=category_data['count_scaled'].abs(),
                 sizeref=0.045,
@@ -193,10 +206,8 @@ def update_plot(date_range, selected_categories):
             name=category,
             showlegend=False,
             hovertemplate='<b>Date</b>: %{x|%d-%m-%Y}<br>' +
-                          '<b>Noise Class</b>: %{y}<br>' +
-                          '<b>Count</b>: %{text:.0f}<br>' +
-                          '<b>Log Count</b>: %{marker.size:.2f}<extra></extra>',
-            text=10 ** category_data['count_scaled'],  # Compute the original count values
+                          '<b>Noise Source</b>: %{y}<br>' +
+                          '<b>Count</b>: %{text}<extra></extra>' 
         ))
 
     fig.update_xaxes(range=[min_date, max_date], tickformat='%d-%m-%Y')
@@ -205,7 +216,7 @@ def update_plot(date_range, selected_categories):
         plot_bgcolor='rgba(0, 0, 0, 0)',
         paper_bgcolor='rgba(0, 0, 0, 0)',
         title=dict(
-            text="Sources of noise events per day in 2022, with log10(frequency) as circle size",
+            text="Sources of noise events per day in 2022 (circle size proportional to frequency)",
             font=dict(color="white"),
         ),
         title_font=dict(size=24),
