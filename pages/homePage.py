@@ -109,7 +109,7 @@ fig_polar_noise = go.Figure(go.Barpolar(
     marker_line_width=1,
     opacity=1,
     customdata=average_noise_per_location[["Average laeq", "Average lamax"]],
-    hovertemplate="Average noise: %{customdata[0]:.2f}<br>Maximal noise: %{customdata[1]:.2f}<extra></extra>"
+    hovertemplate="Average noise: %{customdata[0]:.2f} dB(A)<br>Maximal noise: %{customdata[1]:.2f} dB(A)<extra></extra>"
 ))
 
 fig_polar_noise.update_layout(
