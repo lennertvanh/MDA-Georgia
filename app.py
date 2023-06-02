@@ -95,6 +95,22 @@ app.layout = html.Div(
                     ],
                     style={"margin-bottom": "20px"}  # Add margin-bottom for extra space
                 ),
+                html.Div(
+                    className="category-column",
+                    children=[
+                        html.H3("Modelling"),  # Category 4: Analysis of Noise and Weather
+                        html.Div(
+                            dcc.Link("Random forest", href="random-forest")
+                        ),
+                        html.Div(
+                            dcc.Link("ARD regression", href="ard-regression")
+                        ),
+                        html.Div(
+                            dcc.Link("XGB", href="xgb-modelling")
+                        ),
+                    ],
+                    style={"margin-bottom": "20px"}  # Add margin-bottom for extra space
+                ),
             ],
         ),
         html.Hr(style={"margin-top": "20px", "margin-bottom": "20px",'background-color':'rgba(19, 34, 68, 0.973)'}),  # Add horizontal line
