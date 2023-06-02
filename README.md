@@ -125,8 +125,8 @@ In this section, we provide a brief explanation of the structure and files in ou
 * _**requirements-full.txt**_: file containing all Python packages to run the app and any other file in the repository
 * _**ScrapingHolidays.ipynb**_: jupyter notebook where we scraped holidays in 2022
 * _**ScrapingTelraam.ipynb**_: jupyter notebook where we scraped and preprocessed traffic data 
-* _**.slugignore**_: 
-* _**Procfile**_: 
+* _**.slugignore**_: file that indicates which files and folders in our repository should be ignored when setting up the app
+* _**Procfile**_: file that indicates what needs to be done to start the app 
 
 
 ---
