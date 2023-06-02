@@ -522,20 +522,20 @@ layout = html.Div(
                                                 children=[html.P("Temp",style={"margin":"0"})],
                                             ),
                                             html.Div(
-                                                style={'width': '58%', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
+                                                style={'width': '55%', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
                                                 children=[
                                                     html.P("Rainy days",style={"margin":"0"})
                                                 ],
                                             ),
                                             html.Div( #58 and 12 to make wind align with the numbers
-                                                style={'width': '12%', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
+                                                style={'width': '15%', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
                                                 children=[html.P("Wind",style={"margin":"0"})],
                                             ),
                                         ],
                                     ),
                                     # Sub divs
                                     html.Div(
-                                        style={'width': '102%', 'height': '215px', 'overflow': 'auto', 'overflow-x': 'hidden'}, #510px
+                                        style={'width': '100%', 'height': '215px', 'overflow': 'auto', 'overflow-x': 'hidden'}, #510px
                                         children=sub_divs
                                     ),
                                 ],
