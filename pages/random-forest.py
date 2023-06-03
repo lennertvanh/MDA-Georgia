@@ -58,8 +58,8 @@ fig1.add_trace(go.Bar(
     y=feature_names,
     orientation='h',
     marker=dict(color="#E6AF2E"),
-    hovertemplate='Feature:</b>: %{y}<br>' +
-                      '<b>Coefficient:</b>: %{x:.2f}<extra></extra>'
+    hovertemplate='<b>Feature:</b>: %{y}<br>' +
+                      '<b>Mean MSE increase:</b>: %{x:.2f}<extra></extra>'
 ))
 
 fig1.update_layout(
@@ -79,19 +79,24 @@ fig1.update_layout(
 fig2 = go.Figure()
 
 fig2.add_trace(go.Scatter(
-  x=tempval,
-  y=tempdep,
-  marker=dict(
+    x=tempval,
+    y=tempdep,
+    marker=dict(
     color="#E6AF2E"
-  )
+    ),
+    hovertemplate='<b>Conditional average noise:</b>: %{y:.2f} dB(A)<br>'
 ))
 
 fig2.update_layout(
-  title='Partial dependence',
-  xaxis_title='Feature value',
-  yaxis_title='Conditional average noise',
-  width=100,  # Set the width of the plot to 800 pixels
-  margin=dict(l=0, r=20, t=40, b=0)  # Set all margins to 0
+    plot_bgcolor='rgba(0, 0, 0, 0)',
+    paper_bgcolor='rgba(0, 0, 0, 0)',
+    title=dict(text='Partial dependence', font=dict(color="white", size=24)),
+    xaxis_title='Feature',
+    yaxis_title='Conditional average noise',
+    yaxis=dict(showgrid=True, zeroline=True, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
+    xaxis=dict(showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
+    width=100,  # Set the width of the plot to 100 pixels
+    margin=dict(l=0, r=20, t=40, b=0)  # Set all margins to 0
 )
 
 catfeats = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'public holiday', 'KUL holiday']
@@ -104,14 +109,19 @@ fig3.add_trace(go.Bar(
     y=catfeats,
     orientation='h',
     marker=dict(
-        color="blue"
-    )
+        color=np.where(catimps < 0, '#EB862E', '#2A9D8F')
+    ),
+    hovertemplate='<b>Feature:</b>: %{y:.2f}<br>'
 ))
 
 fig3.update_layout(
-    title='Partial impact of categorical predictors',
-    xaxis_title='Change in predicted sound level (dB)',
-    yaxis_title='Feature',
+    plot_bgcolor='rgba(0, 0, 0, 0)',
+    paper_bgcolor='rgba(0, 0, 0, 0)',
+    title=dict(text='Partial impact of categorical predictors', font=dict(color="white", size=24)),
+    xaxis_title='Change in predicted sound level (dB(A))',
+    yaxis_title='Feature name',
+    yaxis=dict(showgrid=True, zeroline=True, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
+    xaxis=dict(showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
     #width=400,  # Set the width of the plot to 400 pixels
     bargap=0.1,  # Set the gap between bars to 0.1 (adjust as needed)
     margin=dict(l=0, r=20, t=40, b=0)  # Set all margins to 0
@@ -276,22 +286,26 @@ def update_figure(sel):
         x=importances,
         y=feature_names,
         orientation='h',
-        marker=dict(
-            color="blue"
-        )
+        marker=dict(color="#E6AF2E"),
+        hovertemplate='<b>Feature:</b>: %{y}<br>' +
+                        '<b>Mean MSE increase:</b>: %{x:.2f}<extra></extra>'
     ))
 
     fig_updated.update_layout(
-        title='Random forest permutation feature importance',
+        plot_bgcolor='rgba(0, 0, 0, 0)',
+        paper_bgcolor='rgba(0, 0, 0, 0)',
+        title=dict(text='Random forest permutation feature importance', font=dict(color="white", size=24)),
         xaxis_title='Mean MSE increase',
-        yaxis_title='Feature',
-        #width=400,  # Set the width of the plot to 800 pixels
+        yaxis_title='Feature name',
+        yaxis=dict(showgrid=True, zeroline=True, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
+        xaxis=dict(showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
         bargap=0.1,  # Set the gap between bars to 0.1 (adjust as needed)
         margin=dict(l=0, r=20, t=40, b=0)  # Set all margins to 0
     )
 
     return fig_updated, html.P(text, style={'white-space': 'pre-line','margin':'0'})
 
+# Callback to update 2nd figure
 @callback(
     [Output('depen-plot-id', 'figure'),
      Output('radio-item-name', 'children')],
@@ -320,15 +334,19 @@ def update_figure2(sels):
         x=values,
         y=means,
         marker=dict(
-            color="blue"
-        )
+            color="#E6AF2E"
+        ),
+        hovertemplate='<b>Conditional average noise:</b>: %{y:.2f} dB(A)<br>'
     ))
 
     fig_updated.update_layout(
-        title='Partial dependence',
+        plot_bgcolor='rgba(0, 0, 0, 0)',
+        paper_bgcolor='rgba(0, 0, 0, 0)',
+        title=dict(text='Partial dependence', font=dict(color="white", size=24)),
         xaxis_title='Feature',
         yaxis_title='Conditional average noise',
-        #width=400,  # Set the width of the plot to 800 pixels
+        yaxis=dict(showgrid=True, zeroline=True, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
+        xaxis=dict(showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
         margin=dict(l=0, r=20, t=40, b=0)  # Set all margins to 0
     )
 
