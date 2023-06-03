@@ -118,7 +118,7 @@ In this section, we provide a brief explanation of the structure and files in ou
 * _**Data for visualization**_: folder with data used for creating visualizations in the app
 * _**Modelling**_: folder with jupyter notebooks of our models 
 * _**NLP**_: folder with scientific articles about noise pollution, and the jupyter notebook in which we scrape them and apply basic NLP techniques 
-* _**Pages**_: folder with a _.py_ file for each page in the app
+* _**pages**_: folder with a _.py_ file for each page in the app
 * _**Preprocessing.ipynb**_: jupyter notebook where we preprocessed the noise and weather data for both visualization and modelling purposes
 * _**app.py**_: file where all the routes for the app are defined
 * _**requirements.txt**_: file containing Python packages to run the app
