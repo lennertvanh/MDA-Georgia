@@ -122,18 +122,6 @@ app.layout = html.Div(
     className="app-container"
 )
 
-
-
-#@app.callback(Output('page-content', 'children'),
-#              [Input('url', 'pathname')])
-#def display_page(pathname):
-#    if pathname == '/':
-#        return app.layout
-#    elif pathname == '/page-1':
-#        return page_1_layout
-#    else:
-#        return '404 Page not found'
-
 if __name__ == '__main__':
     app.run_server(debug=True)
 
