@@ -72,7 +72,7 @@ fig1.update_layout(
     xaxis=dict(showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
     #width=400,  # Set the width of the plot to 400 pixels
     bargap=0.1,  # Set the gap between bars to 0.1 (adjust as needed)
-    margin=dict(l=0, r=20, t=40, b=0)  # Set all margins to 0
+    margin=dict(l=0, r=20, t=40, b=0)  
 )
 
 
@@ -97,7 +97,7 @@ fig2.update_layout(
     yaxis=dict(showgrid=True, zeroline=False, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
     xaxis=dict(showgrid=True, zeroline=False,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
     width=100,  # Set the width of the plot to 100 pixels
-    margin=dict(l=0, r=20, t=40, b=0)  # Set all margins to 0
+    margin=dict(l=0, r=20, t=40, b=0)  
 )
 
 catfeats = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'public holiday', 'KUL holiday']
@@ -125,7 +125,6 @@ fig3.update_layout(
     yaxis_title='Feature name',
     yaxis=dict(showgrid=True, zeroline=True, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
     xaxis=dict(showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
-    #width=400,  # Set the width of the plot to 400 pixels
     bargap=0.1,  # Set the gap between bars to 0.1 (adjust as needed)
     margin=dict(l=0, r=20, t=40, b=0)  # Set all margins to 0
 )
@@ -221,7 +220,7 @@ html.Div(
   ),
 html.Div(
             children=[
-                html.P("The effects of the weather variables are relatively small but measurable. Also keep in mind that the decibel scale is a logarithmic scale, meaning that it expresses multiplicative effects in loudness. For example, a sound that is 10 times more intense than another sound would be represented as a difference of 10 decibels on the scale. This means that even a change in average noise level of a decibel or less attributed to a feature can be a significant finding."),
+                html.P("The effects of the weather variables are relatively small but measurable. Also keep in mind that the decibel scale is a logarithmic scale, meaning that it expresses multiplicative effects in loudness. For example, a sound that is 10 times more intense than another sound would be represented as a difference of 10 decibels on the scale. This means that even a change in average noise level of a decibel or less attributed to a feature can be a significant finding. In the partial dependences, we see that similarly to the bivariate case, temperature displays an inverse U-curve where noise is mostly high during medium temperatures. We suspect this is because the seasons in which nightlife and social life are most active in Leuven occur in medium temperature, since both the winter and summer are exam periods. Moreover, noise increases with windspeed and rain, presumably because these phenomena themselves make noise."),
                 html.Br(),
                 html.H3("Categorical effects",style={"margin-left":"100px"}),
                 html.P("For the individual effects of the categorical variables, we simply plot their effect on estimated sound level, again holding all other features constant. This way we uncover their effect on the prediction in decibels"),
@@ -336,6 +335,7 @@ def update_figure2(sels):
     means = np.ravel(modelsels)
 
     fig_updated = go.Figure()
+    
     fig_updated.add_trace(go.Scatter(
         x=values,
         y=means,
@@ -354,7 +354,7 @@ def update_figure2(sels):
         yaxis_title='Conditional average noise',
         yaxis=dict(showgrid=True, zeroline=False, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
         xaxis=dict(showgrid=True, zeroline=False,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
-        margin=dict(l=0, r=20, t=40, b=0)  # Set all margins to 0
+        margin=dict(l=0, r=20, t=40, b=0) 
     )
 
     return fig_updated, html.P(text, style={'white-space': 'pre-line','margin':'0'})

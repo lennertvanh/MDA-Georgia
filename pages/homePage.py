@@ -239,8 +239,6 @@ for i in range(12):
     )
     sub_divs.append(sub_div)
 
-#layout.children[1].children += sub_divs
-
 # Create a Plotly figure with the desired width and height
 figure_width = 250
 figure_height = 250
@@ -401,16 +399,16 @@ layout = html.Div(
     },
     children=[
         html.Div(
-            style={'width': '100%', 'height': '120px', 'padding': '0px','display':'flex'}, #, 'border': '1px solid #000'
+            style={'width': '100%', 'height': '120px', 'padding': '0px','display':'flex'}, 
             children=[
                 html.Div(
-                    style={'flex': '1', 'padding-left': '2%', 'padding-right': '2%', #, 'border': '1px solid #000'
+                    style={'flex': '1', 'padding-left': '2%', 'padding-right': '2%', 
                         'box-sizing': 'border-box',
-                           }, #'display': 'flex', 'align-items': 'center', 'justify-content': 'center'
+                           }, 
                     children=[
                         html.Div(
                             style={'height':'100%','background-color': 'rgba(34, 49, 100, 0.89)', 'border': '1px solid white', 'padding': '0px','border-radius':'0.25rem',
-                        'box-sizing': 'border-box'}, #, 'border': '1px solid red'
+                        'box-sizing': 'border-box'}, 
                             children=[
                                 html.Div(
                                     style={'height':'100%','padding-left':'10%','padding-right':'0px','padding-top':'0px','padding-bottom':'0px'},
@@ -418,7 +416,6 @@ layout = html.Div(
                                         html.H2("8",style={'margin':'5% 0 0 0','font-size':'3vw'}),
                                         html.P("Locations",style={'margin':'2% 0 0 0'})
                                     ])
-                                #html.P('Box',style={'margin':'0'})
                             ]
                         )
                     ]
@@ -426,7 +423,7 @@ layout = html.Div(
                 html.Div(
                     style={'flex': '1', 'padding-left': '2%', 'padding-right': '2%',
                         'box-sizing': 'border-box',
-                           }, #'display': 'flex', 'align-items': 'center', 'justify-content': 'center'
+                           },
                     children=[
                         html.Div(
                             style={'height':'100%','background-color': 'rgba(34, 49, 100, 0.89)', 'border': '1px solid white', 'padding': '0px','border-radius':'0.25rem',
@@ -438,7 +435,6 @@ layout = html.Div(
                                         html.H2("His & Hears",style={'margin':'5% 0 0 0','font-size':'3vw'}),
                                         html.P("Noisiest location",style={'margin':'2% 0 0 0'})
                                     ])
-                                #html.P('Box',style={'margin':'0'})
                             ]
                         )
                     ]
@@ -446,7 +442,7 @@ layout = html.Div(
                 html.Div(
                     style={'flex': '1', 'padding-left': '2%', 'padding-right': '2%',
                         'box-sizing': 'border-box',
-                           }, #'display': 'flex', 'align-items': 'center', 'justify-content': 'center'
+                           },
                     children=[
                         html.Div(
                             style={'height':'100%','background-color': 'rgba(34, 49, 100, 0.89)', 'border': '1px solid white', 'padding': '0px','border-radius':'0.25rem',
@@ -458,7 +454,6 @@ layout = html.Div(
                                         html.H2("86.9 dB(A)",style={'margin':'5% 0 0 0','font-size':'3vw'}),
                                         html.P("Peak noise",style={'margin':'2% 0 0 0'})
                                     ])
-                                #html.P('Box',style={'margin':'0'})
                             ]
                         )
                     ]
@@ -466,7 +461,7 @@ layout = html.Div(
                 html.Div(
                     style={'flex': '1', 'padding-left': '2%', 'padding-right': '2%',
                         'box-sizing': 'border-box',
-                           }, #'display': 'flex', 'align-items': 'center', 'justify-content': 'center'
+                           },
                     children=[
                         html.Div(
                             style={'height':'100%','background-color': 'rgba(34, 49, 100, 0.89)', 'border': '1px solid white', 'padding': '0px','border-radius':'0.25rem',
@@ -478,7 +473,6 @@ layout = html.Div(
                                         html.H2("October",style={'margin':'5% 0 0 0','font-size':'3vw'}),
                                         html.P("Noisiest month",style={'margin':'2% 0 0 0'})
                                     ])
-                                #html.P('Box',style={'margin':'0'})
                             ]
                         )
                     ]
@@ -502,7 +496,7 @@ layout = html.Div(
                 html.Div(style={'border': '1px solid rgba(0, 0, 0, 0)', 'box-sizing': 'border-box'},
                          children=[
                              html.Div(
-                                style={'width': '100%', 'height': '250px', 'border': '1px solid rgba(0, 0, 0, 0)', 'padding': '0px'},#500px
+                                style={'width': '100%', 'height': '250px', 'border': '1px solid rgba(0, 0, 0, 0)', 'padding': '0px'},
                                 title="Average temperature, rainy days and average windspeed per month",
                                 children=[
                                     html.Div(
@@ -522,7 +516,7 @@ layout = html.Div(
                                                     html.P("Rainy days",style={"margin":"0"})
                                                 ],
                                             ),
-                                            html.Div( #58 and 12 to make wind align with the numbers
+                                            html.Div( #55 and 15 to make wind align with the numbers
                                                 style={'width': '15%', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
                                                 children=[html.P("Wind",style={"margin":"0"})],
                                             ),
@@ -530,7 +524,7 @@ layout = html.Div(
                                     ),
                                     # Sub divs
                                     html.Div(
-                                        style={'width': '100%', 'height': '215px', 'overflow': 'auto', 'overflow-x': 'hidden'}, #510px
+                                        style={'width': '100%', 'height': '215px', 'overflow': 'auto', 'overflow-x': 'hidden'},
                                         children=sub_divs
                                     ),
                                 ],
