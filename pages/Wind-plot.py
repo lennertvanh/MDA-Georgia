@@ -253,11 +253,3 @@ def update_scatter_plot(selected_month):
     )
 
     return fig, None
-
-
-
-
-
-
-
-
