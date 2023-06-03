@@ -96,17 +96,45 @@ fig2.update_layout(
 )
 
 colorscale = [[0, '#2A9D8F'], [1, '#EB862E']]
+
 fig3 = go.Figure(data=go.Heatmap(
     z=cormatrix,
     x=['Heavy', 'Car', 'Bike ', 'Pedestrian'],
     y=['Heavy', 'Car', 'Bike', 'Pedestrian'],
-    colorscale=colorscale
+    colorscale='Reds',
+    hovertemplate='Correlation between %{x} and %{y}: %{z:.2f}',
+    hoverlabel=dict(namelength=0),
+    colorbar=dict(
+        tickfont=dict(color='white')  
+    )
 ))
+
+fig3.update_layout(
+    title={
+        'text': 'Correlation matrix of the traffic features',
+        'x': 0.5,  
+        'xanchor': 'center',  
+        'font': {'color': 'white', 'size' : 24}  
+    },
+    xaxis=dict(
+        title_font=dict(color="white", size=18),
+        tickfont=dict(color="white"),
+        gridcolor='rgba(0, 0, 0, 0)', 
+        zeroline=False  
+    ),
+    yaxis=dict(
+        title_font=dict(color="white", size=18),
+        tickfont=dict(color="white"),
+        gridcolor='rgba(0, 0, 0, 0)',  
+    ),
+    plot_bgcolor='rgba(0,0,0,0)', 
+    paper_bgcolor='rgba(0,0,0,0)',
+)
+
 
 #########################################################################################################
 # PAGE LAYOUT
 
-# Define the HTML page layout
 # Define the HTML page layout
 layout = html.Div(
     children=[
