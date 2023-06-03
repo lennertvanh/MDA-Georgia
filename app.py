@@ -106,6 +106,9 @@ app.layout = html.Div(
                             dcc.Link("Random forest", href="random-forest")
                         ),
                         html.Div(
+                            dcc.Link("Traffic model", href="traffic-model")
+                        ),
+                        html.Div(
                             dcc.Link("XGB", href="xgb-modelling")
                         ),
                     ],
