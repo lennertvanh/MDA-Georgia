@@ -93,8 +93,8 @@ fig2.update_layout(
     title=dict(text='Partial dependence', font=dict(color="white", size=24)),
     xaxis_title='Feature',
     yaxis_title='Conditional average noise',
-    yaxis=dict(showgrid=True, zeroline=True, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
-    xaxis=dict(showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
+    yaxis=dict(showgrid=True, zeroline=False, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
+    xaxis=dict(showgrid=True, zeroline=False,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
     width=100,  # Set the width of the plot to 100 pixels
     margin=dict(l=0, r=20, t=40, b=0)  # Set all margins to 0
 )
@@ -145,7 +145,7 @@ layout = html.Div(
         ),
         html.Div(
             [
-                html.Div(style={'flex': '15%'}),
+                html.Div(style={'flex': '10%'}),
                 html.Div(
                     children=[
                         dcc.Graph(
@@ -154,7 +154,7 @@ layout = html.Div(
                             style={'width': '100%', 'height': '100%'},
                         ),
                     ],
-                    style={'display': 'inline-block'}
+                    style={'flex': '45%', 'display': 'inline-block'}
                 ),
                 html.Div(
                     children=[
@@ -172,7 +172,7 @@ layout = html.Div(
                     ],
                     style={'flex': '45%', 'margin': '30px', 'vertical-align': 'top', 'display': 'inline-block'}
                 ),
-                html.Div(style={'flex': '15%'})
+                html.Div(style={'flex': '10%'})
             ],
             style={'display': 'flex', 'height': '450px', 'width': '100%'}
         ),
@@ -188,7 +188,7 @@ layout = html.Div(
         ),
         html.Div(
             [
-                html.Div(style={'flex': '15%'}),
+                html.Div(style={'flex': '10%'}),
                      html.Div(
             children=[
           dcc.Graph(
@@ -214,7 +214,7 @@ html.Div(
                         ),
     html.Div(id='radio-item-name',style={"margin-top":"40px"})
     ],
-    style={'flex': '15%', 'margin': '30px', 'vertical-align': 'top', 'display': 'inline-block'}
+    style={'flex': '10%', 'margin': '30px', 'vertical-align': 'top', 'display': 'inline-block'}
   ),
 html.Div(
             children=[
@@ -345,8 +345,8 @@ def update_figure2(sels):
         title=dict(text='Partial dependence', font=dict(color="white", size=24)),
         xaxis_title='Feature',
         yaxis_title='Conditional average noise',
-        yaxis=dict(showgrid=True, zeroline=True, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
-        xaxis=dict(showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
+        yaxis=dict(showgrid=True, zeroline=False, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
+        xaxis=dict(showgrid=True, zeroline=False,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
         margin=dict(l=0, r=20, t=40, b=0)  # Set all margins to 0
     )
 
