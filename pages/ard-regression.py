@@ -47,15 +47,15 @@ fig.add_trace(go.Bar(
     marker=dict(
         color=np.where(coefficients < 0, '#EB862E', '#2A9D8F')
     ),
-    hovertemplate='<b>Feature:</b>: %{x}<br>' +
-                      '<b>Coefficient:</b>: %{y}<extra></extra>'  
+    hovertemplate='<b>Feature:</b>: %{y}<br>' +
+                      '<b>Coefficient:</b>: %{x:.2f}<extra></extra>'  
 ))
 
 fig.update_layout(
     plot_bgcolor='rgba(0, 0, 0, 0)',
     paper_bgcolor='rgba(0, 0, 0, 0)',
     title=dict(text="Feature importance with ARD regression",font=dict(
-            color="white")),
+            color="white", size=24)),
     xaxis_title='Coefficient',
     yaxis_title='Feature name',
     yaxis=dict(showgrid=True, zeroline=True, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
@@ -80,8 +80,8 @@ layout = html.Div(
                        "The model was first applied to the complete dataset, where the results indicate that the hour, weekday and coordinate features are the most important in predicting noise levels. " +
                        "The data was analyzed a second time without the location 'Vrijthof', which appeared to be a more quiet location compared to the other ones. " +
                        "Considering its 'outlier' nature among the 8 locations, we wanted to examine what happened to the features importance after removing this location from the data. " +
-                       "Particularly the change in the feature coordinate, which indicates the proximity to the centre of Leuven, was in our interest." +
-                       "The results confirmed our impression, revealing that the 'coordinate' feature switched signs when 'Vrijthof' was removed." +
+                       "Particularly the change in the feature coordinate, which indicates the proximity to the centre of Leuven, was in our interest. " +
+                       "The results confirmed our impression, revealing that the 'coordinate' feature switched signs when 'Vrijthof' was removed. " +
                        "The previously negative coefficient turned positive, which points out that it becomes noisier when we approach the center of Leuven, without taking 'Vrijthof' into account. "
                        "In a third analysis, the 'weekday' feature was removed to assess the influence on the 'day' feature, as there could be some multicollinearity present. " +
                        "Surprisingly, removing 'weekday' had almost no influence on the other coefficients. The regression model is simply less performant as the R squared reduced and the MSE increased."),
@@ -91,7 +91,7 @@ layout = html.Div(
         ),
         html.Div(
             [
-                html.Div(style={'flex': '15%'}),
+                html.Div(style={'flex': '10%'}),
                 html.Div(
                     children=[
                         dcc.Graph(
@@ -100,7 +100,7 @@ layout = html.Div(
                             style={'width': '100%', 'height': '100%'},
                         ),
                     ],
-                    style={'flex': '35%', 'display': 'inline-block'}
+                    style={'flex': '45%', 'display': 'inline-block'}
                 ),
                 html.Div(
                     children=[
@@ -119,7 +119,7 @@ layout = html.Div(
                     ],
                     style={'flex': '45%', 'margin': '30px', 'vertical-align': 'top', 'display': 'inline-block'}
                 ),
-                html.Div(style={'flex': '15%'})
+                html.Div(style={'flex': '10%'})
             ],
             style={'display': 'flex', 'height': '450px', 'width': '100%'}
         ),
@@ -127,6 +127,7 @@ layout = html.Div(
             children=[  
                 html.H3("What is ARD regression? How to interpret the coefficients?",style={"margin-left":"100px"}),
                 html.P("ARD regression is closely related to Bayesian ridge regression. It is similar to a linear regression where the importance of the features can be determined thanks to the Bayesian framework. The absolute value of the coefficient indicates the importance of the feature. Moreover, the sign of the coefficient designates if there is a positive or negative correlation between the feature and the output variable."),
+                html.Br(), #linebreak for extra whitespace
                 html.H3("How is the model designed? Which features are used? And how are they defined?",style={"margin-left":"100px"}),
                 html.P("Instead of using the data as a time-series that requires special models for this kind of data, the data is transformed to be able to use it with classical regression models. The time information is transformed into features 'month', 'day', 'hour' and 'weekday'."),
                 html.P("The data is highly dimensional with 13 features for the 'full' model and contains over 55000 observations as the hourly dataset for all the locations has been used. The goal of the regression is to predict the sound level in dB(A) given information about the time, the location and the weather. All the features related to time are transformed with the sine and cosine of the value to incorporate the knowledge of time cycles. This means that the features 'month', 'day', 'hour' and 'weekday' become 'sin_month', 'cos_month', 'sin_day', 'cos_day', 'sin_hour','cos_hour', 'sin_weekday' and 'cos_weekday'."),
@@ -142,9 +143,11 @@ layout = html.Div(
                 html.P("- sin_hour: Positive values are all the hours before noon. Negative values are all the hours after noon."),
                 html.P("- cos_hour: Positive values are hours when it is mainly dark outside (night). Negative values indicate hours where daylight is present."),
                 html.P("- sin_weekday: Positive values are Monday, Tuesday and Wednesday. Negative values are Tuesday, Friday and Saturday."),
-                html.P("- cos_weekday: Values close to one are Saturday, Sunday and Monday. Values close to minus one are Wednesday, Thursday and Friday in a lesser extendt."),
+                html.P("- cos_weekday: Values close to one are Saturday, Sunday and Monday. Values close to minus one are Wednesday, Thursday and Friday in a lesser extent."),
+                html.Br(),
                 html.H3("Training and test set?",style={"margin-left":"100px"}),
                 html.P("The data is split into two subsets: the training and test sets with proportions 80-20. The training set is used to train the ARD model and get the coefficients. The test set is used to see how well the ARD regression performs on unseen data and is used to calculate the MSE and R squared."),
+                html.Br(),
                 html.H3("Interpretation of the most important features for the full model",style={"margin-left":"100px"}),
                 html.P("The coefficient of 'cos_weekday' is highly negative indicating that Wednesday, Thursday and Friday are noisier than Saturday, Sunday and Monday. 'sin_hour' is highly negative meaning that it is noisier after noon than before noon. 'cos_hour' is also negative indicating that it is noisier during daylight than during the night which is expected as everyone is sleeping during the night. With the full dataset, 'coordinate' is negative which means that it becomes quieter when we get closer to the center. This is a surprising result as the opposite is expected. Probably that the negative sign is mainly due to Vrijthof being very quiet. When Vrijthof is removed, the opposite effect is observed, i.e. it becomes noisier when we get closer to the center.")
             ],
@@ -186,15 +189,15 @@ def update_figure(selected_coeff):
         marker=dict(
             color=np.where(coefficients < 0, '#EB862E', '#2A9D8F')
         ),
-        hovertemplate='<b>Feature:</b>: %{x}<br>' +
-                      '<b>Coefficient:</b>: %{y}<extra></extra>'  
+        hovertemplate='<b>Feature:</b>: %{y}<br>' +
+                      '<b>Coefficient:</b>: %{x:.2f}<extra></extra>'  
     ))
 
     fig_updated.update_layout(
         plot_bgcolor='rgba(0, 0, 0, 0)',
         paper_bgcolor='rgba(0, 0, 0, 0)',
         title=dict(text="Feature importance with ARD regression",font=dict(
-            color="white")),
+            color="white", size=24)),
         xaxis_title='Coefficient',
         yaxis_title='Feature name',
         yaxis=dict(showgrid=True, zeroline=True, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
