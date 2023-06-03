@@ -38,7 +38,7 @@ app.layout = html.Div(
                 html.Div(
                     className="category-column",
                     children=[
-                        html.H3("Explore the noise data"),  # Category 2: Analysis of Noise Levels
+                        html.H5("Explore the noise data"),  # Category 2: Analysis of Noise Levels
                         html.Div(
                             dcc.Link("Noise level over time", href="noise-level-over-time")
                         ),
@@ -69,7 +69,7 @@ app.layout = html.Div(
                 html.Div(
                     className="category-column",
                     children=[
-                        html.H3("Explore the weather data"),  # Category 3: Analysis of Weather
+                        html.H5("Explore the weather data"),  # Category 3: Analysis of Weather
                         html.Div(
                             dcc.Link("Weather analysis", href="weather-analysis")
                         ),
@@ -82,7 +82,7 @@ app.layout = html.Div(
                 html.Div(
                     className="category-column",
                     children=[
-                        html.H3("Analyzing noise and weather together"),  # Category 4: Analysis of Noise and Weather
+                        html.H5("Analyzing noise and weather together"),  # Category 4: Analysis of Noise and Weather
                         html.Div(
                             dcc.Link("Effect of temperature on noise", href="noise-wrt-temp")
                         ),
@@ -98,7 +98,7 @@ app.layout = html.Div(
                 html.Div(
                     className="category-column",
                     children=[
-                        html.H3("Modelling"),  # Category 4: Analysis of Noise and Weather
+                        html.H5("Modelling"),  # Category 4: Analysis of Noise and Weather
                         html.Div(
                             dcc.Link("ARD regression", href="ard-regression")
                         ),
