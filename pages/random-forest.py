@@ -92,7 +92,7 @@ fig2.update_layout(
     plot_bgcolor='rgba(0, 0, 0, 0)',
     paper_bgcolor='rgba(0, 0, 0, 0)',
     title=dict(text='Partial dependence', font=dict(color="white", size=24)),
-    xaxis_title='Feature',
+    xaxis_title='Temperature (°C)',
     yaxis_title='Conditional average noise',
     yaxis=dict(showgrid=True, zeroline=False, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
     xaxis=dict(showgrid=True, zeroline=False,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
@@ -322,12 +322,15 @@ def update_figure2(sels):
     if(sels=="option-temp"):
         modelsels = tempdep
         valuesels = tempval
+        feature = "Temperature (°C)"
     elif(sels=="option-rain"):
         modelsels = raindep
         valuesels = rainval
+        feature = "Rain (mm)"
     elif(sels == "option-windspeed"):
         modelsels = winddep
         valuesels = windval
+        feature = "Windspeed (m/s)"
 
     values = np.ravel(valuesels)
     means = np.ravel(modelsels)
@@ -347,7 +350,7 @@ def update_figure2(sels):
         plot_bgcolor='rgba(0, 0, 0, 0)',
         paper_bgcolor='rgba(0, 0, 0, 0)',
         title=dict(text='Partial dependence', font=dict(color="white", size=24)),
-        xaxis_title='Feature',
+        xaxis_title=feature,
         yaxis_title='Conditional average noise',
         yaxis=dict(showgrid=True, zeroline=False, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
         xaxis=dict(showgrid=True, zeroline=False,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
