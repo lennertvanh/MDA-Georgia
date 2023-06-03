@@ -15,7 +15,6 @@ dash.register_page(__name__)
 
 trafficimportances = pd.read_csv("Data for modelling/trafficimportances.csv", index_col=0)
 
-
 heavydependence = pd.read_csv("Data for modelling/heavydependence.csv", index_col=0)
 heavyvalues = pd.read_csv("Data for modelling/heavyvalues.csv", index_col=0)
 
@@ -50,39 +49,50 @@ feature_names = ['heavy', 'car', 'bike', 'pedestrian']
 importances = np.ravel(trafficimportances)
 
 fig1 = go.Figure()
+
 fig1.add_trace(go.Bar(
     x=importances,
     y=feature_names,
     orientation='h',
-    marker=dict(
-        color="blue"
-    )
+    marker=dict(color="#E6AF2E"),
+    hovertemplate='<b>Feature:</b> %{y}<br>' +
+                      '<b>Mean MSE increase:</b> %{x:.2f}<extra></extra>'
 ))
 
 fig1.update_layout(
-    title='Traffic random forest permutation feature importance',
+    plot_bgcolor='rgba(0, 0, 0, 0)',
+    paper_bgcolor='rgba(0, 0, 0, 0)',
+    title=dict(text='Traffic random forest permutation feature importance', font=dict(color="white", size=24)),
     xaxis_title='Mean MSE increase',
-    yaxis_title='Feature',
-    #width=400,  # Set the width of the plot to 800 pixels
+    yaxis_title='Feature name',
+    yaxis=dict(showgrid=True, zeroline=True, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
+    xaxis=dict(showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
     bargap=0.1,  # Set the gap between bars to 0.1 (adjust as needed)
     margin=dict(l=0, r=20, t=40, b=0)  # Set all margins to 0
 )
 
 fig2 = go.Figure()
+
 fig2.add_trace(go.Scatter(
-  x=heavyval,
-  y=heavydep,
-  marker=dict(
-    color="blue"
-  )
+    x=heavyval,
+    y=heavydep,
+    marker=dict(
+    color="#E6AF2E"
+    ),
+    hovertemplate='<b>Conditional average noise:</b>: %{y:.2f} dB(A)<br>',
+    hoverlabel=dict(namelength=0)
 ))
 
 fig2.update_layout(
-  title='Partial dependence',
-  xaxis_title='Feature value',
-  yaxis_title='Conditional average noise',
-  width=100,  # Set the width of the plot to 800 pixels
-  margin=dict(l=0, r=20, t=40, b=0)  # Set all margins to 0
+    plot_bgcolor='rgba(0, 0, 0, 0)',
+    paper_bgcolor='rgba(0, 0, 0, 0)',
+    title=dict(text='Partial dependence', font=dict(color="white", size=24)),
+    xaxis_title='Number of heavy vehicles',
+    yaxis_title='Conditional average noise',
+    yaxis=dict(showgrid=True, zeroline=False, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
+    xaxis=dict(showgrid=True, zeroline=False,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
+    width=100,  # Set the width of the plot to 100 pixels
+    margin=dict(l=0, r=20, t=40, b=0)  # Set all margins to 0
 )
 
 colorscale = [[0, '#2A9D8F'], [1, '#EB862E']]
@@ -124,6 +134,7 @@ html.Div(
 ),
 html.Div(
     children=[
+        html.Br(),
         html.H3("Correlation Matrix"),
         dcc.Graph(
             id='correlation-heatmap',
@@ -134,6 +145,7 @@ html.Div(
 ),
 html.Div(
             children = [
+        html.Br(),
         html.H3("Individual effects",style={"margin-left":"100px"}),
         html.P("Also here, we provide the isolated effects of the features"),
             ]
@@ -141,7 +153,7 @@ html.Div(
 
 html.Div(
             [
-                html.Div(style={'flex': '15%'}),
+                html.Div(style={'flex': '10%'}),
                      html.Div(
             children=[
           dcc.Graph(
@@ -150,7 +162,7 @@ html.Div(
             style={'width': '800px', 'height': '100%', 'margin-left': '148px'},
           ),
         ],
-        style={'display': 'inline-block', 'justify-content': 'center', 'align-items': 'center'}
+        style={'flex': '45%', 'display': 'inline-block', 'justify-content': 'center', 'align-items': 'center'}
       ),
 html.Div(
                     children=[
@@ -168,7 +180,7 @@ html.Div(
                         ),
     html.Div(id='radio-item-trafname',style={"margin-top":"40px"})
     ],
-    style={'flex': '15%', 'margin': '30px', 'vertical-align': 'top', 'display': 'inline-block'}
+    style={'flex': '10%', 'margin': '30px', 'vertical-align': 'top', 'display': 'inline-block'}
   ),
 html.Div(
             children=[
@@ -199,33 +211,43 @@ def update_figure3(feat):
     if(feat=="option-heavy"):
         depenfeat = heavydep
         valuefeat = heavyval
+        feature = "Number of heavy vehicles"
     elif(feat=="option-car"):
         depenfeat = cardep
         valuefeat = carval
+        feature = "Number of cars"
     elif(feat == "option-bike"):
         depenfeat = bikedep
         valuefeat = bikeval
+        feature = "Number of bikes"
     elif(feat == "option-pedestrian"):
         depenfeat = peddep
         valuefeat = pedval
+        feature = "Number of pedestrians"
 
     values = np.ravel(valuefeat)
     means = np.ravel(depenfeat)
 
     fig_updated = go.Figure()
+
     fig_updated.add_trace(go.Scatter(
         x=values,
         y=means,
         marker=dict(
-            color="blue"
-        )
+            color="#E6AF2E"
+        ),
+        hovertemplate='<b>Conditional average noise:</b> %{y:.2f} dB(A)<br>',
+        hoverlabel=dict(namelength=0)
     ))
 
     fig_updated.update_layout(
-        title='Partial dependence',
-        xaxis_title='Feature',
+        plot_bgcolor='rgba(0, 0, 0, 0)',
+        paper_bgcolor='rgba(0, 0, 0, 0)',
+        title=dict(text='Partial dependence', font=dict(color="white", size=24)),
+        xaxis_title=feature,
         yaxis_title='Conditional average noise',
-        #width=400,  # Set the width of the plot to 800 pixels
+        yaxis=dict(showgrid=True, zeroline=False, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
+        xaxis=dict(showgrid=True, zeroline=False,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
         margin=dict(l=0, r=20, t=40, b=0)  # Set all margins to 0
     )
 

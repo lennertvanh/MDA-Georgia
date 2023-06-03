@@ -336,6 +336,7 @@ def update_figure2(sels):
     means = np.ravel(modelsels)
 
     fig_updated = go.Figure()
+    
     fig_updated.add_trace(go.Scatter(
         x=values,
         y=means,
