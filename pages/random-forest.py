@@ -112,7 +112,9 @@ fig3.add_trace(go.Bar(
     marker=dict(
         color=np.where(catimps < 0, '#EB862E', '#2A9D8F')
     ),
-    hovertemplate='<b>Feature:</b>: %{y:.2f}<br>'
+    hovertemplate='<b>Feature:</b>: %{y}<br>' +
+                      '<b>Change in predicted sound level:</b>: %{x:.2f} dB(A)<extra></extra>',
+    hoverlabel=dict(namelength=0)
 ))
 
 fig3.update_layout(
