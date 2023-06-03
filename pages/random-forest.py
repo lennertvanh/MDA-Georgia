@@ -58,8 +58,8 @@ fig1.add_trace(go.Bar(
     y=feature_names,
     orientation='h',
     marker=dict(color="#E6AF2E"),
-    hovertemplate='<b>Feature:</b>: %{y}<br>' +
-                      '<b>Mean MSE increase:</b>: %{x:.2f}<extra></extra>'
+    hovertemplate='<b>Feature:</b> %{y}<br>' +
+                      '<b>Mean MSE increase:</b> %{x:.2f}<extra></extra>'
 ))
 
 fig1.update_layout(
@@ -92,7 +92,7 @@ fig2.update_layout(
     plot_bgcolor='rgba(0, 0, 0, 0)',
     paper_bgcolor='rgba(0, 0, 0, 0)',
     title=dict(text='Partial dependence', font=dict(color="white", size=24)),
-    xaxis_title='Feature',
+    xaxis_title='Temperature (°C)',
     yaxis_title='Conditional average noise',
     yaxis=dict(showgrid=True, zeroline=False, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
     xaxis=dict(showgrid=True, zeroline=False,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
@@ -112,7 +112,9 @@ fig3.add_trace(go.Bar(
     marker=dict(
         color=np.where(catimps < 0, '#EB862E', '#2A9D8F')
     ),
-    hovertemplate='<b>Feature:</b>: %{y:.2f}<br>'
+    hovertemplate='<b>Feature:</b>: %{y}<br>' +
+                      '<b>Change in predicted sound level:</b>: %{x:.2f} dB(A)<extra></extra>',
+    hoverlabel=dict(namelength=0)
 ))
 
 fig3.update_layout(
@@ -288,8 +290,8 @@ def update_figure(sel):
         y=feature_names,
         orientation='h',
         marker=dict(color="#E6AF2E"),
-        hovertemplate='<b>Feature:</b>: %{y}<br>' +
-                        '<b>Mean MSE increase:</b>: %{x:.2f}<extra></extra>'
+        hovertemplate='<b>Feature:</b> %{y}<br>' +
+                        '<b>Mean MSE increase:</b> %{x:.2f}<extra></extra>'
     ))
 
     fig_updated.update_layout(
@@ -320,12 +322,15 @@ def update_figure2(sels):
     if(sels=="option-temp"):
         modelsels = tempdep
         valuesels = tempval
+        feature = "Temperature (°C)"
     elif(sels=="option-rain"):
         modelsels = raindep
         valuesels = rainval
+        feature = "Rain (mm)"
     elif(sels == "option-windspeed"):
         modelsels = winddep
         valuesels = windval
+        feature = "Windspeed (m/s)"
 
     values = np.ravel(valuesels)
     means = np.ravel(modelsels)
@@ -337,7 +342,7 @@ def update_figure2(sels):
         marker=dict(
             color="#E6AF2E"
         ),
-        hovertemplate='<b>Conditional average noise:</b>: %{y:.2f} dB(A)<br>',
+        hovertemplate='<b>Conditional average noise:</b> %{y:.2f} dB(A)<br>',
         hoverlabel=dict(namelength=0)
     ))
 
@@ -345,7 +350,7 @@ def update_figure2(sels):
         plot_bgcolor='rgba(0, 0, 0, 0)',
         paper_bgcolor='rgba(0, 0, 0, 0)',
         title=dict(text='Partial dependence', font=dict(color="white", size=24)),
-        xaxis_title='Feature',
+        xaxis_title=feature,
         yaxis_title='Conditional average noise',
         yaxis=dict(showgrid=True, zeroline=False, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
         xaxis=dict(showgrid=True, zeroline=False,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),

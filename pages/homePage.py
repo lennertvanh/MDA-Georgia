@@ -244,11 +244,9 @@ for i in range(12):
 # Create a Plotly figure with the desired width and height
 figure_width = 250
 figure_height = 250
-#fig = go.Figure(layout=dict(width=figure_width, height=figure_height))
-
 
 # Create a compass figure
-fig_windDir = go.Figure(layout=dict(width=250, height=250)) #layout=dict(width=250, height=250)
+fig_windDir = go.Figure(layout=dict(width=250, height=250))
 
 # Add thin black lines for main wind directions
 directions = ['N', 'NW', 'W', 'SW', 'S', 'SE', 'E', 'NE']
@@ -279,9 +277,6 @@ fig_windDir.add_trace(go.Scatterpolar(
     marker=dict(color = "red",symbol='triangle-sw', size=15),
     hoverinfo='skip'
 ))
-
-
-
 
 # Customize the layout
 fig_windDir.update_layout(
@@ -554,90 +549,4 @@ layout = html.Div(
                 ]
             )
         ]
-            # Rest of the content here
     )
-
-
-""" html.Div(
-                    style={'display': 'flex', 'height': '100%'},
-                    children=[
-                        html.Div(style={'border': '1px solid #000', 'box-sizing': 'border-box'}, #,'display':'flex','align-items': 'center', 'justify-content': 'center'
-                            title="Average noise (radius) and maximal noise (width) per location in linear scale",
-                            children=[
-                                dcc.Graph(
-                                    id='plot-polar-noise-location',
-                                    figure=fig_polar_noise,
-                                    style={'width': '100%', 'height': '100%'}
-                            )
-                            ],
-                        )
-                    ]),  # First div (30% width) """
-
-
-"""
-html.Div( #div to next line
-            style={'height': '500px',"flex":"0 0 20%", 'border': '1px solid #000'},#,'width':'300px'"width":"100%"
-            children=[
-                # Left div content here
-                html.Div(
-                    style={'height': '150px', 'border': '1px solid #000', 'margin': '5px', 'display': 'flex', 'flex-direction': 'column', 'align-items': 'center', 'justify-content': 'center'},
-                    title="Location with the highest average of maximal noise",
-                    children=[
-                        html.P(f"{location_with_highest_average}", style={'fontSize': '3vw', 'margin': '0', 'lineHeight': '1'}),
-                        html.Br(style={'margin': '0'}),
-                        html.P(f"{round(highest_average_value,1)} dB(A)", style={'fontSize': '3vw', 'margin': '0', 'lineHeight': '1'})
-                    ],
-                ),
-                html.Div(
-                    style={'height': '300px', 'border': '1px solid #000', 'margin': '5px', 'display': 'flex', 'flex-direction': 'column', 'align-items': 'center', 'justify-content': 'center'},
-                    title="Average noise (radius) and maximal noise (width) per location in linear scale",
-                    children=[
-                        dcc.Graph(
-                            id='plot-polar-noise-location',
-                            figure=fig_polar_noise,
-                            style={'width': '100%', 'height': '100%'}
-                        )
-                    ],
-                )
-            ]
-        ),
-        html.Div(
-            style={'flex': '80%', 'display': 'flex', 'flex-direction': 'column'}, #change
-            children=[
-                # Central div content here
-                html.Div(
-                    style={'width': '41.67%', 'height': '250px', 'border': '1px solid #000', 'padding': '0px'},#500px
-                    title="Average temperature, rainy days and average windspeed per month",
-                    children=[
-                        html.Div(
-                            style={"position": "sticky", 'width': '100%', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
-                            children=[
-                                html.Div(
-                                    style={'width': '20%', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
-                                    children=[html.P("Month",style={"margin":"0"})],
-                                ),
-                                html.Div(
-                                    style={'width': '10%', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
-                                    children=[html.P("Temp",style={"margin":"0"})],
-                                ),
-                                html.Div(
-                                    style={'width': '58%', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
-                                    children=[
-                                        html.P("Rainy days",style={"margin":"0"})
-                                    ],
-                                ),
-                                html.Div( #58 and 12 to make wind align with the numbers
-                                    style={'width': '12%', 'height': '35px', 'margin': '0px', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'},
-                                    children=[html.P("Wind",style={"margin":"0"})],
-                                ),
-                            ],
-                        ),
-                        # Sub divs
-                        html.Div(
-                            style={'width': '102%', 'height': '215px', 'overflow': 'auto', 'overflow-x': 'hidden'}, #510px
-                            children=sub_divs
-                        ),
-                    ],
-                ),
-            ],
-        ),"""
