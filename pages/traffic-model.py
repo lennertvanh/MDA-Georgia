@@ -28,6 +28,7 @@ bikevalues = pd.read_csv("Data for modelling/bikevalues.csv", index_col=0)
 peddependence = pd.read_csv("Data for modelling/peddependence.csv", index_col=0)
 pedvalues = pd.read_csv("Data for modelling/pedvalues.csv", index_col=0)
 
+cormatrix = pd.read_csv("Data for modelling/cormatrix.csv", index_col=0)
 
 heavydep = np.ravel(heavydependence)
 heavyval = np.ravel(heavyvalues)
@@ -40,6 +41,8 @@ bikeval = np.ravel(bikevalues)
 
 peddep = np.ravel(peddependence)
 pedval = np.ravel(pedvalues)
+
+
 #########################################################################################################
 # VISUALIZATION
 
@@ -82,6 +85,14 @@ fig2.update_layout(
   margin=dict(l=0, r=20, t=40, b=0)  # Set all margins to 0
 )
 
+colorscale = [[0, '#2A9D8F'], [1, '#EB862E']]
+fig3 = go.Figure(data=go.Heatmap(
+    z=cormatrix,
+    x=['Heavy', 'Car', 'Bike ', 'Pedestrian'],
+    y=['Heavy', 'Car', 'Bike', 'Pedestrian'],
+    colorscale=colorscale
+))
+
 #########################################################################################################
 # PAGE LAYOUT
 
@@ -108,11 +119,26 @@ html.Div(
                 ),
 html.Div(
             children = [
-        html.P("Surprisingly, the model picks out bicycles as being by far the best predictor of noise, followed by cars. This is possibly due to more human voices when lots of cyclists pass. From our noise event analysis, we would expect car to be the biggest source of noise, however we observe that car and bike have a relatively high correlation. It should be noted that a random forest, like most statistical models, is not a causal model. It can not directly identify the cause of noise, it can only point to variables that correlate with noise. As such, highly correlated features can lead to importance transferring from on to the other. Analysis of 2-way interaction plots of the traffic features did not provide additional insight into their dependencce structure."),
+        html.P("Surprisingly, the model picks out bicycles as being by far the best predictor of noise, followed by cars. This is possibly due to more human voices when lots of cyclists pass. From our noise event analysis, we would expect car to be the biggest source of noise, however we observe that car and bike have a relatively high correlation. It should be noted that a random forest, like most statistical models, is not a causal model. It can not directly identify the cause of noise, it can only point to variables that correlate with noise. As such, highly correlated features can lead to importance transferring from on to the other. Analysis of 2-way interaction plots of the traffic features did not provide additional insight into their dependence structure. We plot the correlation matrix for completeness."),
+                ]
+),
+html.Div(
+    children=[
+        html.H3("Correlation Matrix"),
+        dcc.Graph(
+            id='correlation-heatmap',
+            figure=fig3,
+            style={'text-align': 'center', 'margin': 'auto', 'justify-content': 'center', 'align-items': 'center', 'width': '500px'}
+        ),
+        ],
+),
+html.Div(
+            children = [
         html.H3("Individual effects",style={"margin-left":"100px"}),
         html.P("Also here, we provide the isolated effects of the features"),
             ]
-        ),
+),
+
 html.Div(
             [
                 html.Div(style={'flex': '15%'}),
