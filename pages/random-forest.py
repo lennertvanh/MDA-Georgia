@@ -84,7 +84,8 @@ fig2.add_trace(go.Scatter(
     marker=dict(
     color="#E6AF2E"
     ),
-    hovertemplate='<b>Conditional average noise:</b>: %{y:.2f} dB(A)<br>'
+    hovertemplate='<b>Conditional average noise:</b>: %{y:.2f} dB(A)<br>',
+    hoverlabel=dict(namelength=0)
 ))
 
 fig2.update_layout(
@@ -336,7 +337,8 @@ def update_figure2(sels):
         marker=dict(
             color="#E6AF2E"
         ),
-        hovertemplate='<b>Conditional average noise:</b>: %{y:.2f} dB(A)<br>'
+        hovertemplate='<b>Conditional average noise:</b>: %{y:.2f} dB(A)<br>',
+        hoverlabel=dict(namelength=0)
     ))
 
     fig_updated.update_layout(
