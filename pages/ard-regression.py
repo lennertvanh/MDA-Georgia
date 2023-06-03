@@ -47,8 +47,8 @@ fig.add_trace(go.Bar(
     marker=dict(
         color=np.where(coefficients < 0, '#EB862E', '#2A9D8F')
     ),
-    hovertemplate='<b>Feature:</b>: %{x}<br>' +
-                      '<b>Coefficient:</b>: %{y}<extra></extra>'  
+    hovertemplate='<b>Feature:</b>: %{y}<br>' +
+                      '<b>Coefficient:</b>: %{x:.2f}<extra></extra>'  
 ))
 
 fig.update_layout(
@@ -186,8 +186,8 @@ def update_figure(selected_coeff):
         marker=dict(
             color=np.where(coefficients < 0, '#EB862E', '#2A9D8F')
         ),
-        hovertemplate='<b>Feature:</b>: %{x}<br>' +
-                      '<b>Coefficient:</b>: %{y}<extra></extra>'  
+        hovertemplate='<b>Feature:</b>: %{y}<br>' +
+                      '<b>Coefficient:</b>: %{x:.2f}<extra></extra>'  
     ))
 
     fig_updated.update_layout(
