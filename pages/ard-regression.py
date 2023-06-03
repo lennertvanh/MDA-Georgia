@@ -55,7 +55,7 @@ fig.update_layout(
     plot_bgcolor='rgba(0, 0, 0, 0)',
     paper_bgcolor='rgba(0, 0, 0, 0)',
     title=dict(text="Feature importance with ARD regression",font=dict(
-            color="white")),
+            color="white", size=24)),
     xaxis_title='Coefficient',
     yaxis_title='Feature name',
     yaxis=dict(showgrid=True, zeroline=True, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
