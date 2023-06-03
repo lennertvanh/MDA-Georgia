@@ -58,8 +58,8 @@ fig1.add_trace(go.Bar(
     y=feature_names,
     orientation='h',
     marker=dict(color="#E6AF2E"),
-    hovertemplate='<b>Feature:</b>: %{y}<br>' +
-                      '<b>Mean MSE increase:</b>: %{x:.2f}<extra></extra>'
+    hovertemplate='<b>Feature:</b> %{y}<br>' +
+                      '<b>Mean MSE increase:</b> %{x:.2f}<extra></extra>'
 ))
 
 fig1.update_layout(
@@ -112,7 +112,9 @@ fig3.add_trace(go.Bar(
     marker=dict(
         color=np.where(catimps < 0, '#EB862E', '#2A9D8F')
     ),
-    hovertemplate='<b>Feature:</b>: %{y:.2f}<br>'
+    hovertemplate='<b>Feature:</b> %{y}<br>' +
+                  '<b>Coefficient:</b> %{x:.2f}<br>',
+    hoverlabel=dict(namelength=0)
 ))
 
 fig3.update_layout(
@@ -288,8 +290,8 @@ def update_figure(sel):
         y=feature_names,
         orientation='h',
         marker=dict(color="#E6AF2E"),
-        hovertemplate='<b>Feature:</b>: %{y}<br>' +
-                        '<b>Mean MSE increase:</b>: %{x:.2f}<extra></extra>'
+        hovertemplate='<b>Feature:</b> %{y}<br>' +
+                        '<b>Mean MSE increase:</b> %{x:.2f}<extra></extra>'
     ))
 
     fig_updated.update_layout(
@@ -337,7 +339,7 @@ def update_figure2(sels):
         marker=dict(
             color="#E6AF2E"
         ),
-        hovertemplate='<b>Conditional average noise:</b>: %{y:.2f} dB(A)<br>',
+        hovertemplate='<b>Conditional average noise:</b> %{y:.2f} dB(A)<br>',
         hoverlabel=dict(namelength=0)
     ))
 
