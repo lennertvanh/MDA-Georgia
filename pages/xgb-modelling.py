@@ -35,8 +35,8 @@ fig.add_trace(go.Scatter(
     color="#E6AF2E"
   ),
     showlegend=False,
-    hovertemplate="<b>True Value:<b> %{x}<br>" +
-                  "<b>Predicted Value:<b> %{y}<extra></extra>"
+    hovertemplate="<b>True Value:</b> %{x:.2f}<br>" +
+                  "<b>Predicted Value:</b> %{y:.2f}<extra></extra>"
 ))
 
 line = go.Scatter(
