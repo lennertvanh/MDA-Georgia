@@ -45,14 +45,21 @@ fig.add_trace(go.Bar(
     y=feature_names, #["feature"],   # Use the coefficient name as the y-axis
     orientation='h', # Specify horizontal orientation
     marker=dict(
-        color=np.where(coefficients < 0, 'red', 'green')
-    )
+        color=np.where(coefficients < 0, '#EB862E', '#2A9D8F')
+    ),
+    hovertemplate='<b>Feature:</b>: %{x}<br>' +
+                      '<b>Coefficient:</b>: %{y}<extra></extra>'  
 ))
 
 fig.update_layout(
-    title='Feature importance with ARD regression',
+    plot_bgcolor='rgba(0, 0, 0, 0)',
+    paper_bgcolor='rgba(0, 0, 0, 0)',
+    title=dict(text="Feature importance with ARD regression",font=dict(
+            color="white")),
     xaxis_title='Coefficient',
     yaxis_title='Feature name',
+    yaxis=dict(showgrid=True, zeroline=True, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
+    xaxis=dict(showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
     #width=400,  # Set the width of the plot to 800 pixels
     bargap=0.1,  # Set the gap between bars to 0.1 (adjust as needed)
     margin=dict(l=0, r=20, t=40, b=0)  # Set all margins to 0
@@ -67,12 +74,18 @@ layout = html.Div(
     children=[
         html.Div(
             [
-                html.H2("ARD regression"),
-                html.P("ARD regression is used on the data that was transformed into a highly dimensional dataset with 13 features about time, location and weather. The goal of the model is to predict the noise level in dB(A) given the time, location and weather. Ultimately, the purpose of the model is to determine the most important features influencing the noise level."),
-                html.P("For curious or motivated readers, more explanation about the modelling is given below. In this section, only the conclusions will be given."),
-                html.P("Using the full dataset, it can be observed that the most important features are the hour, the weekday and the coordinate in decreasing order of importance."),
-                html.P("The data is analyzed a second time without the location 'Vrijthof' to see the influence on the feature coordinate that indicates the closeness to the center of Leuven. This analysis is done because the location Vrijthof is a kind of 'outlier' compared to the other locations, being very quiet compared to the other locations. This is confirmed as the feature 'coordinate' switches from sign when 'Vrijthof' is removed. The positive sign indicates now that it becomes noisier when we approach the center of Leuven."),
-                html.P("In the third case, the feature 'weekday' is removed to see the influence on the feature 'day' as there could be some multicollinearity. Surprisingly, removing 'weekday' has almost no influence on the other coefficients. The regression model is simply less performant as the R squared reduced and the MSE increased."),
+                html.H2("Automatic Relevance Determination Regression"),
+                html.P("ARD regression was used on the data that was transformed into a highly dimensional dataset with 13 features about time, location and weather. " + 
+                       "By predicting the noise level (dB(A)) using the time, location and weather measurements, the ARD model ultimately determines which of these features are most influential on the noise level. " + 
+                       "The model was first applied to the complete dataset, where the results indicate that the hour, weekday and coordinate features are the most important in predicting noise levels. " +
+                       "The data was analyzed a second time without the location 'Vrijthof', which appeared to be a more quiet location compared to the other ones. " +
+                       "Considering its 'outlier' nature among the 8 locations, we wanted to examine what happened to the features importance after removing this location from the data. " +
+                       "Particularly the change in the feature coordinate, which indicates the proximity to the centre of Leuven, was in our interest." +
+                       "The results confirmed our impression, revealing that the 'coordinate' feature switched signs when 'Vrijthof' was removed." +
+                       "The previously negative coefficient turned positive, which points out that it becomes noisier when we approach the center of Leuven, without taking 'Vrijthof' into account. "
+                       "In a third analysis, the 'weekday' feature was removed to assess the influence on the 'day' feature, as there could be some multicollinearity present. " +
+                       "Surprisingly, removing 'weekday' had almost no influence on the other coefficients. The regression model is simply less performant as the R squared reduced and the MSE increased."),
+                html.H4("For curious or motivated readers, more explanation about the modeling is given below."),
             ],
             style={'margin-bottom': '20px'}
         ),
@@ -111,7 +124,7 @@ layout = html.Div(
             style={'display': 'flex', 'height': '450px', 'width': '100%'}
         ),
         html.Div(
-            children=[   
+            children=[  
                 html.H3("What is ARD regression? How to interpret the coefficients?",style={"margin-left":"100px"}),
                 html.P("ARD regression is closely related to Bayesian ridge regression. It is similar to a linear regression where the importance of the features can be determined thanks to the Bayesian framework. The absolute value of the coefficient indicates the importance of the feature. Moreover, the sign of the coefficient designates if there is a positive or negative correlation between the feature and the output variable."),
                 html.H3("How is the model designed? Which features are used? And how are they defined?",style={"margin-left":"100px"}),
@@ -171,14 +184,21 @@ def update_figure(selected_coeff):
         y=feature_names, #["feature"],   # Use the coefficient name as the y-axis
         orientation='h', # Specify horizontal orientation
         marker=dict(
-            color=np.where(coefficients < 0, 'red', 'green')
-        )
+            color=np.where(coefficients < 0, '#EB862E', '#2A9D8F')
+        ),
+        hovertemplate='<b>Feature:</b>: %{x}<br>' +
+                      '<b>Coefficient:</b>: %{y}<extra></extra>'  
     ))
 
     fig_updated.update_layout(
-        title='Feature importance with ARD regression',
+        plot_bgcolor='rgba(0, 0, 0, 0)',
+        paper_bgcolor='rgba(0, 0, 0, 0)',
+        title=dict(text="Feature importance with ARD regression",font=dict(
+            color="white")),
         xaxis_title='Coefficient',
         yaxis_title='Feature name',
+        yaxis=dict(showgrid=True, zeroline=True, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
+        xaxis=dict(showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
         #width=400,  # Set the width of the plot to 800 pixels
         bargap=0.1,  # Set the gap between bars to 0.1 (adjust as needed)
         margin=dict(l=0, r=20, t=40, b=0)  # Set all margins to 0

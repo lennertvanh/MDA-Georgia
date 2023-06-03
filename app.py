@@ -100,10 +100,10 @@ app.layout = html.Div(
                     children=[
                         html.H3("Modelling"),  # Category 4: Analysis of Noise and Weather
                         html.Div(
-                            dcc.Link("Random forest", href="random-forest")
+                            dcc.Link("ARD regression", href="ard-regression")
                         ),
                         html.Div(
-                            dcc.Link("ARD regression", href="ard-regression")
+                            dcc.Link("Random forest", href="random-forest")
                         ),
                         html.Div(
                             dcc.Link("XGB", href="xgb-modelling")

@@ -360,11 +360,11 @@ fig_donut = go.Figure(data=[
 fig_donut.update_layout(
     title=go.layout.Title(
         text="Noise Events <br>Distribution",
-        x=0.52,
+        x=0.56,
         y=0.52,
         xanchor="center",
         yanchor="middle",
-        font=dict(color="white") 
+        font=dict(color="white", size = 14) 
     ),
     showlegend=False,
     legend_title="Noise Sources",
@@ -420,7 +420,7 @@ layout = html.Div(
                                 html.Div(
                                     style={'height':'100%','padding-left':'10%','padding-right':'0px','padding-top':'0px','padding-bottom':'0px'},
                                     children=[
-                                        html.H2("8",style={'margin':'5% 0 0 0','font-size':'3em'}),
+                                        html.H2("8",style={'margin':'5% 0 0 0','font-size':'3vw'}),
                                         html.P("Locations",style={'margin':'2% 0 0 0'})
                                     ])
                                 #html.P('Box',style={'margin':'0'})
@@ -440,7 +440,7 @@ layout = html.Div(
                                 html.Div(
                                     style={'height':'100%','padding-left':'10%','padding-right':'0px','padding-top':'0px','padding-bottom':'0px'},
                                     children=[
-                                        html.H2("His & Hears",style={'margin':'5% 0 0 0','font-size':'3em'}),
+                                        html.H2("His & Hears",style={'margin':'5% 0 0 0','font-size':'3vw'}),
                                         html.P("Noisiest location",style={'margin':'2% 0 0 0'})
                                     ])
                                 #html.P('Box',style={'margin':'0'})
@@ -460,7 +460,7 @@ layout = html.Div(
                                 html.Div(
                                     style={'height':'100%','padding-left':'10%','padding-right':'0px','padding-top':'0px','padding-bottom':'0px'},
                                     children=[
-                                        html.H2("86.9 dB(A)",style={'margin':'5% 0 0 0','font-size':'3em'}),
+                                        html.H2("86.9 dB(A)",style={'margin':'5% 0 0 0','font-size':'3vw'}),
                                         html.P("Peak noise",style={'margin':'2% 0 0 0'})
                                     ])
                                 #html.P('Box',style={'margin':'0'})
@@ -480,7 +480,7 @@ layout = html.Div(
                                 html.Div(
                                     style={'height':'100%','padding-left':'10%','padding-right':'0px','padding-top':'0px','padding-bottom':'0px'},
                                     children=[
-                                        html.H2("October",style={'margin':'5% 0 0 0','font-size':'3em'}),
+                                        html.H2("October",style={'margin':'5% 0 0 0','font-size':'3vw'}),
                                         html.P("Noisiest month",style={'margin':'2% 0 0 0'})
                                     ])
                                 #html.P('Box',style={'margin':'0'})

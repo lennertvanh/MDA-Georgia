@@ -18,6 +18,13 @@ h2 {
     margin: 20px 20px 20px 100px;
 }
 
+h3 {
+    font-size: 24px;
+    font-weight: bold;
+    padding: 0;
+    margin: 20px 20px 20px 100px;
+}
+
 p {
     font-size: 18px;
     line-height: 1.5;
@@ -124,3 +131,17 @@ button {
 .slider-white .rc-slider-mark-text {
     color: white;
 }
+
+h4 { font-size: 18px;
+    line-height: 1.5;
+    margin: 20px 20px 20px 100px;
+    text-shadow:
+        0.05em 0 black,
+        0 0.05em black,
+        -0.05em 0 black,
+        0 -0.05em black,
+        -0.05em -0.05em black,
+        -0.05em 0.05em black,
+        0.05em -0.05em black,
+        0.05em 0.05em black;
+} 
