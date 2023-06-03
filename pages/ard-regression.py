@@ -61,7 +61,7 @@ fig.update_layout(
     yaxis=dict(showgrid=True, zeroline=True, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
     xaxis=dict(showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
     bargap=0.1,  # Set the gap between bars to 0.1 (adjust as needed)
-    margin=dict(l=0, r=20, t=40, b=0)  # Set all margins to 0
+    margin=dict(l=0, r=20, t=40, b=0)
 )
 
 
@@ -201,9 +201,8 @@ def update_figure(selected_coeff):
         yaxis_title='Feature name',
         yaxis=dict(showgrid=True, zeroline=True, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
         xaxis=dict(showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
-        #width=400,  # Set the width of the plot to 800 pixels
         bargap=0.1,  # Set the gap between bars to 0.1 (adjust as needed)
-        margin=dict(l=0, r=20, t=40, b=0)  # Set all margins to 0
+        margin=dict(l=0, r=20, t=40, b=0)
     )
 
     return fig_updated, html.P(text, style={'white-space': 'pre-line','margin':'0'})
