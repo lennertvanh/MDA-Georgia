@@ -28,6 +28,18 @@ bikevalues = pd.read_csv("Data for modelling/bikevalues.csv", index_col=0)
 peddependence = pd.read_csv("Data for modelling/peddependence.csv", index_col=0)
 pedvalues = pd.read_csv("Data for modelling/pedvalues.csv", index_col=0)
 
+
+heavydep = np.ravel(heavydependence)
+heavyval = np.ravel(heavyvalues)
+
+cardep = np.ravel(cardependence)
+carval = np.ravel(carvalues)
+
+bikedep = np.ravel(bikedependence)
+bikeval = np.ravel(bikevalues)
+
+peddep = np.ravel(peddependence)
+pedval = np.ravel(pedvalues)
 #########################################################################################################
 # VISUALIZATION
 
@@ -53,9 +65,27 @@ fig1.update_layout(
     margin=dict(l=0, r=20, t=40, b=0)  # Set all margins to 0
 )
 
+fig2 = go.Figure()
+fig2.add_trace(go.Scatter(
+  x=heavyval,
+  y=heavydep,
+  marker=dict(
+    color="blue"
+  )
+))
+
+fig2.update_layout(
+  title='Partial dependence',
+  xaxis_title='Feature value',
+  yaxis_title='Conditional average noise',
+  width=100,  # Set the width of the plot to 800 pixels
+  margin=dict(l=0, r=20, t=40, b=0)  # Set all margins to 0
+)
+
 #########################################################################################################
 # PAGE LAYOUT
 
+# Define the HTML page layout
 # Define the HTML page layout
 layout = html.Div(
     children=[
@@ -76,14 +106,101 @@ html.Div(
                     ],
             style={'display': 'flex', 'justify-content': 'center', 'align-items': 'center'}
                 ),
+html.Div(
+            children = [
+        html.P("Surprisingly, the model picks out bicycles as being by far the best predictor of noise, followed by cars. This is possibly due to more human voices when lots of cyclists pass. From our noise event analysis, we would expect car to be the biggest source of noise, however we observe that car and bike have a relatively high correlation. It should be noted that a random forest, like most statistical models, is not a causal model. It can not directly identify the cause of noise, it can only point to variables that correlate with noise. As such, highly correlated features can lead to importance transferring from on to the other. Analysis of 2-way interaction plots of the traffic features did not provide additional insight into their dependencce structure."),
+        html.H3("Individual effects",style={"margin-left":"100px"}),
+        html.P("Also here, we provide the isolated effects of the features"),
+            ]
+        ),
+html.Div(
+            [
+                html.Div(style={'flex': '15%'}),
+                     html.Div(
+            children=[
+          dcc.Graph(
+            id='trafdepen-plot-id',
+            figure=fig2,
+            style={'width': '800px', 'height': '100%', 'margin-left': '148px'},
+          ),
+        ],
+        style={'display': 'inline-block', 'justify-content': 'center', 'align-items': 'center'}
+      ),
+html.Div(
+                    children=[
+                        html.Label('Select feature', style={'font-size': '25px'}),
+                        dcc.RadioItems(
+                            id='radio-item-trafpredictor',
+                            options=[
+                                {'label': 'Heavy', 'value': 'option-heavy'},
+                                {'label': 'Car', 'value': 'option-car'},
+                                {'label': 'Bike', 'value': 'option-bike'},
+                                {'label': 'Pedestrian', 'value': 'option-pedestrian'},
+                            ],
+                            value='option-heavy',
+                            labelStyle={'display': 'block','margin-top':'10px','font-size': '20px'}
+                        ),
+    html.Div(id='radio-item-trafname',style={"margin-top":"40px"})
+    ],
+    style={'flex': '15%', 'margin': '30px', 'vertical-align': 'top', 'display': 'inline-block'}
+  ),
+html.Div(
+            children=[
+                html.P("The marginal dependence plots reflect the same structure where bikes and cars are the most important traffic determinants of noise. Interesting is that the noise mostly increases in the beginning of the features' range, after which there is a ceiling effect. Heavy and pedestrian appear to fluctuate randomly within a small range."),
+
+            ],
+            style={'margin-top': '50px'}
+)
+            ]
+)
     ]
 )
+
 
 #########################################################################################################
 # CALLBACK UPDATE FIGURE
 
-# @callback(
+@callback(
+    [Output('trafdepen-plot-id', 'figure'),
+     Output('radio-item-trafname', 'children')],
+    [Input('radio-item-trafpredictor', 'value')],
+)
+def update_figure3(feat):
+    text=""
+    depenfeat = None
+    valuefeat = None
 
-# )
-# def update_figure():
-#    return None
+    if(feat=="option-heavy"):
+        depenfeat = heavydep
+        valuefeat = heavyval
+    elif(feat=="option-car"):
+        depenfeat = cardep
+        valuefeat = carval
+    elif(feat == "option-bike"):
+        depenfeat = bikedep
+        valuefeat = bikeval
+    elif(feat == "option-pedestrian"):
+        depenfeat = peddep
+        valuefeat = pedval
+
+    values = np.ravel(valuefeat)
+    means = np.ravel(depenfeat)
+
+    fig_updated = go.Figure()
+    fig_updated.add_trace(go.Scatter(
+        x=values,
+        y=means,
+        marker=dict(
+            color="blue"
+        )
+    ))
+
+    fig_updated.update_layout(
+        title='Partial dependence',
+        xaxis_title='Feature',
+        yaxis_title='Conditional average noise',
+        #width=400,  # Set the width of the plot to 800 pixels
+        margin=dict(l=0, r=20, t=40, b=0)  # Set all margins to 0
+    )
+
+    return fig_updated, html.P(text, style={'white-space': 'pre-line','margin':'0'})
