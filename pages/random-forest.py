@@ -139,8 +139,13 @@ layout = html.Div(
         html.Div(
             [
                 html.H2("Random forest"),
-                html.P("In this section we explore a more general nonlinear model, namely a random forest. The main purpose of this model is to offer more nuanced insight into the structure of the data. Random forest-type models were tuned by means of a randomized, cross-validated grid search. In this procedure parameters are randomly sampled from specified distributions, and the combination of parameters that scores best in cross-validation is chosen as the final configuration. As this is a computationally intensive procedure, we employed cloud technologies to perform it. Out-of-sample performance metrics like R squared and MSE were calculated on a test set comprising of 20% of the original data."),
-                html.P("The importances are computed by randomly scrambling (permuting) one feature at a time, and seeing how much that increases the MSE of the model on a test set. In this way, it provides insight into how much each variable contributes to achieving good predictions. Our first observation is that hour is by far the most important determinant of noise, followed by the effect of weekday. Out of the weather variables, temperature plays the biggest role, though only risking an increase of 0.07 MSE."),
+                html.P("In this section, we explore a more general non-linear model, namely a Random Forest. The main purpose of this model is to offer more nuanced insight into the structure of the data. " +
+                       "Random Forest-type models were tuned by means of a randomized, cross-validated grid search. In this procedure, parameters are randomly sampled from specified distributions, and the " +
+                       "combination of parameters that scores best in cross-validation is chosen as the final configuration. As this is a computationally intensive procedure, we employed cloud technologies (AWS SageMaker) " +
+                       "to perform it. Out-of-sample performance metrics, such as R squared and MSE, were calculated on a test set comprising of 20% of the original data."),
+                html.P("The importances are computed by randomly scrambling (permuting) one feature at a time, and seeing how much that increases the MSE of the model on a test set. In this way, it provides insight " +
+                       "into how much each variable contributes to achieving good predictions. Our first observation is that hour is by far the most important determinant of noise, followed by the effect of weekday. " +
+                        "Out of the weather variables, temperature plays the biggest role, though only risking an increase of 0.07 MSE."),
 
             ],
             style={'margin-bottom': '20px'}
