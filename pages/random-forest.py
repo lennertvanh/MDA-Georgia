@@ -255,7 +255,7 @@ html.Div(
 ),
                 html.Div(
                     children=[
-                        html.Img(src="assets/hourplot.jpg", style={'max-width': '40%', 'width': '500px' })
+                        html.Img(src=dash.get_asset_url("hourplot.jpg"), style={'max-width': '40%', 'width': '500px' })
                     ],
                     style={'display': 'flex', 'justify-content': 'center', 'align-items': 'center', 'margin-top': '20px'}
                 )
