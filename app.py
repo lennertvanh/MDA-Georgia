@@ -12,7 +12,7 @@ app.layout = html.Div(
         html.Div(
             className="app-header",
             children=[
-                html.Div('Noise Pollution in The City of Leuven', className="app-header--title")
+                html.Div('Noise in The City of Leuven', className="app-header--title")
             ]
         ),
         html.Div(
