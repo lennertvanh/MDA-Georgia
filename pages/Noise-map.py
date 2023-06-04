@@ -221,7 +221,11 @@ layout = html.Div(
                 html.Div(style={'flex': '15%'})
             ],
             style={'display': 'flex', 'height': '450px', 'width': '100%'}
-        )
+        ),
+     html.Div(
+         html.P("The weather icons were created with an AI text-to-image generator (Fotor)."),
+
+    )
     ]
 )
 
