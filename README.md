@@ -21,7 +21,30 @@
 For the project, we used noise level and noise events data, weather data, traffic data, and a small corpus of scientific articles on noise pollution. 
 
 The noise data contains noise levels which were monitored for the entire year of 2022, for 8 different locations in the centre of Leuven. The noise events were also recorded and were assigned a certainty level and a noise source class. All the noise data was provided by KU Leuven. The weather data from 2022 was retrieved from the [Leuven.cool network](https://rdr.kuleuven.be/dataset.xhtml?persistentId=doi:10.48804/SSRN3F). We scraped the traffic data from [Telraam](https://telraam-api.net/), which is documented in detail in the notebook _ScrapingTelraam.ipynb_. Finally, we scraped some scientific articles from Pubmed central about noise pollution to highlight the importance of our research topic, which is documented in the _NLP_ folder. 
- 
+
+Below you can find the meaning for the used variables in our datsets.
+
+**Noise data**
+* lamax: maximum sound level
+* laeq: A-weighted equivalent continuous sound level
+* description: location where noise levels were recorded
+
+**Weather data**
+* LC_RAININ = rain intensity [mm/h]
+* LC_DAILYRAIN = daily rain sum [mm]
+* LC_WINDDIR = wind direction 
+* LC_WINDSPEED = wind speed [m/s]
+* LC_TEMP_QCL3 = temperature [°C] 
+
+**Holiday dummies**
+* Holiday = binary variable indicating if it's a holiday (1) or not (0)
+
+**Telraam traffic data**
+* heavy: the number of heavy vehicles passing
+* car: the number of cars passing
+* bike: the number of two-wheelers (mainly cyclists and motorbikes) passing
+* pedestrian: the number of pedestrians passing
+
 ---
 
 ## Installation
