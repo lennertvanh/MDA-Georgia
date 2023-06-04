@@ -141,7 +141,7 @@ layout = html.Div(
                 html.P("- cos_day: A value close to one are days at the beginning of the month or at the end of the month. Negative values close to minus one are days close to the 15th day of the month."),
                 html.P("- sin_hour: Positive values are all the hours before noon. Negative values are all the hours after noon."),
                 html.P("- cos_hour: Positive values are hours when it is mainly dark outside (night). Negative values indicate hours where daylight is present."),
-                html.P("- sin_weekday: Positive values are Monday, Tuesday and Wednesday. Negative values are Tuesday, Friday and Saturday."),
+                html.P("- sin_weekday: Positive values are Monday, Tuesday and Wednesday. Negative values are Thursday, Friday and Saturday."),
                 html.P("- cos_weekday: Values close to one are Saturday, Sunday and Monday. Values close to minus one are Wednesday, Thursday and Friday in a lesser extent."),
                 html.Br(),
                 html.H3("Training and test set?",style={"margin-left":"100px"}),
