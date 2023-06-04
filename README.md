@@ -60,17 +60,17 @@ If you want to run the app locally, we suggest you to create a separate virtual 
 ```
 git clone https://github.com/lennertvanh/MDA-Georgia.git
 cd MDA-Georgia
-python3 -m virtualenv venv
+python3 -m venv my-venv
 ```
 In UNIX system: 
 
 ```
-source venv/bin/activate
+source my-venv/bin/activate
 ```
 In Windows: 
 
 ```
-venv\Scripts\activate
+my-venv\Scripts\activate
 ```
 
 To install all of the required `pip` packages to this environment, simply run:
