@@ -133,10 +133,10 @@ fig_polar_noise.update_layout(
 #########################################################################################################"
 
 
-weather_data = pd.read_csv("Data/daily_weatherdata_2022.csv", header = 0, sep=',')
+weather_data = pd.read_csv("Data for visualization/daily_weatherdata_2022.csv", header = 0, sep=',')
 cutoff_rain_day = 0.0002
 weather_data["bool_rainday"] = weather_data["LC_DAILYRAIN"] > cutoff_rain_day
-data_month = pd.read_csv('Data/monthly_weatherdata_2022.csv')
+data_month = pd.read_csv('Data for visualization/monthly_weatherdata_2022.csv')
 
 
 # Define the months and maximum days
