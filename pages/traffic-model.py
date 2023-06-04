@@ -62,11 +62,11 @@ fig1.add_trace(go.Bar(
 fig1.update_layout(
     plot_bgcolor='rgba(0, 0, 0, 0)',
     paper_bgcolor='rgba(0, 0, 0, 0)',
-    title=dict(text='Traffic random forest permutation feature importance', font=dict(color="white", size=24)),
+    title=dict(text='Traffic random forest permutation feature importance', font=dict(color="white", size=20)),
     xaxis_title='Mean MSE increase',
     yaxis_title='Feature name',
-    yaxis=dict(showgrid=True, zeroline=True, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
-    xaxis=dict(showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
+    yaxis=dict(showgrid=True, zeroline=True, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =16),tickfont=dict(color="white"),),
+    xaxis=dict(showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =16),tickfont=dict(color="white"),),
     bargap=0.1,  # Set the gap between bars to 0.1 (adjust as needed)
     margin=dict(l=0, r=20, t=40, b=0)  # Set all margins to 0
 )
@@ -153,7 +153,7 @@ html.Div(
                             style={'height': '100%', 'width': '600px'},
                         ),
                     ],
-            style={'display': 'flex', 'justify-content': 'center', 'align-items': 'center'}
+            style={'display': 'flex', 'flex': '45%', 'justify-content': 'center', 'align-items': 'center'}
                 ),
 html.Div(
             children = [

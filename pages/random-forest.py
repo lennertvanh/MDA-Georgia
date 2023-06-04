@@ -65,7 +65,7 @@ fig1.add_trace(go.Bar(
 fig1.update_layout(
     plot_bgcolor='rgba(0, 0, 0, 0)',
     paper_bgcolor='rgba(0, 0, 0, 0)',
-    title=dict(text='Random forest permutation feature importance', font=dict(color="white", size=24)),
+    title=dict(text='Random forest permutation feature importance', font=dict(color="white", size=20)),
     xaxis_title='Mean MSE increase',
     yaxis_title='Feature name',
     yaxis=dict(showgrid=True, zeroline=True, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
@@ -112,8 +112,8 @@ fig3.add_trace(go.Bar(
     marker=dict(
         color=np.where(catimps < 0, '#EB862E', '#2A9D8F')
     ),
-    hovertemplate='<b>Feature:</b>: %{y}<br>' +
-                      '<b>Change in predicted sound level:</b>: %{x:.2f} dB(A)<extra></extra>',
+    hovertemplate='<b>Feature:</b> %{y}<br>' +
+                      '<b>Change in predicted sound level:</b> %{x:.2f} dB(A)<extra></extra>',
     hoverlabel=dict(namelength=0)
 ))
 
@@ -301,11 +301,11 @@ def update_figure(sel):
     fig_updated.update_layout(
         plot_bgcolor='rgba(0, 0, 0, 0)',
         paper_bgcolor='rgba(0, 0, 0, 0)',
-        title=dict(text='Random forest permutation feature importance', font=dict(color="white", size=24)),
+        title=dict(text='Random forest permutation feature importance', font=dict(color="white", size=18)),
         xaxis_title='Mean MSE increase',
         yaxis_title='Feature name',
-        yaxis=dict(showgrid=True, zeroline=True, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
-        xaxis=dict(showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =18),tickfont=dict(color="white"),),
+        yaxis=dict(showgrid=True, zeroline=True, gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =14),tickfont=dict(color="white"),),
+        xaxis=dict(showgrid=True, zeroline=True,  gridcolor='rgba(255, 255, 255, 0.1)',title_font=dict(color="white", size =14),tickfont=dict(color="white"),),
         bargap=0.1,  # Set the gap between bars to 0.1 (adjust as needed)
         margin=dict(l=0, r=20, t=40, b=0)  # Set all margins to 0
     )
