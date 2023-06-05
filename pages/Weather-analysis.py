@@ -81,7 +81,7 @@ fig1.update_layout(
 )
 fig1.update_xaxes(color="white", gridwidth=2)
 fig1.update_yaxes(color="white")
-fig1.update_traces(hovertemplate='%{x}: %{y:.1f}°C', hoverlabel=dict(namelength=0))
+fig1.update_traces(hovertemplate='%{x}: %{y:.1f} mm', hoverlabel=dict(namelength=0))
 
 # Text of the legend in white
 fig1.update_layout(
@@ -157,7 +157,7 @@ fig3.update_layout(
 )
 fig3.update_xaxes(color="white", gridwidth=2)
 fig3.update_yaxes(color="white")
-fig3.update_traces(hovertemplate='%{x}: %{y:.1f}mm', hoverlabel=dict(namelength=0))
+fig3.update_traces(hovertemplate='%{x}: %{y:.1f}°C', hoverlabel=dict(namelength=0))
 
 # Text of the legend in white
 fig3.update_layout(
