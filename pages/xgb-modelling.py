@@ -73,7 +73,7 @@ layout = html.Div(
     children=[
         html.Div(
             [
-                html.H2("XGBoost"),
+                html.H2("Extreme Gradient Boosting (XGBoost)"),
                 html.P("After all the previous modelling focused on gaining insight, we also wanted to purely see how much of the variation in noise can be predicted just using variables about the time, weather and traffic. For this we used XGBoost, a gradient boosting machine that's known as one of the most performant algorithms for predicting tabular data currently in existence. The XGBoost model was trained on cloud with an extensive cross-validated grid search and reached a prediction R squared of 0.892. Its predictions are plotted against the true values on a small test set from the traffic data.")
                 ]
         ),
