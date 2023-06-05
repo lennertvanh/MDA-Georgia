@@ -97,27 +97,12 @@ button {
     margin-top: 10px;
 }
 
-/*.plot-frame {
-  border: 3px solid #ffffff; 
-  border-radius: 5px; 
-  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3); 
-  padding: 10px; 
-} */
-
 .plot-container {
   background-color:  #223164e4; /* Set the background color for the plot container */
   padding: 20px; /* Add padding to create space around the plot */
 }
 
-/*.plot-container.plot-frame {
-    border: 1px solid #ccc; 
-    border-radius: 5px; 
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); 
-    padding: 10px; 
-    background-color: #f0f0f0;
-  } */ 
   
-/* these aren't working */
 .dropdown-style {
     background-color: '#223164';
     color: 'white';
